@@ -1,0 +1,597 @@
+---
+title: "brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R"
+author:
+  # see ?rjournal_article for more information
+  - name: Nicholas Tierney
+    affiliation: Monash University
+    address:
+    - Monash Clayton
+    url: https://njtierney.com
+    orcid: 0000-0002-9079-593X
+    email:  nicholas.tierney@gmail.com
+  - name: Dianne Cook
+    url: https://dicook.org
+    email: dicook@monash.edu
+    orcid: 0000-0002-9079-593X
+    affiliation: Monash University
+    address:
+    - Monash Clayton
+    affiliation2: ACEMS
+    address2:
+    - ACEMS Brisbane
+abstract: >
+  An abstract of less than 150 words.
+preamble: |
+  % Any extra LaTeX you need in the preamble
+  
+# per R journal requirement, the bib filename should be the same as the output 
+# tex file. Don't forget to rename the bib file and change this example value.
+bibliography: brolgar-paper.bib
+output: rticles::rjournal_article
+---
+
+
+# Introduction
+
+* Issues with longitudinal data
+  * spaghetti plots + hierarchical modelling
+  * we lose information on the individual
+  * identifying the individual experience amongst the collective mass is hard
+* We need methods to understand the individuals and the individual experience
+* `brolgar` provides a set of methods for exploring individual experience in 
+  longitudinal data.
+
+## Defining Longitudinal data 
+
+There are many ways to describe longitudinal data - from panel data,
+cross-sectional data, and time series. We define longitudinal data as:
+
+> Information from the same individuals, recorded at multiple points in time.
+
+We note that importantly, "individuals" here can be loosely interpreted. For
+example, this could mean an individual person, a state, region, or country.  It
+is critical to identify the variables representing **individuals** and **time**
+components, and how these identify an individual moving through time.
+
+### Defining longitudinal data as a `tsibble`
+
+The tools and workflows in `brolgar` are designed to work with a `tsibble`, a
+tidy time series data frame [@Wang2019]. A `tsibble` encapsulates **individual**
+and **time** components of the data, facilitating exploration by providing
+access to a wider set of time series tools. This means longitudinal data can be
+viewed as a type of time series.
+
+To define a `tsibble`, we need to identify three components:
+
+1.  The **key** variable in your data is the **identifier** of your individual.
+2.  The **index** variable is the **time** component of your data.
+3.  The **regularity** of the index (time interval). Longitudinal data typically
+    has irregular time periods between measurements, but can have regular
+    measurements.
+
+Together, time **index** and **key** uniquely identify an observation with repeated measurements. The term `key` is used a lot in `brolgar`, so it useful to internalise that **the key is the identifier of your individuals or series**.
+
+Once we identify the time series structure inherent in longitudinal data, we gain access to a suite of tools that facilitate working with time series data. To learn more about `tibble`, we recommend reading @Wang2019, and the official package documentation: https://tsibble.tidyverts.org/.
+
+#### Defining a `tsibble`
+
+The `heights` data contains average male heights in 144 countries from 1810-1989, with a smaller number of countries from 1500-1800.  It contains four variables: country, continent, year, and height_cm.
+
+To create a `tsibble` of the data we ask, "which variables identify...": 
+
+1.  The **key**, the individual, who would have repeated measurements. 
+2.  The **index**, the time component.
+3.  The **regularity** of the time interval (index). 
+
+In this case: the **key** is `country`, the **index** is `year`, the year is **not regular** because there are not measurements at a fixed year point. To create `tsibble` object from this data, we write:
+
+```{r as-tsibble-wages}
+as_tsibble(wages, 
+           key = country,
+           index = year,
+           regular = TRUE)
+```
+
+Note the following information printed at the top of `wages`
+
+    # A tsibble: 1,490 x 4 [!]
+    # Key:       country [144]
+    ...
+
+This tells us we have `r nrow(heights)` rows and `r ncol(heights)` columns. The `!` at the top means that the spacing between series is **irregular**. The "key" variable is then listed - `country`, of which there `r n_keys(heights)`.
+
+## Calculations (`features` + `key_slope`)
+
+
+# Explorations
+
+
+## Finding Features
+
+When presented with longitudinal data, it is useful to summarise the data into a format of one row per key. For example, finding features in the heights, we can return a dataset that has one row per key, with the minimum value for `heights_cm`, for each key:
+
+```{r heights-summary, echo = FALSE}
+heights_min <- heights %>%
+  features(height_cm, 
+           list(min = min))
+
+heights_min
+```
+
+We can then find the distribution of minimum values:
+
+```{r gg-min-wages}
+library(ggplot2)
+ggplot(heights_min,
+       aes(x = min)) + 
+  geom_density()
+```
+
+We call these summaries `features` of the data.  `features` of longitudinal data are calculated using the `features` function (from [`fabletools`](http://fabletools.tidyverts.org/), made available in `brolgar`).
+`features` works by specifying the data, the variable to summarise, and the feature to calculate:
+
+```r
+features(<DATA>, <VARIABLE>, <FEATURE>)
+```
+
+or with the pipe:
+
+```r
+<DATA> %>% features(<VARIABLE>, <FEATURE>)
+```
+
+`brolgar` has some pre-specified features. For example, the five number summary (minimum, 25th quantile, median, mean, 75th quantile, and maximum) of the data can be calculated with `feat_five_num`:
+
+```{r features-fivenum}
+heights_five <- heights %>%
+  features(height_cm, feat_five_num)
+
+heights_five
+```
+
+Here we are taking the `heights` data, piping it to `features`, and then telling it to summarise the `height_cm` variable, using `feat_five_num`. Other features built into `brolgar` include:
+
+- `feat_three_num()` - minimum, median, maximum
+- `feat_five_num()` - minimum, q25, median, q75, maximum.
+- `feat_ranges()` - min, max, range difference, interquartile range.
+- `feat_spread()` - variance, standard deviation, median absolute distance, and interquartile range
+- `feat_monotonic()` - is it always increasing, decreasing, or unvarying?
+- `feat_brolgar()` - calculate all features in brolgar.
+
+For example, `feat_monotonic` helps identify those keys with values that only increase or decrease:
+
+```{r features-monotonic}
+heights_mono <- heights %>%
+  features(height_cm, feat_monotonic)
+
+heights_mono
+```
+
+These could then be used to identify individuals who only increase like so:
+
+```{r wages-mono-filter}
+library(dplyr)
+heights_mono %>%
+  filter(increase)
+```
+
+They could then be joined back to the data
+
+```{r wages-mono-join}
+heights_mono_join <- heights_mono %>%
+  filter(increase) %>%
+  left_join(heights, by = "country")
+
+heights_mono_join
+```
+
+And plotted:
+
+```{r gg-wages-mono}
+ggplot(heights_mono_join,
+       aes(x = year,
+           y = height_cm,
+           group = country)) + 
+  geom_line()
+```
+
+## Exploratory Modelling
+
+It can be useful to fit a model to explore your data. One technique is to fit a linear model for each group in a dataset. For example, you could fit a linear model for each key in the data. This approach is discussed in more detail in chapter 25 of R4DS [@r4ds]. `brolgar` provides a helper function to help with this, called `key_slope()`. 
+
+`key_slope()` returns the intercept and slope estimate for each key, given a linear model formula. We can get the number of observations, and slope information for each individual to identify those that are decreasing over time. 
+
+```{r use-gghighlight}
+key_slope(wages,ln_wages ~ xp)
+```
+
+We can then join these summaries back to the data:
+
+```{r show-wages-lg}
+library(dplyr)
+wages_slope <- key_slope(wages,ln_wages ~ xp) %>%
+  left_join(wages, by = "id") 
+
+wages_slope
+```
+
+And highlight those individuals with a negative slope using `gghighlight`:
+
+```{r use-gg-highlight}
+library(gghighlight)
+
+wages_slope %>% 
+  as_tibble() %>% # workaround for gghighlight + tsibble
+  ggplot(aes(x = xp, 
+             y = ln_wages, 
+             group = id)) + 
+  geom_line() +
+  gghighlight(.slope_xp < 0)
+```
+
+### Find keys near other summaries with `keys_near()`
+
+To further summarise our exploratory modelling, we'd like to find slopes near a five number summary values:
+
+```{r summary-slope}
+summary(wages_slope$.slope_xp)
+```
+
+Finding those groups that are near these values can be surprisingly challenging!
+
+`brolgar` simplifies this with `keys_near()`, which takes inputs of `key` and the variable to summarise by. It then returns the keys near the five number summary It can return by other summaries - such as keys near the minimum, or maximum. To return the keys near the `.slope_xp`, we write:
+
+```{r keys-near}
+wages_slope %>%
+  keys_near(key = id,
+            var = .slope_xp)
+```
+
+Here it returns the `id`, the `.slope_xp`, and the statistic that it was closest to, and what the difference between the slope_xp and the statistic.
+
+You can visualise these summary keys by joining them back to the data:
+
+```{r keys-near-plot}
+wages_slope %>%
+  keys_near(key = id,
+            var = .slope_xp) %>%
+  left_join(wages, by = "id") %>%
+  ggplot(aes(x = xp,
+             y = ln_wages,
+             group = id,
+             colour = stat)) + 
+  geom_line()
+```
+
+## Finding interesting observations
+
+Let's say we calculate a slope for each individual `key`, using `keys_slope()`:
+
+```{r wages-slope}
+wages_slope <- key_slope(wages, ln_wages ~ xp) 
+wages_slope
+```
+
+This is neat! But now we want to know those `keys` that are **nearest** to some set of summary statistics of the slope. By **nearest** here we mean which values have the smallest numerical difference.
+
+Let's say the _five number summary_:
+
+```{r summary-slope-five}
+summary(wages_slope$.slope_xp)
+```
+
+If want to find those individuals that have slopes **near** these values.
+
+We can do this using `keys_near()`, which returns those nearest to some summary
+statistics. In this case, it is the five number summary. In the next section we describe how you can provide your own named list of functions to use.
+
+```{r use-summarise-fivenum}
+
+wages_slope_near <- wages_slope %>%
+  keys_near(key = id,
+            var = .slope_xp)
+
+wages_slope_near
+
+```
+
+We can then join this information back against the data and plot those 
+interesting individuals:
+
+```{r plot-keys-near}
+
+wages_slope_near %>%
+  left_join(wages, by = "id") %>%
+  ggplot(aes(x = xp,
+             y = ln_wages,
+             group = id,
+             colour = stat)) + 
+  geom_line()
+
+```
+
+### Specify your own summaries for `keys_near`
+
+You can specify your own list of summaries to pass to `keys_near`.  For example, you could create your own summaries to give a sense of range. Note that the functions here start with `b_`, and are `b_summaries` provided by `brolgar` that have sensible defaults. You can [read about them here](http://brolgar.njtierney.com/reference/b_summaries.html), or with `?b_summaries`
+
+```{r create-your-own}
+l_ranges <- list(min = b_min,
+                range_diff = b_range_diff,
+                max = b_max,
+                iqr = b_iqr)
+
+wages %>%
+ key_slope(formula = ln_wages ~ xp) %>%
+ keys_near(key = id,
+           var = .slope_xp,
+           funs = l_ranges)
+
+```
+
+### Aside: How `keys_near` is implementated
+
+To get the data into the right format, there are a few steps. First, we need to get the data into a format where we have all the statistics that we are interested in, along with the id, and the statistic of interest. We can fit a linear model for each `key` in the dataset using `key_slope()`.
+
+```{r key-slope}
+wages_slope <- key_slope(wages, ln_wages ~ xp)
+
+wages_slope
+```
+
+We can then perform a summary of the statistic of interest, in this case the slope.
+
+```{r mutate-all-wages}
+wages_slope_all_stats <- wages_slope %>%
+  mutate_at(.vars = vars(.slope_xp),
+            .funs = list(.slope_min = b_min,
+                         .slope_max = b_max,
+                         .slope_median = b_median,
+                         .slope_q1 = b_q25,
+                         .slope_q3 = b_q75)) %>%
+  select(id,
+         starts_with(".slope"))
+
+wages_slope_all_stats
+```
+
+We then need to convert this into long format
+
+```{r gather-wages}
+library(tidyr)
+wages_slope_all_stats_long <- 
+wages_slope_all_stats %>%
+pivot_longer(cols = c(-id,
+                      -.slope_xp),
+             names_to = "stat",
+             values_to = "stat_value")
+
+wages_slope_all_stats_long
+```
+
+We can then calculate the difference between each stat and the slope, `.slope_xp`:
+
+```{r stats-diff}
+stats_diff <- 
+wages_slope_all_stats_long %>%
+  mutate(stat_diff = abs(.slope_xp - stat_value))
+
+stats_diff
+```
+
+With stats diff, we can then group by the `stat`, and find return those rows with the smallest difference between the statistic and the value:
+
+```{r choose-top-diff}
+top_stats_diff <- 
+stats_diff %>%
+  group_by(stat) %>%
+  top_n(-1,
+        wt = stat_diff)
+
+top_stats_diff
+```
+
+```{r join-top-stats-diff}
+top_stats_diff %>%
+  left_join(wages, by = "id") %>%
+  ggplot(aes(x = xp,
+             y = ln_wages,
+             group = id,
+             colour = stat)) + 
+  geom_line()
+```
+
+We can see that we get the same output using `keys_near()`:
+
+```{r show-same}
+wages %>%
+  key_slope(ln_wages ~ xp) %>%
+  keys_near(key = id,
+            var = .slope_xp) %>%
+  left_join(wages, by = "id") %>%
+  ggplot(aes(x = xp,
+             y = ln_wages,
+             group = id,
+             colour = stat)) + 
+  geom_line()
+```
+
+## Diagnosing models
+
+Just as it is important to explore your data before modelling, it is important to explore your data after you fit a model, and during the modelling process.  We might explore the `wages` data by looking at experience against wages, for each individual:
+
+```{r wages-ggplot}
+
+gg_wages_all <- 
+ggplot(wages,
+       aes(x = xp,
+           y = ln_wages,
+           group = id)) + 
+  geom_line(alpha = 0.25)
+
+gg_wages_all
+```
+
+Let's look at a random sample of people using `facet_sample()`
+
+```{r wages-ggplot-sample}
+gg_wages_all + facet_sample()
+```
+
+Now let's look at all of the data, arranging the facets by `unemploy_rate`:
+
+```{r}
+gg_wages_all + facet_strata()
+gg_wages_all +facet_strata(along = unemploy_rate)
+```
+
+So let's fit a model where we look at the impact of xp, unemployment rate, and fit an intercept for each individual.
+
+```{r fit-int}
+library(lme4)
+wages_fit_int <- lmer(ln_wages ~ xp + ged + unemploy_rate + (xp |id), 
+                      data = wages)
+```
+
+This yields the model
+
+```{r model-latex-thing}
+
+```
+
+We can use the tools from `modelr` to add predictions and residuals to the data
+
+```{r wages-aug}
+library(modelr)
+wages_aug <- wages %>%
+  add_predictions(wages_fit_int, var = "pred_int") %>%
+  add_residuals(wages_fit_int, var = "res_int")
+```
+
+Now let's look at the predictions over xp
+
+```{r gg-wages-aug}
+ggplot(wages_aug,
+       aes(x = xp,
+           y = pred_int,
+           group = id)) + 
+  geom_line(alpha = 0.4) 
+
+```
+
+Ugh. Straight spaghetti. Let's sample that.
+
+```{r gg-wages-sample}
+ggplot(wages_aug,
+       aes(x = xp,
+           y = pred_int,
+           group = id)) + 
+  geom_line() + 
+  facet_sample()
+```
+
+And let's explore these according to residuals.
+
+```{r}
+ggplot(wages_aug,
+       aes(x = xp,
+           y = pred_int,
+           group = id)) + 
+  geom_line() + 
+  facet_strata(along = res_int)
+```
+
+Now let's add in the data to the predictions.
+
+```{r gg-wages-predictions}
+wages_aug %>%
+  sample_n_keys(size = 9) %>%
+  ggplot(aes(x = xp,
+             y = pred_int,
+             group = id,
+             colour = factor(id))) + 
+  geom_line() + 
+  geom_point(aes(x = xp,
+                 y = ln_wages,
+                 colour = factor(id))) + 
+  facet_wrap(~id) + 
+  theme(legend.position = "none")
+```
+
+What if we grabbed a sample of those who have the best, middle, and worst residuals? Those who are closest to these values:
+
+```{r summary-residuals}
+summary(wages_aug$res_int)
+```
+
+We can use `keys_near()` to return those specified keys that are close to these values. Because this is a `tsibble` object, we don't need to specify the `key` variable here.
+
+```{r wages-keys-near}
+wages_aug_near <- wages_aug %>%
+  keys_near(var = res_int)
+
+wages_aug_near
+```
+
+This shows us the keys where we the residuals match closest to the five number summary. 
+
+We can plot this data by joining it back to the wages data with predictions, to see what the spread of predictions is like.
+
+```{r join-wages-near}
+library(dplyr)
+
+wages_aug_near_full <- left_join(wages_aug_near,
+                                 wages_aug,
+                                 by = "id") 
+
+gg_wages_near <- 
+  ggplot(wages_aug_near_full,
+       aes(x = xp,
+           y = pred_int,
+           group = id,
+           colour = stat)) + 
+  geom_line() + 
+  geom_point(aes(y = ln_wages)) 
+
+gg_wages_near
+
+gg_wages_near + 
+ facet_wrap(~stat) +
+  theme(legend.position = "none")
+```
+
+We can also use `stratify_along` to group by the worst fits
+
+```{r gg-stratify-residuals}
+wages_aug %>%
+  stratify_keys(n_strata = 12, 
+                along = res_int) %>%
+  sample_n_keys(size = 9) %>%
+  ggplot(aes(x = xp,
+             y = pred_int,
+             group = id,
+             colour = factor(id))) + 
+  geom_line() + 
+  geom_point(aes(x = xp,
+                 y = ln_wages,
+                 colour = factor(id))) + 
+  facet_wrap(~.strata) + 
+  theme(legend.position = "none")
+
+```
+
+# Summary
+
+# Misc notes
+
+- Provide some terminology notation in the data structures part, so we can refer to them easier in the paper
+  - Terminology: `index`, `key`, `features`, `multivariate`, `data`
+  - Notation - $x_{it}$ ,$w_i$
+      - data = $x$ (data can be multivariate)
+      - features = ($w$) - (features could also be multivariate)
+      - $i$ = individuals, the `key` - (i = 1:n).
+      - $t$ = time, the `index`, (t = 1:n_{i} - the number of observations per individual) 
+  - Identifying the overall data structure
+     - long form for the longitudinal data (multiple rows per key)
+     - wide form for features - (one row per key, one column for each feature)
+     
+# References {-}
