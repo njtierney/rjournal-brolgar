@@ -1,0 +1,13 @@
+ with a negative slope using `gghighlight`:
+
+```{r use-gg-highlight}
+library(gghighlight)
+
+wages_slope %>% 
+  as_tibble() %>% # workaround for gghighlight + tsibble
+  ggplot(aes(x = xp, 
+             y = ln_wages, 
+             group = id)) + 
+  geom_line() +
+  gghighlight(.slope_xp < 0)
+```

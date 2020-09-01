@@ -134,13 +134,7 @@ We call these summaries `features` of the data.  `features` of longitudinal data
 features(<DATA>, <VARIABLE>, <FEATURE>)
 ```
 
-or with the pipe:
-
-```r
-<DATA> %>% features(<VARIABLE>, <FEATURE>)
-```
-
-`brolgar` has some pre-specified features. For example, the five number summary (minimum, 25th quantile, median, mean, 75th quantile, and maximum) of the data can be calculated with `feat_five_num`:
+`brolgar` has some pre-specified features, the five number summary (minimum, 25th quantile, median, mean, 75th quantile, and maximum) of the data can be calculated with `feat_five_num`:
 
 ```{r features-fivenum}
 heights_five <- heights %>%
@@ -149,7 +143,7 @@ heights_five <- heights %>%
 heights_five
 ```
 
-Here we are taking the `heights` data, piping it to `features`, and then telling it to summarise the `height_cm` variable, using `feat_five_num`. Other features built into `brolgar` include:
+This takes the `heights` data, piping it to `features`, and then telling it to summarise the `height_cm` variable, using `feat_five_num`. Other features built into `brolgar` include:
 
 - `feat_three_num()` - minimum, median, maximum
 - `feat_five_num()` - minimum, q25, median, q75, maximum.
@@ -195,9 +189,9 @@ ggplot(heights_mono_join,
   geom_line()
 ```
 
-## Exploratory Modelling
+## Exploring data using intercept and slope
 
-It can be useful to fit a model to explore your data. One technique is to fit a linear model for each group in a dataset. For example, you could fit a linear model for each key in the data. This approach is discussed in more detail in chapter 25 of R4DS [@r4ds]. `brolgar` provides a helper function to help with this, called `key_slope()`. 
+Another feature that can be used to explore the data is to fit a linear model for each `key` in a dataset. This approach is discussed in more detail in chapter 25 of R4DS [@r4ds]. `brolgar` provides a helper function to help with this, called `key_slope()`. 
 
 `key_slope()` returns the intercept and slope estimate for each key, given a linear model formula. We can get the number of observations, and slope information for each individual to identify those that are decreasing over time. 
 
@@ -205,29 +199,22 @@ It can be useful to fit a model to explore your data. One technique is to fit a 
 key_slope(wages,ln_wages ~ xp)
 ```
 
-We can then join these summaries back to the data:
+We can explore the features of the slope of the data
+
+... exploring intercept
+
+... exploring slope
+
+We can then join these summaries back to the data like so:
 
 ```{r show-wages-lg}
-library(dplyr)
 wages_slope <- key_slope(wages,ln_wages ~ xp) %>%
   left_join(wages, by = "id") 
 
 wages_slope
 ```
 
-And highlight those individuals with a negative slope using `gghighlight`:
-
-```{r use-gg-highlight}
-library(gghighlight)
-
-wages_slope %>% 
-  as_tibble() %>% # workaround for gghighlight + tsibble
-  ggplot(aes(x = xp, 
-             y = ln_wages, 
-             group = id)) + 
-  geom_line() +
-  gghighlight(.slope_xp < 0)
-```
+And highlight those individuals like so:
 
 ### Find keys near other summaries with `keys_near()`
 
@@ -236,6 +223,8 @@ To further summarise our exploratory modelling, we'd like to find slopes near a 
 ```{r summary-slope}
 summary(wages_slope$.slope_xp)
 ```
+
+We need a method to identify how these slopes are similar to each other.
 
 Finding those groups that are near these values can be surprisingly challenging!
 
@@ -593,5 +582,5 @@ wages_aug %>%
   - Identifying the overall data structure
      - long form for the longitudinal data (multiple rows per key)
      - wide form for features - (one row per key, one column for each feature)
-     
+
 # References {-}
