@@ -1,22 +1,31 @@
 ---
-title: "brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R"
-output: 
+title: 'brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically
+  in R'
+output:
   bookdown::html_document2:
-    toc: true
-    toc_float: true
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    keep_tex: yes
 ---
 
-```{r setup}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r libraries, message = FALSE}
 library(tidyverse)
-library(brolgar)
 library(kableExtra)
-conflicted::conflict_prefer("select", "dplyr")
-conflicted::conflict_prefer("filter", "dplyr")
-conflicted::conflict_prefer("pull", "dplyr")
+library(lme4)
+library(modelr)
+library(tsibble)
+library(brolgar)
+library(patchwork)
+library(conflicted)
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("pull", "dplyr")
+conflict_prefer("heights", "brolgar")
 ```
 
 # Introduction
@@ -42,28 +51,23 @@ ggplot(heights_oz,
 The Australian data shown is just a sample, Figure \@ref(fig:spaghetti) shows the full heights dataset, of 144 countries. This plot is challenging to understand because there is overplotting, it makes it hard to see the individuals, and there are too many lines to look at individual plots of each country - looking at 144 plots will not help us. Making the lines transparent or fitting a simple model to all thje data (fig ...), might be a common first step to see common trends. However, all this seems to clarify is two things: 1) there is some set of countries that are more similar in the center of the mass, and 2) there is a general upward trend in heights over time. These are useful things to know, but we lose sight of the individuals. For example, that the country with the greatest change in heights is XX, XX is the country with the tallest people, and XX has shortest people (Figure XX).
 
 
-```{r spaghetti}
+```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE}
 spaghetti <- ggplot(heights,
        aes(x = year,
            y = height_cm,
            group = country)) + 
   geom_line() 
-spaghetti
-```
 
-```{r spaghetti-alpha}
 spaghetti_alpha <- ggplot(heights,
        aes(x = year,
            y = height_cm,
            group = country)) + 
   geom_line(alpha = 0.3) 
 
-spaghetti_alpha
-```
+spaghetti_smooth <- spaghetti_alpha + geom_smooth(method = "lm", 
+                                                  aes(group = NULL))
 
-```{r spaghetti-alpha-model}
-spaghetti_alpha + geom_smooth(method = "lm",
-                              aes(group = NULL))
+spaghetti + spaghetti_alpha + spaghetti_smooth
 ```
 
 ```{r spaghetti-interesting-obs}
@@ -137,7 +141,7 @@ A lot of this is predicated on the fact that longitudinal data, panel data, repe
 
 Plots like Figure XX are often called, "spaghetti plots". These can be useful for a high level understand of the dataset, but we cannot process and understand the individuals. Just how spaghetti is portioned out and sampled individually to eat it, we can portion out these plots using a set of small subplots to create a plot like Figure \@ref(fig:facet-sample). 
 
-```{r facet-sample, fig.cap = "Facet Samples".}
+```{r facet-sample, fig.cap = "Facet Samples"}
 ggplot(heights,
        aes(x = year,
            y = height_cm,
@@ -230,7 +234,7 @@ Which countries are nearest to these statistics?
 keys_near(heights_aug, 
           var = res)
           
-🔑 🔑 🔑 that best match the 5 number summary.
+that best match the 5 number summary.
 
 Join data back and explore
 
@@ -240,8 +244,8 @@ We now demonstrate how these workflows can be used to interpret and explore a mo
 Let's take an example of the fixed effect of year + random intercept for country like so:
 
 ```{r heights-lmer}
-heights_fit <- lmer(height_cm ~ year + (1|country), heights)
-heights_aug <- heights %>%
+heights_fit <- lmer(height_cm ~ year + (1|country), brolgar::heights)
+heights_aug <- brolgar::heights %>%
   add_predictions(heights_fit, var = "pred") %>%
   add_residuals(heights_fit, var = "res")
 ```
@@ -260,9 +264,9 @@ we can also look at the predictions with the data like so
 # Summary 
 
 Problem #1: How do I look at some of the data?
-Longitudinal data as a time series 💹
-Specify structure, get a free lunch. 🥪
-Look at as much of the raw data as possible 🍣
+Longitudinal data as a time series 
+Specify structure, get a free lunch.
+Look at as much of the raw data as possible
 Use facet_sample() / facet_strata()
 
 Problem #2: How do I find interesting observations?
@@ -281,8 +285,11 @@ Future work
 * more features and stratification processes
 * generalise to use for other structured data that doesn't have time components
 
+# References {-}
 
-Acknowledgements
+<div id="refs"></div>
+
+# Acknowledgements {-}
 
 Di Cook
 Tania Prvan
@@ -294,6 +301,8 @@ Miles McBain
 Monash University
 ACEMS
 
+
+# Planning stuff
 
   * Issues with longitudinal data
     * spaghetti plots + hierarchical modelling
