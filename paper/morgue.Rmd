@@ -1,3 +1,54 @@
+# Planning stuff
+
+  * Issues with longitudinal data
+    * spaghetti plots + hierarchical modelling
+    * we lose information on the individual
+  * identifying the individual experience amongst the collective mass is hard FIGURE - SPAGHETTI PLOT
+    * why is it hard?
+    * we don't see the individual
+    * overplotting
+    * identifying interesting observations or useful subplot sizes increases chances of a **distraction threshold** being reached
+      * transparency doesn't really help
+    * identifying a subplot size
+    * Because identifying what is "interesting" involves a few steps that can easily be lost as the problem is dealt with.
+* We need methods to understand the individuals and the individual experience
+* `brolgar` provides a set of methods for exploring individual experience in 
+  longitudinal data.
+* The paper proceeds in four sections
+  1. Mechanics
+  1. How to look at sample of the data
+  1. How to identify interesting observations
+  1. how to understand a model
+1. Mechanics
+    1. Data structures (`tsibble`) - from ["data structures" vignette](http://brolgar.njtierney.com/articles/longitudinal-data-structures.html) - @njtierney 
+        - what is longitudinal data
+    1. Calculations (`features` + `key_slope`) []
+    1. [Calculating Features](http://brolgar.njtierney.com/articles/finding-features.html) - @njtierney 
+       - outline the different things we can create.
+       - explain what can be calculated, and what is available that is being calculated.
+       - How to create your own (e.g., mean(diff(x) as opposed to `increasing`
+       - (1. [Exploratory Modelling](http://brolgar.njtierney.com/articles/exploratory-modelling.html) - @njtierney (really this is identifying features - since slope is just another feature that we can use, reduce this section / find overlap with "finding features").)
+1. Explorations
+    1. [Finding interesting observations](http://brolgar.njtierney.com/articles/id-interesting-obs.html) - @njtierney 
+    1. [Summarising individuals]() - keys_near and colour palettes (use of `palap`).
+    1. [Diagnosing models](http://brolgar.njtierney.com/articles/mixed-effects-models.html) - @njtierney 
+1. Summary + Discussion
+
+# Summary
+
+# Misc notes
+
+- Provide some terminology notation in the data structures part, so we can refer to them easier in the paper
+  - Terminology: `index`, `key`, `features`, `multivariate`, `data`
+  - Notation - $x_{it}$ ,$w_i$
+      - data = $x$ (data can be multivariate)
+      - features = ($w$) - (features could also be multivariate)
+      - $i$ = individuals, the `key` - (i = 1:n).
+      - $t$ = time, the `index`, (t = 1:n_{i} - the number of observations per individual) 
+  - Identifying the overall data structure
+     - long form for the longitudinal data (multiple rows per key)
+     - wide form for features - (one row per key, one column for each feature)
+
  with a negative slope using `gghighlight`:
 
 ```{r use-gg-highlight}

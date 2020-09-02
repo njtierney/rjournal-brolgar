@@ -8,7 +8,4 @@ brolgar-paper.tex
 brolgar-paper.R
 .log
 brolgar-paper_files/
-paper/fresh/*.html
-paper/fresh/*.pdf
-paper/fresh/*.tex
-paper/fresh/*_files/*
+paper/*.html
