@@ -64,12 +64,11 @@ heights <- brolgar::heights
 
 # Abstract
 
-
+Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modeled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 
 # Introduction
 
-* This paper is about exploring longitudinal data effectively. 
-* Longitudinal data can be defined as individuals repeatedly measured through time. Table \@ref(tab:heights-sample) and Figure \@ref(fig:heights-sample-plot) show the individual here is `country`, and the `time` is year, with `country` being measured repeatedly, from 1910 to 1970. Also not that there are irregular time periods between years.
+This paper is about exploring longitudinal data effectively. Longitudinal data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same individual at different (often irregular), time points. Put another way, longitudinal data are "individuals repeatedly measured through time". Longitudinal data can be defined as individuals repeatedly measured through time. Table \@ref(tab:heights-sample) and Figure \@ref(fig:heights-sample-plot) show the individual as `country`, and `time` as year, with `country` being measured repeatedly, from 1900 to 1970. Also note there are irregular time periods between years.
 
 ```{r heights-sample}
 heights_oz <- heights %>% filter(country == "Australia") %>%  slice_tail(n = 5) 
@@ -84,10 +83,10 @@ ggplot(heights_oz,
            group = country)) + 
   geom_point() + 
   geom_line()
+# NOTE - add time points for each measurement?
 ```
 
-The Australian data shown is just a sample, Figure \@ref(fig:spaghetti) shows the full heights dataset, of 144 countries. This plot is challenging to understand because there is overplotting, it makes it hard to see the individuals, and there are too many lines to look at individual plots of each country - looking at 144 plots will not help us. Making the lines transparent or fitting a simple model to all thje data (fig ...), might be a common first step to see common trends. However, all this seems to clarify is two things: 1) there is some set of countries that are more similar in the center of the mass, and 2) there is a general upward trend in heights over time. These are useful things to know, but we lose sight of the individuals. For example, that the country with the greatest change in heights is XX, XX is the country with the tallest people, and XX has shortest people (Figure XX).
-
+The Australian data shown is just a sample, Figure \@ref(fig:spaghetti) shows the full heights dataset, of 144 countries. This plot is challenging to understand because there is overplotting, it makes it hard to see the individuals, and there are too many lines to look at individual plots of each country - looking at 144 plots will not help us. Making the lines transparent or fitting a simple model to all thje data (fig XX), might be a common first step to see common trends. However, all this seems to clarify is: 1) there is some set of countries that are more similar (in the center), and 2) there is a general upward trend in heights over time. These are useful things to know, but we lose sight of the individuals. For example, that the country with the greatest change in heights is XX, XX is the country with the tallest people, and XX has shortest people (Figure XX).
 
 ```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE}
 spaghetti <- ggplot(heights,
@@ -113,14 +112,14 @@ spaghetti + spaghetti_alpha + spaghetti_smooth
 # For example, that the country with the greatest change in heights is XX, XX is the country with the tallest people, and XX has shortest people (Figure XX).
 ```
 
-This paper addresses four problems in exploring longitudinal data: 
+This paper addresses how to explore longitudinal data effectively, by examining four problems in exploring longitudinal data: 
 
 1. How to look at some sample of the data
 2. How to find interesting individuals
 3. Finding representative individuals
 4. How to understand a model
 
-These four problems are now discussed followed by a summary. However, first a brief review of the definition of longitudinal data, and existing approaches to longitudinal data are discussed.
+This paper proceeds in the following way: first, a brief review of the definition of longitudinal data, and existing approaches to longitudinal data, then approaches to these four problems are discussed, followed by a summary.
 
 # Longitudinal Data Structures
 
