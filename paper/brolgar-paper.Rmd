@@ -214,13 +214,53 @@ ggplot(heights,
 Here each key is shown only once, and is randomly assigned to a facet/subplot. We can provide meaning to each of these facets, by arranging the heights along a variable, like `year`, like so:
 
 ```{r facet-year-along}
-ggplot(heights,
-       aes(x = year,
+heights %>% 
+  filter(year > 1700) %>% 
+ggplot(aes(x = year,
            y = height_cm,
            group = country)) + 
   geom_line() + 
   facet_strata(along = -year)
 ```
+
+(note on starting point being roughly uniform)
+(note that we haven't lost any data - there are equal number of keys per plot as well)
+
+```{r}
+heights %>% 
+  filter(year > 1700) %>% 
+  features(year, lst(first)) %>% 
+  ggplot(aes(x = first)) +
+  geom_bar() # data is already binned into 10 year blocks.
+```
+
+(show how we can batch up spaghetti, the question is to understand when are countries getting first measured)
+
+(understanding how regularly the data are measured)
+
+```{r}
+heights_diffs <- heights %>% 
+  filter(year > 1700) %>% 
+  features(year, list(n_obs,
+                      diff)) %>%
+  # maybe useful to have max_diff, min_diff, and other summaries
+  #
+  # features(year, max(diff(~.x))) %>%
+  group_by(country) %>%
+  mutate(max_diff = max(c_across(-n_obs), na.rm = TRUE),
+         var_diff = var(c_across(-n_obs), na.rm = TRUE)) %>% 
+  select(-starts_with("...")) 
+
+heights_diffs %>% 
+  ggplot(aes(x = max_diff)) +
+  geom_histogram(binwidth = 10,
+                 colour = "white")
+
+heights_diffs %>% 
+  ggplot(aes(x = var_diff)) +
+  geom_histogram(colour = "white")
+```
+
 
 From this we learn the distribution and changes in heights over time, and that those mearsured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar.
 
@@ -301,6 +341,11 @@ all subsamples, arranging by residuals, with `facet_strata()`,
 
 we can also look at the predictions with the data like so
 
+# How to install and get started
+
+(note: take a look at existing R package journal papers to see these examples)
+(note: overview of function structure)
+(goal for next week - content finished and paring down of paper to reasonable length.)
 
 # Summary 
 
