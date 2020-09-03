@@ -59,7 +59,9 @@ conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("pull", "dplyr")
 conflict_prefer("heights", "brolgar")
-heights <- brolgar::heights
+heights <- brolgar::heights %>% 
+  filter(year > 1700)
+# NOTE - how to discuss that the data has been filtered from original source?
 ```
 
 # Abstract
@@ -215,7 +217,6 @@ Here each key is shown only once, and is randomly assigned to a facet/subplot. W
 
 ```{r facet-year-along}
 heights %>% 
-  filter(year > 1700) %>% 
 ggplot(aes(x = year,
            y = height_cm,
            group = country)) + 
@@ -228,7 +229,6 @@ ggplot(aes(x = year,
 
 ```{r}
 heights %>% 
-  filter(year > 1700) %>% 
   features(year, lst(first)) %>% 
   ggplot(aes(x = first)) +
   geom_bar() # data is already binned into 10 year blocks.
@@ -240,7 +240,6 @@ heights %>%
 
 ```{r}
 heights_diffs <- heights %>% 
-  filter(year > 1700) %>% 
   features(year, list(n_obs,
                       diff)) %>%
   # maybe useful to have max_diff, min_diff, and other summaries
