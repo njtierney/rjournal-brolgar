@@ -1,6 +1,5 @@
 ---
-title: 'brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically
-  in R'
+title: 'brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R'
 output:
   bookdown::html_document2:
     toc: yes
@@ -59,8 +58,7 @@ conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("pull", "dplyr")
 conflict_prefer("heights", "brolgar")
-heights <- brolgar::heights %>% 
-  filter(year > 1700)
+heights <- brolgar::heights %>% filter(year > 1700)
 # NOTE - how to discuss that the data has been filtered from original source?
 ```
 
@@ -202,9 +200,9 @@ ggplot(heights,
   facet_sample()
 ```
 
-Extending this idea of samples, we can instead look at all of the data spread out equally over facets, using `facet_strata()` like so:
+Extending this idea of samples, we can instead look at all of the data spread out equally over facets, using `facet_strata()`:
 
-```{r facet-strata}
+```{r facet-strata, echo = TRUE}
 ggplot(heights,
        aes(x = year,
            y = height_cm,
@@ -213,9 +211,9 @@ ggplot(heights,
   facet_strata()
 ```
 
-Here each key is shown only once, and is randomly assigned to a facet/subplot. We can provide meaning to each of these facets, by arranging the heights along a variable, like `year`, like so:
+Here each key is shown only once, and is randomly assigned to a facet/subplot. We can provide meaning to each of these facets, by arranging the heights along a variable, like `year`:
 
-```{r facet-year-along}
+```{r facet-year-along, echo = TRUE}
 heights %>% 
 ggplot(aes(x = year,
            y = height_cm,
@@ -224,48 +222,60 @@ ggplot(aes(x = year,
   facet_strata(along = -year)
 ```
 
-(note on starting point being roughly uniform)
-(note that we haven't lost any data - there are equal number of keys per plot as well)
-
-```{r}
-heights %>% 
-  features(year, lst(first)) %>% 
-  ggplot(aes(x = first)) +
-  geom_bar() # data is already binned into 10 year blocks.
-```
-
-(show how we can batch up spaghetti, the question is to understand when are countries getting first measured)
-
-(understanding how regularly the data are measured)
-
-```{r}
-heights_diffs <- heights %>% 
-  features(year, list(n_obs,
-                      diff)) %>%
-  # maybe useful to have max_diff, min_diff, and other summaries
-  #
-  # features(year, max(diff(~.x))) %>%
-  group_by(country) %>%
-  mutate(max_diff = max(c_across(-n_obs), na.rm = TRUE),
-         var_diff = var(c_across(-n_obs), na.rm = TRUE)) %>% 
-  select(-starts_with("...")) 
-
-heights_diffs %>% 
-  ggplot(aes(x = max_diff)) +
-  geom_histogram(binwidth = 10,
-                 colour = "white")
-
-heights_diffs %>% 
-  ggplot(aes(x = var_diff)) +
-  geom_histogram(colour = "white")
-```
-
-
-From this we learn the distribution and changes in heights over time, and that those mearsured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar.
+Not that we have not lost any of the data here, only the order they are presented in has changed. We learn the distribution and changes in heights over time, and that those measured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar. The starting point of each of these years seems to increase at roughly the same interval. This tells us that the starting times of the years is roughly uniform.
 
 Together `facet_sample()` and `facet_strata()` allow for rapid exploration, by focussing on relevant questions instead of minutae. For example, `facet_sample()` the questions are: "How many lines per facet" and "How many facets?", and for `facet_strata()` the questions are: "How many facets / strata?" and "What to arrange plots along?". Under the hood, `facet_sample()` and `facet_strata()` are powered with `sample_n_keys()` and `stratify_keys()`, so the user can use these to create the data structures needed for these plots, and extend them to other purposes that we haven't considered.
 
 We have addressed "how to look at some of the data" by using `tsibble` to store important data on the key and index components, which in turn allow us to look at many and all subsamples using `facet_sample()` and `facet_strata()`.
+
+# Exploring measurement interval
+
+Longitudinal data is not always measured at the same time and at the same frequency.  
+
+We can explore when countries are first getting measured using `features`. `features`, from the `fabletools` package, takes a `tsibble` object and calculates a summary for each `key`. It provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of `dplyr::summarise`. We can find the first year for each country number of starting years like so:
+
+```{r feature-first}
+heights %>% 
+  features(year, list(first = first))
+```
+
+And then plot the first year like so: 
+
+```{r feature-first-gg}
+heights %>% 
+  features(year, list(first = first)) %>% 
+  ggplot(aes(x = first)) +
+  geom_bar() # data is already binned into 10 year blocks.
+```
+
+We can explore the variation in first year using `feat_diff_summary`. This combines many summaries of the differences in `year`.
+
+```{r heights-diff-summary}
+heights_diffs <- heights %>% 
+  features(year, feat_diff_summary)
+
+heights_diffs
+```
+
+We can then look at the summaries of the differences in year by changing to long form and then facetting
+
+```{r}
+heights_diff_long <- heights_diffs %>% 
+  pivot_longer(cols = -country,
+               names_to = "feature",
+               values_to = "value") %>% 
+  mutate(feature = factor(feature,
+                          levels = c("diff_min",
+                                     "diff_q25",
+                                     "diff_median",
+                                     "diff_mean",
+                                     "diff_q75",
+                                     "diff_max",
+                                     "diff_sd",
+                                     "diff_var")))
+```
+
+We learn that the smallest interval between measurements is 10 years, and the largest interval is between 10 and 125 years, and that most of the data is measured between 10 and 30 or so years.
 
 # How to find interesting individuals
 
@@ -282,14 +292,14 @@ The workflow is represented in the figure XX below, which shows:
 
 (this will be a figure that combines slides 56 - 69 of https://njt-rstudio20.netlify.app/#85)
 
-These features of interest are identified using the `features` function from `feasts` and `fabletools`, a tool built to work specifically with time series data. It provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. We can calculate our own "feature", calculating the maximum height like so:
+These features of interest are identified using `features`. We can calculate our own "feature", calculating the maximum height like so:
 
 ```{r heights-max}
 heights %>% 
   features(height_cm, list(min = min))
 ```
 
-Where we pass `features` the variable we want to calculate a feature on, and a named list of features. You can use a prepared summary, for which `brolgar` provides a few. `feat_ranges`, to produce range related features, min, max, difference from the range, and the interquartile range.
+Where we pass `features` the variable we want to calculate a feature on, and a named list of features. You can use a prepared summary, for which `brolgar` provides a few - we've already seen `feat_diff_summary`, which provided a summary of the `diff` of a variable. `feat_ranges` produces range related features, min, max, difference from the range, and the interquartile range.
 
 ```{r heights-features}
 heights %>%
@@ -300,6 +310,44 @@ heights %>%
 `brolgar` provides some useful additional features for the five number summary, `feat_five_num`, whether keys are monotonically increasing `feat_monotonic`, and measures of spread or variation, `feat_spread`. What is particularly great is that these will work on any type of time series data, and you can use other more classical time series features from `feasts`, such as autocorrelation, `feat_acf()`, Seasonal and Trend decomposition using Loess `feat_stl()`.
 
 This demonstrates a workflow that can be used to understand and explore your longitudinal data. `brolgar` builds upon this workflow made available by `feasts` and `fabletools`. Users can also create their own features to summarise the data.
+
+# How to understand a model
+
+We now demonstrate how these workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year + random intercept for country like so:
+
+```{r heights-lmer}
+heights_fit <- lmer(height_cm ~ year + (1|country), brolgar::heights)
+heights_aug <- brolgar::heights %>%
+  add_predictions(heights_fit, var = "pred") %>%
+  add_residuals(heights_fit, var = "res")
+```
+
+We can use the previous approach to explore the data. First, looking at all the data:
+
+then looking at many subsamples with `facet_sample()`, 
+
+```{r}
+
+```
+
+
+all subsamples with `facet_strata()`, 
+
+```{r}
+
+```
+
+all subsamples, arranging by residuals, with `facet_strata()`,
+
+```{r}
+
+```
+
+we can also look at the predictions with the data like so
+
+```{r}
+
+```
 
 # Finding representative individuals
 
@@ -317,28 +365,6 @@ keys_near(heights_aug,
 that best match the 5 number summary.
 
 Join data back and explore
-
-# How to understand a model
-
-We now demonstrate how these workflows can be used to interpret and explore a model.
-Let's take an example of the fixed effect of year + random intercept for country like so:
-
-```{r heights-lmer}
-heights_fit <- lmer(height_cm ~ year + (1|country), brolgar::heights)
-heights_aug <- brolgar::heights %>%
-  add_predictions(heights_fit, var = "pred") %>%
-  add_residuals(heights_fit, var = "res")
-```
-
-We can use the previous approach to explore the data. First, looking at all the data:
-
-then looking at many subsamples with `facet_sample()`, 
-
-all subsamples with `facet_strata()`, 
-
-all subsamples, arranging by residuals, with `facet_strata()`,
-
-we can also look at the predictions with the data like so
 
 # How to install and get started
 
@@ -376,7 +402,6 @@ Future work
 
 # Acknowledgements {-}
 
-Di Cook
 Tania Prvan
 Stuart Lee
 Mitchell O'Hara Wild
