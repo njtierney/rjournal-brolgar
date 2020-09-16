@@ -53,6 +53,7 @@ library(modelr)
 library(tsibble)
 library(brolgar)
 library(patchwork)
+library(gridExtra)
 library(conflicted)
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
@@ -68,41 +69,60 @@ Longitudinal (panel) data provide the opportunity to examine temporal patterns o
 
 # Introduction
 
-This paper is about exploring longitudinal data effectively. Longitudinal data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same individual at different (often irregular), time points. Put another way, longitudinal data are "individuals repeatedly measured through time". Longitudinal data can be defined as individuals repeatedly measured through time. Table \@ref(tab:heights-sample) and Figure \@ref(fig:heights-sample-plot) show the individual as `country`, and `time` as year, with `country` being measured repeatedly, from 1900 to 1970. Also note there are irregular time periods between years.
+This paper is about exploring longitudinal data effectively. Longitudinal data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same individual at different (often irregular), time points. Put another way, longitudinal data can be defined as individuals repeatedly measured through time. Figure \@ref(fig:heights-sample-plot) show a table and plot of sample data of the average height of Australian males. The individual component here `country`, and the time component is `year`. The variable `country` is measured repeatedly from 1900 to 1970, with irregular time periods between years.
 
-```{r heights-sample}
-heights_oz <- heights %>% filter(country == "Australia") %>%  slice_tail(n = 5) 
-heights_oz %>% 
-  kable(caption = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.")
-```
 
-```{r heights-sample-plot}
-ggplot(heights_oz,
+```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals."}
+
+heights_oz <- heights %>% 
+  filter(country == "Australia") %>% 
+  slice_tail(n = 5) 
+
+mytheme <- gridExtra::ttheme_default(
+  core = list(padding = unit(c(5, 10), "mm"))
+  )
+
+tbl_heights_oz <- heights_oz %>% 
+  mutate(height_cm = round(height_cm, 1)) %>% 
+  tableGrob(theme = mytheme, 
+            rows = NULL)
+
+gg_heights_oz <- ggplot(heights_oz,
        aes(x = year,
            y = height_cm,
            group = country)) + 
   geom_point() + 
   geom_line()
 # NOTE - add time points for each measurement?
+
+grid.arrange(tbl_heights_oz,
+             gg_heights_oz,
+             nrow = 1,
+             as.table = TRUE)
 ```
 
-The Australian data shown is just a sample, Figure \@ref(fig:spaghetti) shows the full heights dataset, of 144 countries. This plot is challenging to understand because there is overplotting, it makes it hard to see the individuals, and there are too many lines to look at individual plots of each country - looking at 144 plots will not help us. Making the lines transparent or fitting a simple model to all thje data (fig XX), might be a common first step to see common trends. However, all this seems to clarify is: 1) there is some set of countries that are more similar (in the center), and 2) there is a general upward trend in heights over time. These are useful things to know, but we lose sight of the individuals. For example, that the country with the greatest change in heights is XX, XX is the country with the tallest people, and XX has shortest people (Figure XX).
+The full data of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), of 144 countries. The data is shown from the year 1700. This plot is challenging to understand because there is overplotting, which makes it hard to see the individuals. Showing separate individual plots of each country doesn't help to understand the data; 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) some set of countries that are more similar, whose masss lies in the center, and 2) a general upward trend in heights over time. We learn about the group, but lose sight of the individuals. 
+
+Some common tasks in exploration are not straightforward: How to look at samples of the data? How to find interesting samples? How to find interesting individuals, finding who has the greatest change in height? Which has the tallest or shortest people? Which are most similar to the min, max, and median?
 
 ```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE}
 spaghetti <- ggplot(heights,
        aes(x = year,
            y = height_cm,
            group = country)) + 
-  geom_line() 
+  geom_line()  +
+  labs(tag = "A")
 
 spaghetti_alpha <- ggplot(heights,
        aes(x = year,
            y = height_cm,
            group = country)) + 
-  geom_line(alpha = 0.3) 
+  geom_line(alpha = 0.3) +
+  labs(tag = "B")
 
 spaghetti_smooth <- spaghetti_alpha + geom_smooth(method = "lm", 
-                                                  aes(group = NULL))
+                                                  aes(group = NULL)) +
+  labs(tag = "C")
 
 spaghetti + spaghetti_alpha + spaghetti_smooth
 ```
@@ -112,7 +132,7 @@ spaghetti + spaghetti_alpha + spaghetti_smooth
 # For example, that the country with the greatest change in heights is XX, XX is the country with the tallest people, and XX has shortest people (Figure XX).
 ```
 
-This paper addresses how to explore longitudinal data effectively, by examining four problems in exploring longitudinal data: 
+This paper demonstrates efficient exploration of longitudinal data, by examining four problems in exploring longitudinal data: 
 
 1. How to look at some sample of the data
 2. How to find interesting individuals
@@ -123,17 +143,19 @@ This paper proceeds in the following way: first, a brief review of the definitio
 
 # Longitudinal Data Structures
 
-There are many names of longitudinal data: Panel data, survey data, repeated measures, and time series, to name a few. Although there might be differences amongst these definitions, referring to data collection methods, or contexually (culturally?) how they are referred to within certain fields. These data structures all share a fundamental similarity.
+There are many names of longitudinal data: Panel data, survey data, repeated measures, and time series, to name a few. Although there might be small differences among these definitions, referring to data collection methods, context, and field, these data structures all share a fundamental similarity. They are measurements over some time period.
 
-To efficiently work with longitudinal data, we need a way to describe it that cuts across all these examples. Defining the data structure formally gives us a consistent way to understand and summarise the data. As defined earlier, longitudinal data can be thought of as "individuals repeatedly measured through time". This means that we can consider longitudinal data a type of time series, which is defined in @fpp: "Anything that is observed sequentially over time **is a time series**".
+To efficiently work with longitudinal data, we need to define it's structure in such a way that cuts across these different definitions. Doing so provides a consistent way to understand and summarise the data. As defined earlier, longitudinal data can be thought of as "individuals repeatedly measured through time". This means that we can consider longitudinal data a type of time series, which is defined in @fpp: "Anything that is observed sequentially over time **is a time series**".
 
-We can then formally define our `heights` data shown earlier as a `tsibble`, a time series object. To do so we must define three conditions:
+This definition has been realised in data as a time series `tsibble` in [@Wang2018]. These objects are defined as data that have these conditions met:
 
 1. The `index`: the time variable
 2. The `key`: variable(s) defining individual groups (or series)
 3. 1 + 2 together determine a distinct row
 
-Referring to Table XX, `index` is `year`, the `key` is `country`. Defining a `tsibble` object is perfomed using `as_tsibble` below, specifying `regular = FALSE`, since there are not regular intervals in the years measured:
+If the specified key and index pair do not define a distinct row - for example, if there are duplicates in the data, the `tsibble` will not be created. This helps ensure the data is properly understood and cleaned up before analysis is conducted, removing avoidable errors that might have impacted downstream decisions.
+
+We can formally define our `heights` data from Figure \@ref(fig:heights-sample-plot) as a `tsibble`: The `index` is `year`, the `key` is `country`. Defining a `tsibble` object is perfomed using `as_tsibble` below, specifying `regular = FALSE`, since there are not regular intervals in the years measured:
 
 
 ```{r define-heights, eval = FALSE}
@@ -142,41 +164,44 @@ heights <- as_tsibble(heights,
                       key = country,
                       regular = FALSE)
 
-heights
 ```
 
-Using a `tsibblwe` means this important time series information is recorded **once**, and it will be automatically used many times in other parts of the data analysis.
+Using a `tsibble` means this important time series information is recorded **once**, and can be referred to many times in other parts of the data analysis. 
+
+The `tsibble` package also works with `dplyr` family, extending them to provide functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For more details see @Wang2018.
+
+The benefits to using `tsibble` are that it works within the `tidyverse` ecosystem, in addition there are a tidy series of packages for time series called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts]. The `brolgar` package uses `tsibble` so users can take advantage of these tools and have as few extra pieces as possible.
 
 # Other approaches to longitudinal data
 
-## `pmdplyr`
+The `pmdplyr` package provides "Panel Manouvers" in "dplyr". It defines the data structure in roughly analagous terms to the `index` and `key` in `tsibble`, but instead requires `id` and `group`. It mostly concerns doing efficient and custom joins, using terminology from econometrics, such as ... it provides its own data structure that is effectively equivalent to `tsibble`, but does not implement 
+
+`panelr` provides an interface focussed on model fitting in regression, such as ...
+It also provides widening and lengthening functions. This package fits a different niche to `brolgar`, instead providing helpers on modelling, and it's own interfaces into models. This is in opposition to brolgar, which provides instead workflow focussed helpers.
+
+R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through a variety of other packages, such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", etc, or may contain irregular intervals.
+
+`plm`
+
+Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. 
+
+These software generally reimplement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. However, operations for custom long and wide form are not needed since they are handled within `tsibble` + `dplyr`. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
+
+A lot of this is predicated on the fact that longitudinal data, panel data, repeated measures, and all those variations on the names of this dataset, can be thought of as being a type of time series. This is a unifying feature that helps bring the wider toolset from time series into the world longitudinal + panel data world.
 
 https://cran.r-project.org/web/packages/pmdplyr
 https://nickch-k.github.io/pmdplyr/index.html
-
-Mostly concerns around doing effective  / custom joins, it provides its own data structure that is effectively equivalent to `tsibble`
-
-## `panelr`
-
 https://github.com/jacob-long/panelr
 https://panelr.jacob-long.com/articles/wbm.html
-
-Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. However, they also provide interfaces into things like model fitting (`panelr`) - this provides more tools around regression. It also provides widening and lengthening functions. This package fits a different niche to `brolgar`, instead providing helpers on modelling, and it's own interfaces into models. This is in opposition to brolgar, which provides instead workflow focussed helpers.
-
-## `plm`
-
 https://bookdown.org/ccolonescu/RPoE4/panel-data-models.html
 http://www.mysmu.edu/faculty/anthonytay/Notes/Panel_in_R.pdf
 https://cran.r-project.org/web/packages/plm/index.html
 https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html
 
-General comment on these papers. They generally reimplement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. However, operations for custom long and wide form are not needed since they are handled within `tsibble` + `dplyr`. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
-
-A lot of this is predicated on the fact that longitudinal data, panel data, repeated measures, and all those variations on the names of this dataset, can be thought of as being a type of time series. This is a unifying feature that helps bring the wider toolset from time series into the world longitudinal + panel data world.
 
 # How to look at some sample of the data
 
-Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots". These can be useful for a high level understand of the dataset, but we cannot process and understand the individuals. Just how spaghetti is portioned out and sampled individually to eat it, we can portion out these plots using a set of small subplots to create a plot like Figure \@ref(fig:facet-sample). 
+Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understand of the dataset. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, we can portion out these plots using a set of small subplots to create a plot like Figure \@ref(fig:facet-sample). 
 
 ```{r facet-sample, fig.cap = "Facet Samples"}
 ggplot(heights,
@@ -187,9 +212,8 @@ ggplot(heights,
   facet_sample()
 ```
 
-At a higher level, to create Figure \@ref(fig:facet-sample) all you need to create Figure \@ref(fig:facet-sample) is: the number of facets desired, and how many keys per facet. This involves randomly assigning a specified number of keys per subplot. In practice this results in answering other questions like: "how many keys are there", "how many keys per group", and then stratifying them into randomly assigned groups, ensuring the number of keys is kept the same, and managing edge cases when it does. This process is problematic in data analysis because answering each of these questions shifts attention from the analytic goal (a facetted plot of samples), ultimately distracting from the analysis. This is a key theme of improving tools for data analysis. Abstracting away the parts that are not needed, so the analyst can focus on the task at hand.
 
-`brolgar` provides an approach that means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?", defaulting to 12 facets and three keys per facet. The code to create this figure is shown with:
+`brolgar` provides the `facet_sample()` function, which means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?", defaulting to 12 facets and three keys per facet. The code to create this figure is shown with:
 
 ```r
 ggplot(heights,
@@ -222,9 +246,14 @@ ggplot(aes(x = year,
   facet_strata(along = -year)
 ```
 
-Not that we have not lost any of the data here, only the order they are presented in has changed. We learn the distribution and changes in heights over time, and that those measured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar. The starting point of each of these years seems to increase at roughly the same interval. This tells us that the starting times of the years is roughly uniform.
+Not that we have not lost any of the data, only the order they are presented in has changed. We learn the distribution and changes in heights over time, and that those measured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar. The starting point of each of these years seems to increase at roughly the same interval. This tells us that the starting times of the years is roughly uniform.
 
-Together `facet_sample()` and `facet_strata()` allow for rapid exploration, by focussing on relevant questions instead of minutae. For example, `facet_sample()` the questions are: "How many lines per facet" and "How many facets?", and for `facet_strata()` the questions are: "How many facets / strata?" and "What to arrange plots along?". Under the hood, `facet_sample()` and `facet_strata()` are powered with `sample_n_keys()` and `stratify_keys()`, so the user can use these to create the data structures needed for these plots, and extend them to other purposes that we haven't considered.
+Together `facet_sample()` and `facet_strata()` allow for rapid exploration, by focussing on relevant questions instead of minutiae on details of appropriately randomly assigning while maintaining key structure, keeping the correct number of keys per plot, and so on. For example, `facet_sample()` the questions are: "How many lines per facet" and "How many facets?", and for `facet_strata()` the questions are: "How many facets / strata?" and "What to arrange plots along?". 
+
+Answering these questions keeps the analysis in line with the analytic goals of exploring the data, rather than distracting away by moving attention to minutiae. This is a key theme of improving tools for data analysis. Abstracting away the parts that are not needed, so the analyst can focus on the task at hand.
+
+Under the hood, `facet_sample()` and `facet_strata()` are powered with `sample_n_keys()` and `stratify_keys()`, so the user can use these to create the data structures needed for these plots, and extend them to other purposes that we haven't considered.
+
 
 We have addressed "how to look at some of the data" by using `tsibble` to store important data on the key and index components, which in turn allow us to look at many and all subsamples using `facet_sample()` and `facet_strata()`.
 
@@ -232,7 +261,7 @@ We have addressed "how to look at some of the data" by using `tsibble` to store 
 
 Longitudinal data is not always measured at the same time and at the same frequency.  
 
-We can explore when countries are first getting measured using `features`. `features`, from the `fabletools` package, takes a `tsibble` object and calculates a summary for each `key`. It provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of `dplyr::summarise`. We can find the first year for each country number of starting years like so:
+We can explore when countries are first getting measured using `features` function from the `fabletools` package, which takes a `tsibble` object and calculates a summary for each `key`. It provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of `dplyr::summarise`. We can find the first year for each country number of starting years like so:
 
 ```{r feature-first}
 heights %>% 
@@ -257,9 +286,16 @@ heights_diffs <- heights %>%
 heights_diffs
 ```
 
-We can then look at the summaries of the differences in year by changing to long form and then facetting
+This is particularly useful, since `diff` will return a very wide dataset:
 
-```{r}
+```{r diff-wide}
+heights %>% 
+  features(year, diff)
+```
+
+We can then look at the summaries of the differences in year by changing to long form and then facetting:
+
+```{r heights-long-feat-diff}
 heights_diff_long <- heights_diffs %>% 
   pivot_longer(cols = -country,
                names_to = "feature",
@@ -273,6 +309,13 @@ heights_diff_long <- heights_diffs %>%
                                      "diff_max",
                                      "diff_sd",
                                      "diff_var")))
+
+ggplot(heights_diff_long,
+       aes(x = value)) +
+  geom_histogram(binwidth = 10,
+                 colour = "white") +
+  facet_wrap(~feature,
+             scales = "free")
 ```
 
 We learn that the smallest interval between measurements is 10 years, and the largest interval is between 10 and 125 years, and that most of the data is measured between 10 and 30 or so years.
@@ -307,7 +350,7 @@ heights %>%
 
 ```
 
-`brolgar` provides some useful additional features for the five number summary, `feat_five_num`, whether keys are monotonically increasing `feat_monotonic`, and measures of spread or variation, `feat_spread`. What is particularly great is that these will work on any type of time series data, and you can use other more classical time series features from `feasts`, such as autocorrelation, `feat_acf()`, Seasonal and Trend decomposition using Loess `feat_stl()`.
+`brolgar` provides some useful additional features for the five number summary, `feat_five_num`, whether keys are monotonically increasing `feat_monotonic`, and measures of spread or variation, `feat_spread`. What is particularly great is that these will work on any type of time series data, and you can use other more classical time series features from `feasts`, such as autocorrelation, `feat_acf()`, Seasonal and Trend decomposition using Loess `feat_stl()` [@ref].
 
 This demonstrates a workflow that can be used to understand and explore your longitudinal data. `brolgar` builds upon this workflow made available by `feasts` and `fabletools`. Users can also create their own features to summarise the data.
 
@@ -322,49 +365,121 @@ heights_aug <- brolgar::heights %>%
   add_residuals(heights_fit, var = "res")
 ```
 
-We can use the previous approach to explore the data. First, looking at all the data:
+We can use the previous approach to explore the model results. First, looking at all the data (Figure \@ref(fig:gg-heights-lmer)A), then looking at many subsamples with `facet_sample()` (Figure \@ref(fig:gg-heights-lmer)B), all subsamples with `facet_strata()` (Figure \@ref(fig:gg-heights-lmer)C), all subsamples, arranging along residuals, with `facet_strata(along = -res)` \@ref(fig:gg-heights-lmer)D). 
 
-then looking at many subsamples with `facet_sample()`, 
+(Not: I'm not entirely sure how useful this is? I mean the last one is kinda useful?)
 
-```{r}
+```{r gg-heights-lmer, fig.cap = "Figure of"}
+gg_heights_aug <- ggplot(heights_aug,
+       aes(x = year,
+           y = pred,
+           group = country)) + 
+  geom_line() 
 
+p1 <- gg_heights_aug + labs(tag = "A")
+
+p2 <- gg_heights_aug + facet_sample(n_facets = 6) + labs(tag = "B")
+
+p3 <- gg_heights_aug + facet_strata(n_strata = 6) + labs(tag = "C")
+
+p4 <- gg_heights_aug + facet_strata(n_strata = 6, along = -res) + labs(tag = "D")
+
+p1 / p2 / (p3 + p4)
 ```
 
+We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions.
+In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "finding representative individuals".
 
-all subsamples with `facet_strata()`, 
-
-```{r}
-
-```
-
-all subsamples, arranging by residuals, with `facet_strata()`,
-
-```{r}
-
-```
-
-we can also look at the predictions with the data like so
-
-```{r}
-
+```{r sample-n-keys-model, fig.cap = "Exploration of a random sample of the data against the predictions"}
+heights_aug %>% 
+  sample_n_keys(10) %>% 
+  ggplot(aes(x = year,
+             y = pred,
+             group = country)) + 
+  geom_line() +
+  geom_point(aes(y = height_cm)) + 
+  facet_wrap(~country)
 ```
 
 # Finding representative individuals
 
-Using `key_slope` and `keys_near()`.
+```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values"}
+heights_aug_res_summary <- 
+tibble(names = names(summary(heights_aug$res)),
+       values = as.numeric(round(summary(heights_aug$res),2))) %>% 
+  slice(-4) %>% 
+  mutate(y_pos = c(280, 275, 275, 250, 275))
 
-What if we grabbed a sample of those who have the best, middle, and worst residuals?
+gg_resid <- 
+ggplot(heights_aug,
+       aes(x = res)) + 
+  geom_histogram(colour = "white",
+                 binwidth = 1)
 
-summary(heights_aug$res)
+gg_resid
 
-Which countries are nearest to these statistics?
+gg_resid + 
+  geom_vline(xintercept = heights_aug_res_summary$values,
+             colour = "salmon") + 
+  ggrepel::geom_label_repel(data = heights_aug_res_summary,
+             mapping = aes(label = names,
+                           x = values,
+                           y = y_pos))
+```
 
+The histogram of residuals from the model is seen in figure XX. The overlayed five number summary shows the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals. To understand these residuals it can be useful to find those observations in the model that best match to this five number summary. This can be achieved using `keys_near` in `brolgar`. By default this links back to the 5 number summary, but any function can be used. You specify the variable you want to find the keys nearest, in this case `res`, the residuals:
+
+```{r heights-aug-keys-near}
 keys_near(heights_aug, 
           var = res)
-          
-that best match the 5 number summary.
+```
 
-Join data back and explore
+To plot the data, they need to be joined back to the original data, and can then be plotted like so:
+
+```{r}
+library(stickylabeller)
+
+heights_near_aug <- keys_near(heights_aug, 
+          var = res) %>% 
+  left_join(heights_aug,
+            by = c("country"))
+
+ggplot(heights_near_aug,
+       aes(x = year,
+             y = pred,
+             group = country,
+             colour = country)) + 
+  geom_line() + 
+  geom_point(aes(y = height_cm)) + 
+  facet_wrap(~stat + country,
+             labeller = label_glue("Country: {country} \nNearest to {stat} residual")) + 
+  theme(legend.position = "none")
+```
+
+From observing this, we see that the minimum residual for Ireland has a few outliers that throw the result off, and that perhaps a different model with a non-linear term would be useful for improving the model fit.
+
+More fits can be added, by changing `top_n = 5`, allowing for more 
+
+```{r}
+heights_near_aug <- keys_near(heights_aug, 
+          var = res,
+          top_n = 5) %>% 
+  left_join(heights_aug,
+            by = c("country"))
+
+ggplot(heights_near_aug,
+       aes(x = year,
+             y = pred,
+             group = country,
+             colour = country)) + 
+  geom_line() + 
+  geom_point(aes(y = height_cm)) + 
+  facet_wrap(~stat + country,
+             labeller = label_glue("Country: {country} \nNearest to {stat} residual"),
+             ncol = 5) + 
+  theme(legend.position = "none")
+```
+
 
 # How to install and get started
 
@@ -410,4 +525,3 @@ Rob Hyndman
 Miles McBain
 Monash University
 ACEMS
-
