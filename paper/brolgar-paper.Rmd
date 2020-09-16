@@ -481,35 +481,21 @@ ggplot(heights_near_aug,
 ```
 
 
-# How to install and get started
+# How to install and getting started
 
-(note: take a look at existing R package journal papers to see these examples)
-(note: overview of function structure)
+The `brolgar` R package can be installed from CRAN using `install.packages("brolgar")`. The functions are all designed to build upon existing pacakges. For example, extending `ggplot2` facet functions (`facet_wrap()` and `facet_grid()`) by providing two facets for exploration: `facet_sample()` and `facet_strata()`. Extending dplyr's `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to . Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`, with `feat_five_num` and more.
+
+To get started with `brolgar` you must first ensure your data is specified as a `tsibble` - discussed earlier in the paper, there is also a vignette ["Longitudinal Data Structures"](http://brolgar.njtierney.com/articles/longitudinal-data-structures.html), which discusses these ideas. The next step we recommend is observing some sample of your data with `facet_sample()`, and `facet_strata()`. When using `facet_strata()`, try choosing a variable to explore along, with the `along` function. This can help reveal other interesting features.
+
+(not sure how much more to write here?)
+
 (goal for next week - content finished and paring down of paper to reasonable length.)
 
 # Summary 
 
-Problem #1: How do I look at some of the data?
-Longitudinal data as a time series 
-Specify structure, get a free lunch.
-Look at as much of the raw data as possible
-Use facet_sample() / facet_strata()
+The `brolgar` package facilitates exploring longitudinal data in R. It builds upon existing infrastructure from `tsibble`, and `feasts`, which work within the `tidyverse` family of R packages, as well as the newer `tidyverts` time series packages. Users familiar with either of these package families will find a lot of similarity in their use, and first time users will be able to easily transition from `brolgar` to the `tidyverse`. 
 
-Problem #2: How do I find interesting observations?
-Decide what features are interesting
-Summarise down to one observation per key
-Decide how to filter
-Join this feature back to the data
-
-Problem #3: How do I understand a model?
-Look at (one, more or all!) subsamples
-Arrange subsamples
-(actually use similar approaches to earlier!)
-
-Future work
-
-* more features and stratification processes
-* generalise to use for other structured data that doesn't have time components
+We have addressed the four problem areas of, "looking at some of the data" by describing how to treat longitudinal data as a time series, and then using `facet_sample()` and `facet_strata()`. Interesting observations can be identified by first deciding what features are interesting, summarising observations to one key, deciding how to filte,r and then joining the summarised data back to the original. Models can be understood by applying the same tools used to explore data. Future work will explore more features and stratification processes, as well as generalise the tools to work for other structured data which doesn't have time components.
 
 # References {-}
 
@@ -517,11 +503,4 @@ Future work
 
 # Acknowledgements {-}
 
-Tania Prvan
-Stuart Lee
-Mitchell O'Hara Wild
-Earo Wang
-Rob Hyndman
-Miles McBain
-Monash University
-ACEMS
+We'd like to thank Tania Prvan, for her initial work on the package, Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain for their help in the software design. We'd also like to thank Rob Hyndman, Monash University, and ACEMS for their support for this research.
