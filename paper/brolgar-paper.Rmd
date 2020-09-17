@@ -65,7 +65,7 @@ heights <- brolgar::heights %>% filter(year > 1700)
 
 # Abstract
 
-Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modeled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
+Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 
 # Introduction
 
@@ -101,9 +101,9 @@ grid.arrange(tbl_heights_oz,
              as.table = TRUE)
 ```
 
-The full data of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), of 144 countries. The data is shown from the year 1700. This plot is challenging to understand because there is overplotting, which makes it hard to see the individuals. Showing separate individual plots of each country doesn't help to understand the data; 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) some set of countries that are more similar, whose masss lies in the center, and 2) a general upward trend in heights over time. We learn about the group, but lose sight of the individuals. 
+The full data of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), of 144 countries. The data is shown from the year 1700. This plot is challenging to understand because there is overplotting, which makes it hard to see the individuals. Showing separate individual plots of each country doesn't help to understand the data; 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) some set of countries that are more similar, whose mass lies in the center, and 2) a general upward trend in heights over time. We learn about the group, but lose sight of the individuals.
 
-Some common tasks in exploration are not straightforward: How to look at samples of the data? How to find interesting samples? How to find interesting individuals, finding who has the greatest change in height? Which has the tallest or shortest people? Which are most similar to the min, max, and median?
+Some common tasks in exploration are not straightforward: How to look at samples of the data? How to find interesting samples? How to find interesting individuals, finding who has the greatest change in height? Which has the tallest or shortest people? Which are most similar to the minimum, maximum, and median?
 
 ```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE}
 spaghetti <- ggplot(heights,
@@ -155,7 +155,7 @@ This definition has been realised in data as a time series `tsibble` in [@Wang20
 
 If the specified key and index pair do not define a distinct row - for example, if there are duplicates in the data, the `tsibble` will not be created. This helps ensure the data is properly understood and cleaned up before analysis is conducted, removing avoidable errors that might have impacted downstream decisions.
 
-We can formally define our `heights` data from Figure \@ref(fig:heights-sample-plot) as a `tsibble`: The `index` is `year`, the `key` is `country`. Defining a `tsibble` object is perfomed using `as_tsibble` below, specifying `regular = FALSE`, since there are not regular intervals in the years measured:
+We can formally define our `heights` data from Figure \@ref(fig:heights-sample-plot) as a `tsibble`: The `index` is `year`, the `key` is `country`. Defining a `tsibble` object is performed using `as_tsibble` below, specifying `regular = FALSE`, since there are not regular intervals in the years measured:
 
 
 ```{r define-heights, eval = FALSE}
@@ -174,18 +174,18 @@ The benefits to using `tsibble` are that it works within the `tidyverse` ecosyst
 
 # Other approaches to longitudinal data
 
-The `pmdplyr` package provides "Panel Manouvers" in "dplyr". It defines the data structure in roughly analagous terms to the `index` and `key` in `tsibble`, but instead requires `id` and `group`. It mostly concerns doing efficient and custom joins, using terminology from econometrics, such as ... it provides its own data structure that is effectively equivalent to `tsibble`, but does not implement 
+The `pmdplyr` package provides "Panel Manoeuvres" in "dplyr". It defines the data structure in roughly analogous terms to the `index` and `key` in `tsibble`, but instead requires `id` and `group`. It mostly concerns doing efficient and custom joins, using terminology from econometrics, such as ... it provides its own data structure that is effectively equivalent to `tsibble`, but does not implement 
 
 `panelr` provides an interface focussed on model fitting in regression, such as ...
 It also provides widening and lengthening functions. This package fits a different niche to `brolgar`, instead providing helpers on modelling, and it's own interfaces into models. This is in opposition to brolgar, which provides instead workflow focussed helpers.
 
-R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through a variety of other packages, such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", etc, or may contain irregular intervals.
+R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through a variety of other packages, such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", etc., or may contain irregular intervals.
 
 `plm`
 
 Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. 
 
-These software generally reimplement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. However, operations for custom long and wide form are not needed since they are handled within `tsibble` + `dplyr`. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
+These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. However, operations for custom long and wide form are not needed since they are handled within `tsibble` + `dplyr`. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
 
 A lot of this is predicated on the fact that longitudinal data, panel data, repeated measures, and all those variations on the names of this dataset, can be thought of as being a type of time series. This is a unifying feature that helps bring the wider toolset from time series into the world longitudinal + panel data world.
 
@@ -201,7 +201,7 @@ https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html
 
 # How to look at some sample of the data
 
-Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understand of the dataset. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, we can portion out these plots using a set of small subplots to create a plot like Figure \@ref(fig:facet-sample). 
+Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understand of the dataset. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, we can portion out these plots using a set of small sub-plots to create a plot like Figure \@ref(fig:facet-sample). 
 
 ```{r facet-sample, fig.cap = "Facet Samples"}
 ggplot(heights,
@@ -235,7 +235,7 @@ ggplot(heights,
   facet_strata()
 ```
 
-Here each key is shown only once, and is randomly assigned to a facet/subplot. We can provide meaning to each of these facets, by arranging the heights along a variable, like `year`:
+Here each key is shown only once, and is randomly assigned to a facet/sub-plot. We can provide meaning to each of these facets, by arranging the heights along a variable, like `year`:
 
 ```{r facet-year-along, echo = TRUE}
 heights %>% 
@@ -255,7 +255,7 @@ Answering these questions keeps the analysis in line with the analytic goals of 
 Under the hood, `facet_sample()` and `facet_strata()` are powered with `sample_n_keys()` and `stratify_keys()`, so the user can use these to create the data structures needed for these plots, and extend them to other purposes that we haven't considered.
 
 
-We have addressed "how to look at some of the data" by using `tsibble` to store important data on the key and index components, which in turn allow us to look at many and all subsamples using `facet_sample()` and `facet_strata()`.
+We have addressed "how to look at some of the data" by using `tsibble` to store important data on the key and index components, which in turn allow us to look at many and all sub-samples using `facet_sample()` and `facet_strata()`.
 
 # Exploring measurement interval
 
@@ -293,7 +293,7 @@ heights %>%
   features(year, diff)
 ```
 
-We can then look at the summaries of the differences in year by changing to long form and then facetting:
+We can then look at the summaries of the differences in year by changing to long form and then faceting:
 
 ```{r heights-long-feat-diff}
 heights_diff_long <- heights_diffs %>% 
@@ -326,9 +326,9 @@ A workflow to identify interesting individuals starts with: "what defines intere
 
 The workflow is represented in the figure XX below, which shows:
 
-1. Identify features based on "interesting" metric (in this case max height)
+1. Identify features based on "interesting" metric (in this case maximum height)
 2. This results in one observation per key
-3. Identify from these features what is most interesting (e.g., the highest max height)
+3. Identify from these features what is most interesting (e.g., the highest maximum height)
 4. Filter the most interesting
 5. Join this feature back to the data to get all observations for those keys
 6. These can now be shown with the data, or separately.
@@ -342,7 +342,7 @@ heights %>%
   features(height_cm, list(min = min))
 ```
 
-Where we pass `features` the variable we want to calculate a feature on, and a named list of features. You can use a prepared summary, for which `brolgar` provides a few - we've already seen `feat_diff_summary`, which provided a summary of the `diff` of a variable. `feat_ranges` produces range related features, min, max, difference from the range, and the interquartile range.
+Where we pass `features` the variable we want to calculate a feature on, and a named list of features. You can use a prepared summary, for which `brolgar` provides a few - we've already seen `feat_diff_summary`, which provided a summary of the `diff` of a variable. `feat_ranges` produces range related features, minimum, maximum, difference from the range, and the interquartile range.
 
 ```{r heights-features}
 heights %>%
@@ -365,7 +365,7 @@ heights_aug <- brolgar::heights %>%
   add_residuals(heights_fit, var = "res")
 ```
 
-We can use the previous approach to explore the model results. First, looking at all the data (Figure \@ref(fig:gg-heights-lmer)A), then looking at many subsamples with `facet_sample()` (Figure \@ref(fig:gg-heights-lmer)B), all subsamples with `facet_strata()` (Figure \@ref(fig:gg-heights-lmer)C), all subsamples, arranging along residuals, with `facet_strata(along = -res)` \@ref(fig:gg-heights-lmer)D). 
+We can use the previous approach to explore the model results. First, looking at all the data (Figure \@ref(fig:gg-heights-lmer)A), then looking at many sub-samples with `facet_sample()` (Figure \@ref(fig:gg-heights-lmer)B), all sub-samples with `facet_strata()` (Figure \@ref(fig:gg-heights-lmer)C), all sub-samples, arranging along residuals, with `facet_strata(along = -res)` \@ref(fig:gg-heights-lmer)D). 
 
 (Not: I'm not entirely sure how useful this is? I mean the last one is kinda useful?)
 
@@ -427,7 +427,7 @@ gg_resid +
                            y = y_pos))
 ```
 
-The histogram of residuals from the model is seen in figure XX. The overlayed five number summary shows the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals. To understand these residuals it can be useful to find those observations in the model that best match to this five number summary. This can be achieved using `keys_near` in `brolgar`. By default this links back to the 5 number summary, but any function can be used. You specify the variable you want to find the keys nearest, in this case `res`, the residuals:
+The histogram of residuals from the model is seen in figure XX. The overlaid five number summary shows the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals. To understand these residuals it can be useful to find those observations in the model that best match to this five number summary. This can be achieved using `keys_near` in `brolgar`. By default this links back to the 5 number summary, but any function can be used. You specify the variable you want to find the keys nearest, in this case `res`, the residuals:
 
 ```{r heights-aug-keys-near}
 keys_near(heights_aug, 
@@ -483,7 +483,7 @@ ggplot(heights_near_aug,
 
 # How to install and getting started
 
-The `brolgar` R package can be installed from CRAN using `install.packages("brolgar")`. The functions are all designed to build upon existing pacakges. For example, extending `ggplot2` facet functions (`facet_wrap()` and `facet_grid()`) by providing two facets for exploration: `facet_sample()` and `facet_strata()`. Extending dplyr's `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to . Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`, with `feat_five_num` and more.
+The `brolgar` R package can be installed from CRAN using `install.packages("brolgar")`. The functions are all designed to build upon existing packages. For example, extending `ggplot2` facet functions (`facet_wrap()` and `facet_grid()`) by providing two facets for exploration: `facet_sample()` and `facet_strata()`. Extending dplyr's `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to . Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`, with `feat_five_num` and more.
 
 To get started with `brolgar` you must first ensure your data is specified as a `tsibble` - discussed earlier in the paper, there is also a vignette ["Longitudinal Data Structures"](http://brolgar.njtierney.com/articles/longitudinal-data-structures.html), which discusses these ideas. The next step we recommend is observing some sample of your data with `facet_sample()`, and `facet_strata()`. When using `facet_strata()`, try choosing a variable to explore along, with the `along` function. This can help reveal other interesting features.
 
@@ -495,7 +495,7 @@ To get started with `brolgar` you must first ensure your data is specified as a 
 
 The `brolgar` package facilitates exploring longitudinal data in R. It builds upon existing infrastructure from `tsibble`, and `feasts`, which work within the `tidyverse` family of R packages, as well as the newer `tidyverts` time series packages. Users familiar with either of these package families will find a lot of similarity in their use, and first time users will be able to easily transition from `brolgar` to the `tidyverse`. 
 
-We have addressed the four problem areas of, "looking at some of the data" by describing how to treat longitudinal data as a time series, and then using `facet_sample()` and `facet_strata()`. Interesting observations can be identified by first deciding what features are interesting, summarising observations to one key, deciding how to filte,r and then joining the summarised data back to the original. Models can be understood by applying the same tools used to explore data. Future work will explore more features and stratification processes, as well as generalise the tools to work for other structured data which doesn't have time components.
+We have addressed the four problem areas of, "looking at some of the data" by describing how to treat longitudinal data as a time series, and then using `facet_sample()` and `facet_strata()`. Interesting observations can be identified by first deciding what features are interesting, summarising observations to one key, deciding how to filter,r and then joining the summarised data back to the original. Models can be understood by applying the same tools used to explore data. Future work will explore more features and stratification processes, as well as generalise the tools to work for other structured data which doesn't have time components.
 
 # References {-}
 
