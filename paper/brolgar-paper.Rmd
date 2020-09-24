@@ -69,7 +69,7 @@ Longitudinal (panel) data provide the opportunity to examine temporal patterns o
 
 # Introduction
 
-This paper is about exploring longitudinal data effectively. Longitudinal data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same individual at different (often irregular), time points. Put another way, longitudinal data can be defined as individuals repeatedly measured through time. Figure \@ref(fig:heights-sample-plot) show a table and plot of sample data of the average height of Australian males. The individual component here `country`, and the time component is `year`. The variable `country` is measured repeatedly from 1900 to 1970, with irregular time periods between years.
+This paper is about exploring longitudinal data effectively. Longitudinal data can be defined as individuals repeatedly measured through time, and its inherent structure allows us to examine temporal patterns of individuals. This structure is shown in Figure \@ref(fig:heights-sample-plot), which shows a sample of data from the average height of Australian males. The individual component is `country`, and the time component is `year`. The variable `country` is measured repeatedly from 1900 to 1970, with irregular time periods between years.
 
 
 ```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals."}
@@ -101,9 +101,7 @@ grid.arrange(tbl_heights_oz,
              as.table = TRUE)
 ```
 
-The full data of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), of 144 countries. The data is shown from the year 1700. This plot is challenging to understand because there is overplotting, which makes it hard to see the individuals. Showing separate individual plots of each country doesn't help to understand the data; 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) some set of countries that are more similar, whose mass lies in the center, and 2) a general upward trend in heights over time. We learn about the group, but lose sight of the individuals.
-
-Some common tasks in exploration are not straightforward: How to look at samples of the data? How to find interesting samples? How to find interesting individuals, finding who has the greatest change in height? Which has the tallest or shortest people? Which are most similar to the minimum, maximum, and median?
+The larger data of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), showing 144 countries from the year 1700. This plot is challenging to understand because there is overplotting, making it hard to see the individuals. Showing separate individual plots of each country doesn't help to understand the data; 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) There is some set of countries that are similar, and they are distributed around the center of the countries, and 2) there is a general upward trend in heights over time. We learn about the collective, but lose sight of the individuals.
 
 ```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE}
 spaghetti <- ggplot(heights,
@@ -127,12 +125,7 @@ spaghetti_smooth <- spaghetti_alpha + geom_smooth(method = "lm",
 spaghetti + spaghetti_alpha + spaghetti_smooth
 ```
 
-```{r spaghetti-interesting-obs}
-# code to identify: 
-# For example, that the country with the greatest change in heights is XX, XX is the country with the tallest people, and XX has shortest people (Figure XX).
-```
-
-This paper demonstrates efficient exploration of longitudinal data, by examining four problems in exploring longitudinal data: 
+So how do we effectively explore this data? This paper demonstrates efficient exploration of longitudinal data using the R package, `brolgar`. We examine four problems in exploring longitudinal data: 
 
 1. How to look at some sample of the data
 2. How to find interesting individuals
@@ -143,9 +136,11 @@ This paper proceeds in the following way: first, a brief review of the definitio
 
 # Longitudinal Data Structures
 
-There are many names of longitudinal data: Panel data, survey data, repeated measures, and time series, to name a few. Although there might be small differences among these definitions, referring to data collection methods, context, and field, these data structures all share a fundamental similarity. They are measurements over some time period.
+There are many names of longitudinal data: Panel data, survey data, repeated measures, and time series, to name a few. Although there are small differences among these definitions, related to data collection, context, and field, these data structures all share a fundamental similarity: they are measurements over some time period.
 
-To efficiently work with longitudinal data, we need to define it's structure in such a way that cuts across these different definitions. Doing so provides a consistent way to understand and summarise the data. As defined earlier, longitudinal data can be thought of as "individuals repeatedly measured through time". This means that we can consider longitudinal data a type of time series, which is defined in @fpp: "Anything that is observed sequentially over time **is a time series**".
+One of the difficulties in working with longitudinal data is to ensure the data structure is respected in summaries. It is important to understand what the time measurements are, and how they are grouped, and if the time components are equally spaced. These can be encoded into a data structure definition, ensuring that all the flavours of longitudinal data above can be treated the same. These data structures provide a consistent way to understand and summarise the data. 
+
+As stated earlier, longitudinal data can be thought of as "individuals repeatedly measured through time". This means we can consider longitudinal data a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**".
 
 This definition has been realised in data as a time series `tsibble` in [@Wang2018]. These objects are defined as data that have these conditions met:
 
@@ -166,42 +161,52 @@ heights <- as_tsibble(heights,
 
 ```
 
-Using a `tsibble` means this important time series information is recorded **once**, and can be referred to many times in other parts of the data analysis. 
+Using a `tsibble` means this important time series information is recorded **once**, and can be referred to many times in other parts of the data analysis by time-aware tools.
 
 The `tsibble` package also works with `dplyr` family, extending them to provide functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For more details see @Wang2018.
 
-The benefits to using `tsibble` are that it works within the `tidyverse` ecosystem, in addition there are a tidy series of packages for time series called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts]. The `brolgar` package uses `tsibble` so users can take advantage of these tools and have as few extra pieces as possible.
+In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts]. The `brolgar` package uses `tsibble` so users can take advantage of these tools, so that they can learn one way of operating a data analysis that will work and have overlap with other contexts.
 
 # Other approaches to longitudinal data
 
-The `pmdplyr` package provides "Panel Manoeuvres" in "dplyr". It defines the data structure in roughly analogous terms to the `index` and `key` in `tsibble`, but instead requires `id` and `group`. It mostly concerns doing efficient and custom joins, using terminology from econometrics, such as ... it provides its own data structure that is effectively equivalent to `tsibble`, but does not implement 
+> focus what they do
+> don't need to focus on what brolgar does that they don't
+> just summarise what they do
+> letting p
 
-`panelr` provides an interface focussed on model fitting in regression, such as ...
-It also provides widening and lengthening functions. This package fits a different niche to `brolgar`, instead providing helpers on modelling, and it's own interfaces into models. This is in opposition to brolgar, which provides instead workflow focussed helpers.
+R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through packages such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", or may contain irregular intervals.
 
-R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through a variety of other packages, such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", etc., or may contain irregular intervals.
+Other packages focus more directly on panel data in R. The `pmdplyr` package provides "Panel Manoeuvres" in "dplyr". It defines the data structure in roughly analogous terms to the `index` and `key` in `tsibble`, but instead requires `id` and `group`. It mostly concerns doing efficient and custom joins, using terminology from econometrics, such as ... , It does not  implement tidyverse equivalent tools, but instead extends upon them with `mutate_...`
 
-`plm`
+`panelr` provides an interface for data reshaping on panel data, providing widening and lengthening functions (`widen_panel()` and `long_panel()`. It also provides model facilitating functions by providing its own interface for models mixed effects models. This is in opposition to brolgar, which provides instead workflow focussed helpers.
 
-Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. 
+Operations for custom long and wide formats of panel data are not needed since they are handled using `tsibble` and `dplyr`. This avoids needing to learn additional new functions that achieve the same reshaping results. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
 
-These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. However, operations for custom long and wide form are not needed since they are handled within `tsibble` + `dplyr`. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
+This work is predicated on the fact that longitudinal data, panel data, repeated measures, and all those variations, can be thought of as being a type of time series. This is a unifying feature that helps bring the wider toolset from time series into the world longitudinal and panel data world.
 
-A lot of this is predicated on the fact that longitudinal data, panel data, repeated measures, and all those variations on the names of this dataset, can be thought of as being a type of time series. This is a unifying feature that helps bring the wider toolset from time series into the world longitudinal + panel data world.
 
-https://cran.r-project.org/web/packages/pmdplyr
-https://nickch-k.github.io/pmdplyr/index.html
-https://github.com/jacob-long/panelr
-https://panelr.jacob-long.com/articles/wbm.html
-https://bookdown.org/ccolonescu/RPoE4/panel-data-models.html
-http://www.mysmu.edu/faculty/anthonytay/Notes/Panel_in_R.pdf
-https://cran.r-project.org/web/packages/plm/index.html
-https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html
+Other package to explore: 
 
+- `plm`
+
+Package resources: 
+
+- https://cran.r-project.org/web/packages/pmdplyr
+- https://nickch-k.github.io/pmdplyr/index.html
+- https://github.com/jacob-long/panelr
+- https://panelr.jacob-long.com/articles/wbm.html
+- https://bookdown.org/ccolonescu/RPoE4/panel-data-models.html
+- http://www.mysmu.edu/faculty/anthonytay/Notes/Panel_in_R.pdf
+- https://cran.r-project.org/web/packages/plm/index.html
+- https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html
+
+Remaining text to use:
+
+Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. 
 
 # How to look at some sample of the data
 
-Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understand of the dataset. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, we can portion out these plots using a set of small sub-plots to create a plot like Figure \@ref(fig:facet-sample). 
+Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understanding as a whole. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, it is useful to randomly portion out the data into sub-plots, to tease out some of the data (Figure \@ref(fig:facet-sample)). 
 
 ```{r facet-sample, fig.cap = "Facet Samples"}
 ggplot(heights,
@@ -212,8 +217,7 @@ ggplot(heights,
   facet_sample()
 ```
 
-
-`brolgar` provides the `facet_sample()` function, which means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?", defaulting to 12 facets and three keys per facet. The code to create this figure is shown with:
+`brolgar` provides the `facet_sample()` function to create Figure \@ref(fig:facet-sample). This means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?". By default, `facet_sample()` provides 12 facets and three keys per facet. The code to create this figure is shown with:
 
 ```r
 ggplot(heights,
@@ -235,7 +239,7 @@ ggplot(heights,
   facet_strata()
 ```
 
-Here each key is shown only once, and is randomly assigned to a facet/sub-plot. We can provide meaning to each of these facets, by arranging the heights along a variable, like `year`:
+Here each key is shown only once, and is randomly assigned to a facet/sub-plot. We can provide meaning to each of these facets, by arranging the heights "along" a variable, like `year`:
 
 ```{r facet-year-along, echo = TRUE}
 heights %>% 
@@ -246,14 +250,13 @@ ggplot(aes(x = year,
   facet_strata(along = -year)
 ```
 
-Not that we have not lost any of the data, only the order they are presented in has changed. We learn the distribution and changes in heights over time, and that those measured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar. The starting point of each of these years seems to increase at roughly the same interval. This tells us that the starting times of the years is roughly uniform.
+Note that we have not lost any of the data, only the order they are presented in has changed. We learn the distribution and changes in heights over time, and  those measured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar. The starting point of each of these years seems to increase at roughly the same interval. This tells us that the starting times of the years is roughly uniform.
 
-Together `facet_sample()` and `facet_strata()` allow for rapid exploration, by focussing on relevant questions instead of minutiae on details of appropriately randomly assigning while maintaining key structure, keeping the correct number of keys per plot, and so on. For example, `facet_sample()` the questions are: "How many lines per facet" and "How many facets?", and for `facet_strata()` the questions are: "How many facets / strata?" and "What to arrange plots along?". 
+Together `facet_sample()` and `facet_strata()` allow for rapid exploration, by focussing on relevant questions instead of the minutiae of appropriately randomly assigning while maintaining key structure, keeping the correct number of keys per plot, and so on. For example, `facet_sample()` the questions are: "How many lines per facet" and "How many facets?", and for `facet_strata()` the questions are: "How many facets / strata?" and "What to arrange plots along?". 
 
 Answering these questions keeps the analysis in line with the analytic goals of exploring the data, rather than distracting away by moving attention to minutiae. This is a key theme of improving tools for data analysis. Abstracting away the parts that are not needed, so the analyst can focus on the task at hand.
 
-Under the hood, `facet_sample()` and `facet_strata()` are powered with `sample_n_keys()` and `stratify_keys()`, so the user can use these to create the data structures needed for these plots, and extend them to other purposes that we haven't considered.
-
+Under the hood, `facet_sample()` and `facet_strata()` are powered with `sample_n_keys()` and `stratify_keys()`. These can be used to create data structures needed for these plots, and extend them for other purposes.
 
 We have addressed "how to look at some of the data" by using `tsibble` to store important data on the key and index components, which in turn allow us to look at many and all sub-samples using `facet_sample()` and `facet_strata()`.
 

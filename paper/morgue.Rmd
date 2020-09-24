@@ -62,3 +62,6 @@ wages_slope %>%
   geom_line() +
   gghighlight(.slope_xp < 0)
 ```
+
+
+Specifically, we address: How to look at samples of the data? How to find interesting samples? How to find interesting individuals, finding who has the greatest change in height? Which has the tallest or shortest people? Which are most similar to the minimum, maximum, and median?
