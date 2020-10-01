@@ -1,5 +1,6 @@
 ---
 title: 'brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R'
+authors: "Nicholas Tierney, Dianne Cook, Tania Prvan"
 output:
   bookdown::html_document2:
     toc: yes
@@ -127,10 +128,10 @@ spaghetti + spaghetti_alpha + spaghetti_smooth
 
 So how do we effectively explore this data? This paper demonstrates efficient exploration of longitudinal data using the R package, `brolgar`. We examine four problems in exploring longitudinal data: 
 
-1. How to look at some sample of the data
-2. How to find interesting individuals
+1. How to some sample the data (Section ...)
+2. Finding interesting individuals
 3. Finding representative individuals
-4. How to understand a model
+4. Understanding a model
 
 This paper proceeds in the following way: first, a brief review of the definition of longitudinal data, and existing approaches to longitudinal data, then approaches to these four problems are discussed, followed by a summary.
 
@@ -166,6 +167,10 @@ Using a `tsibble` means this important time series information is recorded **onc
 The `tsibble` package also works with `dplyr` family, extending them to provide functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For more details see @Wang2018.
 
 In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts]. The `brolgar` package uses `tsibble` so users can take advantage of these tools, so that they can learn one way of operating a data analysis that will work and have overlap with other contexts.
+
+## Characterising Individual Series
+
+- Using feasts
 
 # Other approaches to longitudinal data
 
@@ -204,7 +209,7 @@ Remaining text to use:
 
 Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. 
 
-# How to look at some sample of the data
+# Exploring Samples
 
 Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understanding as a whole. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, it is useful to randomly portion out the data into sub-plots, to tease out some of the data (Figure \@ref(fig:facet-sample)). 
 
@@ -323,7 +328,9 @@ ggplot(heights_diff_long,
 
 We learn that the smallest interval between measurements is 10 years, and the largest interval is between 10 and 125 years, and that most of the data is measured between 10 and 30 or so years.
 
-# How to find interesting individuals
+# Finding Waldo
+
+> 
 
 A workflow to identify interesting individuals starts with: "what defines interesting?". In this case, let us suggest interesting is "tallest height", or "maximum height".
 
@@ -357,7 +364,8 @@ heights %>%
 
 This demonstrates a workflow that can be used to understand and explore your longitudinal data. `brolgar` builds upon this workflow made available by `feasts` and `fabletools`. Users can also create their own features to summarise the data.
 
-# How to understand a model
+<!-- # How to understand a model -->
+# Dancing with Models
 
 We now demonstrate how these workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year + random intercept for country like so:
 
@@ -391,7 +399,7 @@ p1 / p2 / (p3 + p4)
 ```
 
 We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions.
-In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "finding representative individuals".
+In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "Summarising Distributions".
 
 ```{r sample-n-keys-model, fig.cap = "Exploration of a random sample of the data against the predictions"}
 heights_aug %>% 
@@ -404,7 +412,8 @@ heights_aug %>%
   facet_wrap(~country)
 ```
 
-# Finding representative individuals
+<!-- # Finding representative individuals -->
+# Summarising Distributions
 
 ```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values"}
 heights_aug_res_summary <- 
