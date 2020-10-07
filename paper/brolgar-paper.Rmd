@@ -102,7 +102,7 @@ grid.arrange(tbl_heights_oz,
              as.table = TRUE)
 ```
 
-The larger data of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), showing 144 countries from the year 1700. This plot is challenging to understand because there is overplotting, making it hard to see the individuals. Showing separate individual plots of each country doesn't help to understand the data; 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) There is some set of countries that are similar, and they are distributed around the center of the countries, and 2) there is a general upward trend in heights over time. We learn about the collective, but lose sight of the individuals.
+The full dataset of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), showing 144 countries from the year 1700. This plot is challenging to understand because there is overplotting, making it hard to see the individuals. Solutions to this aren't always obvious. Showing separate individual plots of each country doesn't help, as 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) There is some set of countries that are similar, and they are distributed around the center of the countries, and 2) there is a general upward trend in heights over time. We learn about the collective, but lose sight of the individuals.
 
 ```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE}
 spaghetti <- ggplot(heights,
@@ -126,24 +126,22 @@ spaghetti_smooth <- spaghetti_alpha + geom_smooth(method = "lm",
 spaghetti + spaghetti_alpha + spaghetti_smooth
 ```
 
-So how do we effectively explore this data? This paper demonstrates efficient exploration of longitudinal data using the R package, `brolgar`. We examine four problems in exploring longitudinal data: 
+This paper demonstrates how to effectively and efficiently explore longitudinal data, using the R package, `brolgar`. We examine four problems in exploring longitudinal data: 
 
-1. How to some sample the data (Section ...)
-2. Finding interesting individuals
-3. Finding representative individuals
-4. Understanding a model
+1. How to sample the data (Section ...)
+2. Finding interesting individuals (Section ...)
+3. Finding representative individuals (Section ...)
+4. Understanding a model (Section ...)
 
-This paper proceeds in the following way: first, a brief review of the definition of longitudinal data, and existing approaches to longitudinal data, then approaches to these four problems are discussed, followed by a summary.
+This paper proceeds in the following way: first, a brief review of the definition of longitudinal data (Section \@ref(data)), and existing approaches to longitudinal data (Section \@ref()), then approaches to these four problems are discussed (Section (\@ref()) - Section (\@ref())), followed by a summary (\@ref()).
 
-# Longitudinal Data Structures
+# Longitudinal Data Structures {#data}
 
-There are many names of longitudinal data: Panel data, survey data, repeated measures, and time series, to name a few. Although there are small differences among these definitions, related to data collection, context, and field, these data structures all share a fundamental similarity: they are measurements over some time period.
+Longitudinal data goes by many names: Panel data, survey data, repeated measures, and time series, to name a few. Although there are small differences among these definitions related to data collection, context, and field, these data structures all share a fundamental similarity: they are measurements of the same individual over a time period. 
 
-One of the difficulties in working with longitudinal data is to ensure the data structure is respected in summaries. It is important to understand what the time measurements are, and how they are grouped, and if the time components are equally spaced. These can be encoded into a data structure definition, ensuring that all the flavours of longitudinal data above can be treated the same. These data structures provide a consistent way to understand and summarise the data. 
+This time period has structure as well - the time component (dates, times, waves, seconds, etc), as well as the spacing between measurements - unequal or equal. This data structure needs to be respected during analysis, to avoid for example, collapsing across month when the data is collected every second, or assuming measurements occur at fixed time intervals. These mistakes can be avoided by encoding the data structure into the data itself. This information can then be accessed by analysis tools, providing a consistent way to understand and summarise the data. This ensures the different types of longitudinal data previously mentioned can be handled in the same way. 
 
-As stated earlier, longitudinal data can be thought of as "individuals repeatedly measured through time". This means we can consider longitudinal data a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**".
-
-This definition has been realised in data as a time series `tsibble` in [@Wang2018]. These objects are defined as data that have these conditions met:
+As previously stated, longitudinal data can be thought of as "individuals repeatedly measured through time". This means we can consider longitudinal data a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**". This definition has been realised in data as a time series `tsibble` in [@Wang2018]. These objects are defined as data that have these conditions met:
 
 1. The `index`: the time variable
 2. The `key`: variable(s) defining individual groups (or series)
@@ -208,7 +206,6 @@ Package resources:
 Remaining text to use:
 
 Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. 
-
 # Exploring Samples
 
 Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understanding as a whole. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, it is useful to randomly portion out the data into sub-plots, to tease out some of the data (Figure \@ref(fig:facet-sample)). 
