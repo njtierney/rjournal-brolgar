@@ -201,7 +201,7 @@ or, with the pipe:
 
 We saw earlier that a named list was provided to calculate the minimum. Many features can also be provided, such as:
 
-```{r}
+```{r heights-example-three-features}
 heights %>%
   features(height_cm, c(
     min = min,
@@ -564,7 +564,8 @@ keys_near(heights_aug,
 
 To plot the data, they need to be joined back to the original data, and can then be plotted like so:
 
-```{r}
+```{r heights-leys-near}
+# remotes::install_github("rensa/stickylabeller")
 library(stickylabeller)
 
 heights_near_aug <- keys_near(heights_aug, 
@@ -588,7 +589,7 @@ From observing this, we see that the minimum residual for Ireland has a few outl
 
 More fits can be added, by changing `top_n = 5`, allowing for more 
 
-```{r}
+```{r heights-keys-near-fancy-label}
 heights_near_aug <- keys_near(heights_aug, 
           var = res,
           top_n = 5) %>% 
