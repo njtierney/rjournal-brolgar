@@ -65,3 +65,49 @@ wages_slope %>%
 
 
 Specifically, we address: How to look at samples of the data? How to find interesting samples? How to find interesting individuals, finding who has the greatest change in height? Which has the tallest or shortest people? Which are most similar to the minimum, maximum, and median?
+
+
+# plotting stuff for features
+
+These could then be used to identify individuals who only increase like so:
+
+```{r heights-mono-filter}
+library(dplyr)
+heights_mono %>%
+  filter(increase)
+```
+
+They could then be joined back to the data
+
+```{r wages-mono-join}
+heights_mono_join <- heights_mono %>%
+  filter(increase) %>%
+  left_join(heights, by = "country")
+
+heights_mono_join
+```
+
+And these could be plotted:
+
+```{r gg-wages-mono}
+ggplot(heights_mono_join,
+       aes(x = year,
+           y = height_cm,
+           group = country)) + 
+  geom_line()
+```
+
+To get a sense of the data and where it came from, we could create a plot with `gghighlight` to highlight those that only increase, by using `gghighlight(increase)` - since `increase` is a logical, this tells `gghighlight` to highlight those that are TRUE. 
+
+```{r gg-high-mono}
+library(gghighlight)
+wages_mono %>%
+  left_join(wages, by = "id") %>%
+  ggplot(aes(x = xp,
+             y = ln_wages,
+             group = id)) +
+  geom_line() + 
+  gghighlight(increase)
+```
+
+You can explore the available features, see the function [References](http://brolgar.njtierney.com/reference/index.html)
