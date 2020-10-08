@@ -133,160 +133,7 @@ This paper demonstrates how to effectively and efficiently explore longitudinal 
 3. Finding representative individuals (Section ...)
 4. Understanding a model (Section ...)
 
-This paper proceeds in the following way: first, a brief review of the definition of longitudinal data (Section \@ref(data)), and existing approaches to longitudinal data (Section \@ref()), then approaches to these four problems are discussed (Section (\@ref()) - Section (\@ref())), followed by a summary (\@ref()).
-
-# Longitudinal Data Structures {#data}
-
-Longitudinal data goes by many names: Panel data, survey data, repeated measures, and time series, to name a few. Although there are small differences among these definitions related to data collection, context, and field, these data structures all share a fundamental similarity: they are measurements of the same individual over a time period. 
-
-This time period has structure as well - the time component (dates, times, waves, seconds, etc), as well as the spacing between measurements - unequal or equal. This data structure needs to be respected during analysis, to avoid for example, collapsing across month when the data is collected every second, or assuming measurements occur at fixed time intervals. These mistakes can be avoided by encoding the data structure into the data itself. This information can then be accessed by analysis tools, providing a consistent way to understand and summarise the data. This ensures the different types of longitudinal data previously mentioned can be handled in the same way. 
-
-As previously stated, longitudinal data can be thought of as "individuals repeatedly measured through time". This means we can consider longitudinal data a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**". This definition has been realised in data as a time series `tsibble` in [@Wang2018]. These objects are defined as data that have these conditions met:
-
-1. The `index`: the time variable
-2. The `key`: variable(s) defining individual groups (or series)
-3. 1 + 2 together determine a distinct row
-
-If the specified key and index pair do not define a distinct row - for example, if there are duplicates in the data, the `tsibble` will not be created. This helps ensure the data is properly understood and cleaned up before analysis is conducted, removing avoidable errors that might have impacted downstream decisions.
-
-We can formally define our `heights` data from Figure \@ref(fig:heights-sample-plot) as a `tsibble`: The `index` is `year`, the `key` is `country`. Defining a `tsibble` object is performed using `as_tsibble` below, specifying `regular = FALSE`, since there are not regular intervals in the years measured:
-
-
-```{r define-heights, eval = FALSE}
-heights <- as_tsibble(heights,
-                      index = year,
-                      key = country,
-                      regular = FALSE)
-
-```
-
-Using a `tsibble` means this important time series information is recorded **once**, and can be referred to many times in other parts of the data analysis by time-aware tools.
-
-The `tsibble` package also works with `dplyr` family, extending them to provide functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For more details see @Wang2018.
-
-In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts]. The `brolgar` package uses `tsibble` so users can take advantage of these tools, so that they can learn one way of operating a data analysis that will work and have overlap with other contexts.
-
-## Characterising Individual Series
-
-We can summarise the individual series by collapsing their many measurements into a single statistic, such as the minimum, or maximum, or median, with one row per key. We do this with the `features` function from the `fabletools` package,  which takes a `tsibble` object and calculates a summary for each `key`. It provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of `dplyr::summarise`. For example, to calculate the minimum height for each key (country), in `heights`:
-
-```{r heights-summary, echo = FALSE}
-heights_min <- heights %>%
-  features(height_cm, 
-           list(min = min))
-
-heights_min
-```
-
-We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values:
-
-```{r gg-min-wages}
-library(ggplot2)
-ggplot(heights_min,
-       aes(x = min)) + 
-  geom_density()
-```
-
-We use the `features` function (from [`fabletools`](http://fabletools.tidyverts.org/), made available in `brolgar`) to calculate features on our `tsibble`. `features` works by specifying the data, the variable to summarise, and the feature to calculate:
-
-```r
-features(<DATA>, <VARIABLE>, <FEATURE>)
-```
-
-or, with the pipe:
-
-```r
-<DATA> %>% features(<VARIABLE>, <FEATURE>)
-```
-
-We saw earlier that a named list was provided to calculate the minimum. Many features can also be provided, such as:
-
-```{r heights-example-three-features}
-heights %>%
-  features(height_cm, c(
-    min = min,
-    median = median,
-    max = max
-  ))
-```
-
-These sets of features can be pre-specified, for example, `brolgar` provides
-, a five number summary (minimum, 25th quantile, median, mean, 75th quantile, and maximum) of the data with `feat_five_num`:
-
-```{r features-fivenum}
-heights_five <- heights %>%
-  features(height_cm, feat_five_num)
-
-heights_five
-```
-
-This takes the `heights` data, pipes it to `features`, and then tells it to summarise the `height_cm` variable, using `feat_five_num`.  There are several handy functions for calculating features of the data that 
-`brolgar` provides. These all start with `feat_`.
-
-For example, find those whose values only increase or decrease with `feat_monotonic`:
-
-```{r features-monotonic}
-heights_mono <- heights %>%
-  features(height_cm, feat_monotonic)
-
-heights_mono
-```
-
-### Creating Your Own Features
-
-To create your own features or summaries to pass to `features`, you provide a named vector of functions. For example:
-
-```{r create-three, echo = TRUE}
-feat_three <- c(min = min,
-                   med = median,
-                   max = max)
-
-feat_three
-
-```
-
-These are then passed to `features` like so:
-
-```{r demo-feat-three}
-heights %>%
-  features(height_cm, feat_three)
-```
- 
-Inside `brolgar`, the features are created with the following syntax:
-
-```{r demo-feat-five-num, eval = FALSE}
-feat_five_num <- function(x, ...) {
-  c(
-    min = b_min(x, ...),
-    q25 = b_q25(x, ...),
-    med = b_median(x, ...),
-    q75 = b_q75(x, ...),
-    max = b_max(x, ...)
-  )
-}
-```
-
-Here the functions `b_` are functions with a default of `na.rm = TRUE`, and in 
-the cases of quantiles, they use `type = 8`, and `names = FALSE`.
-
-### Finding Sets of Features
-
-If you want to run many or all features from a package on your data you can collect them all with `feature_set`. For example:
-
-```{r show-features-set}
-library(fabletools)
-feat_brolgar <- feature_set(pkgs = "brolgar")
-length(feat_brolgar)
-```
-
-You could then run these like so: 
-
-```{r run-features-set}
-heights %>%
-  features(height_cm, feat_brolgar)
-```
-
-For more information see `?fabletools::feature_set`
+This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data (Section \@ref()), then the definition of longitudinal data (Section \@ref(data)),  then approaches to these four problems are discussed (Section (\@ref()) - Section (\@ref())), followed by a summary (\@ref()).
 
 # Other approaches to longitudinal data
 
@@ -325,9 +172,189 @@ Remaining text to use:
 
 Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. 
 
-# Exploring Samples
 
-Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understanding as a whole. However, we cannot process and understand the individuals. Just how spaghetti is portioned out for consumption, it is useful to randomly portion out the data into sub-plots, to tease out some of the data (Figure \@ref(fig:facet-sample)). 
+# Longitudinal Data Structures {#data}
+
+Longitudinal data goes by many names: Panel data, survey data, repeated measures, and time series, to name a few. Although there are small differences among these definitions related to data collection, context, and field, these data structures all share a fundamental similarity: they are measurements of the same individual over a time period. 
+
+This time period has structure as well - the time component (dates, times, waves, seconds, etc), as well as the spacing between measurements - unequal or equal. This data structure needs to be respected during analysis, to avoid for example, collapsing across month when the data is collected every second, or assuming measurements occur at fixed time intervals. These mistakes can be avoided by encoding the data structure into the data itself. This information can then be accessed by analysis tools, providing a consistent way to understand and summarise the data. This ensures the different types of longitudinal data previously mentioned can be handled in the same way. 
+
+## Building on `tsibble`
+
+Because longitudinal data can be thought of as "individuals repeatedly measured through time", it means it can considered as a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**". This definition has been realised in data as a time series `tsibble` in [@Wang2018]. These objects are defined as data that have these conditions met:
+
+1. The `index`: the time variable
+2. The `key`: variable(s) defining individual groups (or series)
+3. 1 + 2 together determine a distinct row
+
+If the specified key and index pair do not define a distinct row - for example, if there are duplicates in the data, the `tsibble` will not be created. This helps ensure the data is properly understood and cleaned up before analysis is conducted, removing avoidable errors that might have impacted downstream decisions.
+
+We can formally define our `heights` data from Figure \@ref(fig:heights-sample-plot) as a `tsibble`: The `index` is `year`, the `key` is `country`. Defining a `tsibble` object is performed using `as_tsibble` below, specifying `regular = FALSE`, since there are not regular intervals in the years measured:
+
+
+```{r define-heights, eval = FALSE}
+heights <- as_tsibble(heights,
+                      index = year,
+                      key = country,
+                      regular = FALSE)
+
+```
+
+Using a `tsibble` means this important time series information is recorded **once**, and can be referred to many times in other parts of the data analysis by time-aware tools.
+
+The `tsibble` package also works with `dplyr` family, extending them to provide functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For more details see @Wang2018.
+
+In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts]. The `brolgar` package uses `tsibble` so users can take advantage of these tools, so that they can learn one way of operating a data analysis that will work and have overlap with other contexts.
+
+## Characterising Individual Series
+
+### Calculating a Feature
+
+We can summarise the individual series by collapsing their many measurements into a single statistic, such as the minimum, or maximum, or median, with one row per key. We do this with the `features` function from the `fabletools` package,  which takes a `tsibble` object and calculates a summary for each `key`. It provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of `dplyr::summarise`. For example, to calculate the minimum height for each key (country), in `heights`:
+
+```{r heights-summary, echo = TRUE}
+heights_min <- heights %>%
+  features(height_cm, 
+           c(min = min))
+
+heights_min
+```
+
+We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values:
+
+```{r gg-min-wages}
+library(ggplot2)
+ggplot(heights_min,
+       aes(x = min)) + 
+  geom_density(fill = "salmon")
+```
+
+We use the `features` function (from [`fabletools`](http://fabletools.tidyverts.org/), made available in `brolgar`) to calculate features on our `tsibble`. `features` works by specifying the data, the variable to summarise, and the feature to calculate:
+
+```r
+features(<DATA>, <VARIABLE>, <FEATURE>)
+```
+
+or, with the pipe:
+
+```r
+<DATA> %>% features(<VARIABLE>, <FEATURE>)
+```
+
+We saw earlier that a named list was provided to calculate the minimum. Many features can also be provided, such as:
+
+```{r heights-example-three-features, echo = TRUE}
+heights_three <- heights %>%
+  features(height_cm, c(
+    min = min,
+    median = median,
+    max = max
+  ))
+
+gg_feat <- function(data, feature){
+  ggplot(data,
+       aes(x = {{ feature }} )) + 
+  geom_density(fill = "salmon") +
+    theme(aspect.ratio = 1)
+}
+
+p1 <- gg_feat(heights_three, min) 
+p2 <- gg_feat(heights_three, median)
+p3 <- gg_feat(heights_three, max)
+library(patchwork)
+p1 + p2 + p3
+```
+
+These sets of features can be pre-specified, for example, `brolgar` provides
+, a five number summary (minimum, 25th quantile, median, mean, 75th quantile, and maximum) of the data with `feat_five_num`:
+
+```{r features-fivenum, echo = TRUE}
+heights_five <- heights %>%
+  features(height_cm, feat_five_num)
+
+heights_five
+```
+
+This takes the `heights` data, pipes it to `features`, and then tells it to summarise the `height_cm` variable, using `feat_five_num`.  There are several handy functions for calculating features of the data that 
+`brolgar` provides. These all start with `feat_`.
+
+For example, find those whose values only increase or decrease with `feat_monotonic`:
+
+```{r features-monotonic, echo = TRUE}
+heights_mono <- heights %>%
+  features(height_cm, feat_monotonic)
+
+heights_mono
+```
+
+
+### Feature Sets
+
+If you want to run many or all features from a package on your data you can collect them all with `feature_set`. For example:
+
+```{r show-features-set}
+library(fabletools)
+feat_brolgar <- feature_set(pkgs = "brolgar")
+length(feat_brolgar)
+```
+
+You could then run these like so: 
+
+```{r run-features-set}
+heights %>%
+  features(height_cm, feat_brolgar)
+```
+
+For more information see `?fabletools::feature_set`
+
+### Creating Your Own Feature
+
+To create your own features or summaries to pass to `features`, you provide a named vector of functions. For example:
+
+> Perhaps define a function to make it clear you can say for example identify the, say, second element of a series.
+
+```{r create-three, echo = TRUE}
+feat_three <- c(min = min,
+                   med = median,
+                   max = max)
+
+feat_three
+
+```
+
+These are then passed to `features` like so:
+
+```{r demo-feat-three}
+heights %>%
+  features(height_cm, feat_three)
+```
+ 
+Inside `brolgar`, the features are created with the following syntax:
+
+```{r demo-feat-five-num, eval = FALSE}
+feat_five_num <- function(x, ...) {
+  c(
+    min = b_min(x, ...),
+    q25 = b_q25(x, ...),
+    med = b_median(x, ...),
+    q75 = b_q75(x, ...),
+    max = b_max(x, ...)
+  )
+}
+```
+
+Here the functions `b_` are functions with a default of `na.rm = TRUE`, and in 
+the cases of quantiles, they use `type = 8`, and `names = FALSE`.
+
+
+# Breaking up the Spaghetti
+
+Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understanding as a whole. However, we cannot process and understand the individuals.
+
+## Sampling
+
+Just how spaghetti is portioned out for consumption, it is useful to randomly portion out the data into sub-plots, to tease out some of the data (Figure \@ref(fig:facet-sample)). 
+
 
 ```{r facet-sample, fig.cap = "Facet Samples"}
 ggplot(heights,
@@ -349,6 +376,8 @@ ggplot(heights,
   facet_sample()
 ```
 
+## Stratifying
+
 Extending this idea of samples, we can instead look at all of the data spread out equally over facets, using `facet_strata()`:
 
 ```{r facet-strata, echo = TRUE}
@@ -360,7 +389,9 @@ ggplot(heights,
   facet_strata()
 ```
 
-Here each key is shown only once, and is randomly assigned to a facet/sub-plot. We can provide meaning to each of these facets, by arranging the heights "along" a variable, like `year`:
+## Featuring
+
+Plot ... ach key is shown only once, and is randomly assigned to a facet/sub-plot. We can provide meaning to each of these facets, by arranging the heights "along" a variable, like `year`:
 
 ```{r facet-year-along, echo = TRUE}
 heights %>% 
@@ -381,7 +412,7 @@ Under the hood, `facet_sample()` and `facet_strata()` are powered with `sample_n
 
 We have addressed "how to look at some of the data" by using `tsibble` to store important data on the key and index components, which in turn allow us to look at many and all sub-samples using `facet_sample()` and `facet_strata()`.
 
-# Exploring Measurement Interval
+# Book-keeping
 
 Longitudinal data is not always measured at the same time and at the same frequency.  
 
@@ -529,7 +560,11 @@ heights_aug %>%
 ```
 
 <!-- # Finding representative individuals -->
-# Summarising Distributions
+<!-- # Summarising Distributions-->
+
+# Stereotyping
+
+> "Who is stereotypical of the minimum"
 
 ```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values"}
 heights_aug_res_summary <- 
@@ -633,3 +668,11 @@ We have addressed the four problem areas of, "looking at some of the data" by de
 # Acknowledgements {-}
 
 We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain for their help in the software design. We'd also like to thank Rob Hyndman, Monash University, and ACEMS for their support for this research.
+
+# Notes for fixing
+
+- Keep it simple
+- Remove large chunks of code
+- No more overthinking! Just clean it up!
+- Keep it simple
+- Goal for next week, send it to Tania. 
