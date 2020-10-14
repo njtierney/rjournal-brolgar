@@ -60,7 +60,9 @@ conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("pull", "dplyr")
 conflict_prefer("heights", "brolgar")
+# the
 heights <- brolgar::heights %>% filter(year > 1700)
+# because we are exploring the temporal patterns, we cannot reliably say anything about those individuals with less than 5 measurements
 # NOTE - how to discuss that the data has been filtered from original source?
 ```
 
@@ -208,13 +210,7 @@ heights_min <- features(.tbl = heights,
 heights_min
 ```
 
-We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \@ref(fig:gg-min-dens))
-
-```{r gg-min-dens, fig.cap = "Distribution of minimum values."}
-ggplot(heights_min,
-       aes(x = min)) + 
-  geom_density(fill = "salmon")
-```
+We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \@ref(fig:gg-simple-features)A)
 
 We are not limited to one feature at a time, many features can also be calculated, for example:
 
@@ -231,9 +227,14 @@ heights_three
 
 These can then be visualised together (Figure \@ref(fig:feature-min-med-max)).
 
-```{r feature-min-med-max, fig.cap = "Distribution of minimum, median, and maximum values of height in cm. We see that there is overlap amongst all three."}
+```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in cm. We see that there is overlap amongst all three.", echo = FALSE}
+p1 <- ggplot(heights_min,
+       aes(x = min)) + 
+  geom_density(fill = "salmon") +
+  theme(aspect.ratio = 1)
+
 library(colorspace)
-heights_three %>% 
+p2 <- heights_three %>% 
   pivot_longer(cols = min:max,
                names_to = "feature",
                values_to = "value") %>% 
@@ -243,8 +244,30 @@ heights_three %>%
   labs(x = "Value",
        y = "Density",
        fill = "Feature") + 
-  scale_fill_discrete_qualitative(palette = "Dark 3")
+  scale_fill_discrete_qualitative(palette = "Dark 3") +
+  # inset the legend?
+  theme(legend.position = "none",
+        aspect.ratio = 1)
+
+
+p3 <- 
+heights_three %>% 
+  pivot_longer(cols = min:max,
+               names_to = "feature",
+               values_to = "value") %>% 
+  mutate(feature = factor(feature,
+                          levels = c("min",
+                                     "median",
+                                     "max"))) %>% 
+ggplot(aes(x = feature,
+           y = value,
+           group = country)) + 
+  geom_line(alpha = 0.6) +
+  theme(aspect.ratio = 1)
+
+p1 + p2 + p3
 ```
+
 
 These sets of features can be pre-specified, for example, `brolgar` provides a five number summary (minimum, 25th quantile, median, mean, 75th quantile, and maximum) of the data with `feat_five_num`:
 
@@ -290,8 +313,6 @@ third <- function(x) nth(x, n = 3)
 feat_first_three <- c(first = first,
                       second = second,
                       third = third)
-
-feat_first_three
 
 ```
 
@@ -392,10 +413,28 @@ Using a `tsibble` stores important key and index components, in turn allowing fo
 Longitudinal data is not always measured at the same time and at the same frequency. When exploring longitudinal data, a useful first step is to explore the frequency of measurements of the index. We can check if the index is regular using `index_regular()` and summarise the spacing of the index with `index_summary()`. These are S3 methods, so for `data.frame` objects, the `index` must be specified, however for the `tsibble` objects, the defined index is used.
 
 ```{r index-summary-regular}
-index_summary(wages)
-index_regular(wages)
 index_summary(heights)
 index_regular(heights)
+```
+
+We can explore how many observations per country by counting the number of observations with `features`, like so:
+
+```{r}
+heights %>% features(year, n_obs)
+```
+
+This can be further summarised by counting the number of times there are a given number of observations:
+
+```{r}
+heights %>% features(year, n_obs) %>% count(n_obs)
+```
+
+Because we are exploring the temporal patterns, we cannot reliably say anything about those individuals with less than 5 measurements, so we can filter out those for further analysis. This uses `add_n_obs()` to add the number of observations to the existing data. This drops 25 countries, leaves us with 119 out of the original 144 countries.
+
+```{r overwrite-heights}
+heights <- heights %>% 
+  add_n_obs() %>% 
+  filter(n_obs >= 5)
 ```
 
 We can further explore when countries are first getting measured using `features` to find the first year for each country number of starting years with the `first` function from `dplyr`, and explore this with a visualisation (Figure \@ref(fig:feature-first-gg)).
