@@ -279,7 +279,28 @@ heights_five
 ```
 
 This takes the `heights` data, pipes it to `features`, and then tells it to summarise the `height_cm` variable, using `feat_five_num`.  There are several handy functions for calculating features of the data that 
-`brolgar` provides. These all start with `feat_`, and additionally include, `feat_ranges()`: min, max, range difference, interquartile range; `feat_spread()`: variance, standard deviation, median absolute distance, and interquartile range; `feat_monotonic()` is it always increasing, decreasing, or unvarying? `feat_diff_summary()`, the summary statistics of the differences amongst a value, including the five number summary, as well as the standard deviation and variance. There is also `feat_brolgar()`, which will calculate all features available in the `brolgar` package.
+`brolgar` provides. These all start with `feat_`, and additionally include:
+
+- `feat_ranges()`: min, max, range difference, interquartile range; - 
+- `feat_spread()`: variance, standard deviation, median absolute distance, and interquartile range; 
+- `feat_monotonic()` is it always increasing, decreasing, or unvarying?
+- `feat_diff_summary()`, the summary statistics of the differences amongst a value, including the five number summary, as well as the standard deviation and variance. 
+- `feat_brolgar()`, which will calculate all features available in the `brolgar` package.
+- Other examples of features from `feasts`
+
+(tie this section in below to this one)
+
+You can use a prepared summary, for which `brolgar` provides a few - we've already seen `feat_diff_summary`, which provided a summary of the `diff` of a variable. `feat_ranges` produces range related features, minimum, maximum, difference from the range, and the interquartile range.
+
+These are the ones that are already available:
+
+- ...
+
+```{r heights-features}
+heights %>%
+  features(height_cm, feat_ranges)
+
+```
 
 
 ### Feature Sets
@@ -499,38 +520,52 @@ Looking at a spaghetti plot, it can be hard to identify which lines are the most
 
 The workflow is represented in the figure XX below, which shows:
 
-1. Identify features based on "interesting" metric (in this case maximum height)
-2. This results in one observation per key
-3. Identify from these features what is most interesting (e.g., the highest maximum height)
-4. Filter the most interesting
-5. Join this feature back to the data to get all observations for those keys
-6. These can now be shown with the data, or separately.
+1. Decide upon an interesting feature (e.g., maximum)
+2. This feature produces one value per key
+3. Examine the distribution of the feature
+4. Join this table back to the data to get all observations for those keys
+5. Arrange the keys or filter, using the feature
+6. Display the data for selected keys
 
 (this will be a figure that combines slides 56 - 69 of https://njt-rstudio20.netlify.app/#85)
 
-These features of interest are identified using `features`. We can calculate our own "feature", calculating the maximum height like so:
+Some of this workflow is demonstrated now. We calculate our own "feature", calculating the maximum height, and whether a value is increasing (with brolgar's `increasing` function) like so:
 
 ```{r heights-max}
-heights %>% 
-  features(height_cm, list(max = max))
+heights_max_in <- heights %>% 
+  features(height_cm, list(max = max,
+                           increase = increasing))
+
+heights_max_in
 ```
 
-Where we pass `features` the variable we want to calculate a feature on, and a named list of features. You can use a prepared summary, for which `brolgar` provides a few - we've already seen `feat_diff_summary`, which provided a summary of the `diff` of a variable. `feat_ranges` produces range related features, minimum, maximum, difference from the range, and the interquartile range.
+We pass `features` the variable we want to calculate a feature on (`height_cm`), and a named list of features (`list(max = max, ...)`). 
 
-```{r heights-features}
-heights %>%
-  features(height_cm, feat_ranges)
+Examining this,
 
+```{r}
+heights_max_in
 ```
 
-NOTE: need to finish this section off!
+
+1. Decide upon an interesting feature (e.g., maximum)
+2. This feature produces one value per key
+3. Examine the distribution of the feature
+4. Join this table back to the data to get all observations for those keys
+5. Arrange the keys or filter, using the feature
+6. Display the data for selected keys
+
 
 # Dancing with Models
 
-These same workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year and a random intercept for country, adding the predicted and residual values.
+These same workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year and a random intercept for country, adding the predicted and residual values. (fitting growth curves)
 
 ```{r heights-lmer}
-heights_fit <- lmer(height_cm ~ year + (1|country), brolgar::heights)
+# have a read of https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-3-linear-growth-models
+heights_fit <- nlme::nlme(model = height_cm ~ year + (1|country),
+                          fixed = year ~ 1,
+                          random = country ~ 1,
+                          data = brolgar::heights)
 heights_aug <- brolgar::heights %>%
   add_predictions(heights_fit, var = "pred") %>%
   add_residuals(heights_fit, var = "res")
@@ -589,8 +624,10 @@ tibble(names = names(summary(heights_aug$res)),
 gg_resid <- 
 ggplot(heights_aug,
        aes(x = res)) + 
-  geom_histogram(colour = "white",
-                 binwidth = 1)
+  # geom_histogram(colour = "grey",
+  #                binwidth = 1) + 
+  geom_density() +
+  geom_rug()
 
 gg_resid
 
