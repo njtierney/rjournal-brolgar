@@ -111,3 +111,25 @@ wages_mono %>%
 ```
 
 You can explore the available features, see the function [References](http://brolgar.njtierney.com/reference/index.html)
+
+
+# lit review / summary
+
+
+The work presented in this paper is predicated on the fact that longitudinal data, panel data, repeated measures, and all those variations, can be thought of as being a type of time series. This is a unifying feature that helps bring the wider toolset from time series into the world longitudinal and panel data world.
+
+
+Other package to explore: 
+
+- `plm`
+
+Package resources: 
+
+- https://cran.r-project.org/web/packages/pmdplyr
+- https://nickch-k.github.io/pmdplyr/index.html
+- https://github.com/jacob-long/panelr
+- https://panelr.jacob-long.com/articles/wbm.html
+- https://bookdown.org/ccolonescu/RPoE4/panel-data-models.html
+- http://www.mysmu.edu/faculty/anthonytay/Notes/Panel_in_R.pdf
+- https://cran.r-project.org/web/packages/plm/index.html
+- https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html

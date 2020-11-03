@@ -56,6 +56,8 @@ library(brolgar)
 library(patchwork)
 library(gridExtra)
 library(conflicted)
+# remotes::install_github("rensa/stickylabeller")
+library(stickylabeller)
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("pull", "dplyr")
@@ -141,15 +143,14 @@ This paper proceeds in the following way: first, a brief review of existing appr
 
 R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through packages such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", or may contain irregular intervals.
 
-Other packages focus more directly on panel data in R, focussing on data operations and model interfaces. The `pmdplyr` package provides "Panel Manoeuvres" in "dplyr" [@pmdplyr]. It defines the data structure in roughly analogous terms to the `index` and `key` in `tsibble`, the `pibble` data, which instead requires `id` and `group`. It mostly concerns doing efficient and custom joins. It does not implement tidyverse equivalent tools, but instead extends upon them, for example `mutate_cascade` and `mutate_subset`. `panelr` provides an interface for data reshaping on panel data, providing widening and lengthening functions (`widen_panel()` and `long_panel()` [@panelr]. It also provides model facilitating functions by providing its own interface for models mixed effects models. 
+Other packages focus more directly on panel data in R, focussing on data operations and model interfaces. The `pmdplyr` package provides "Panel Manoeuvres" in "dplyr" [@pmdplyr]. It defines the data structure in as a `pibble` object (**p**anel t**ibble**), requiring an `id` and `group` column being defined to identify the unique identifier and grouping. The `pmdplyr` package focusses on efficient and custom joins and functions, such as `inexact_left_join()`. It does not implement tidyverse equivalent tools, but instead extends their usecase with a new function, for example `mutate_cascade` and `mutate_subset`. `panelr` provides an interface for data reshaping on panel data, providing widening and lengthening functions (`widen_panel()` and `long_panel()` [@panelr]. It also provides model facilitating functions by providing its own interface for models mixed effects models. 
+
+These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. They all share similar features, providing some identifying or index variable, and some grouping or key. 
+
+(**not sure where to put this paragraph**)
 
 Operations for custom long and wide formats of panel data are not needed since they are handled using `tsibble` and `dplyr`. This avoids needing to learn additional new functions that achieve the same reshaping results. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
 
-**note: do I need this section on why brolgar is better? My feeling is no, but it could be palced maybe in the summary**
-
-Most of these packages provide more than just data definitions, they all share similar features, that there is some ID / index and some group / key feature. These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. 
-
-This work is predicated on the fact that longitudinal data, panel data, repeated measures, and all those variations, can be thought of as being a type of time series. This is a unifying feature that helps bring the wider toolset from time series into the world longitudinal and panel data world.
 
 # Longitudinal Data Structures {#data}
 
@@ -288,7 +289,7 @@ This takes the `heights` data, pipes it to `features`, and then tells it to summ
 - `feat_brolgar()`, which will calculate all features available in the `brolgar` package.
 - Other examples of features from `feasts`
 
-(tie this section in below to this one)
+(Note: tie this section in below to this one)
 
 You can use a prepared summary, for which `brolgar` provides a few - we've already seen `feat_diff_summary`, which provided a summary of the `diff` of a variable. `feat_ranges` produces range related features, minimum, maximum, difference from the range, and the interquartile range.
 
@@ -562,10 +563,13 @@ These same workflows can be used to interpret and explore a model. Let's take an
 
 ```{r heights-lmer}
 # have a read of https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-3-linear-growth-models
-heights_fit <- nlme::nlme(model = height_cm ~ year + (1|country),
-                          fixed = year ~ 1,
-                          random = country ~ 1,
-                          data = brolgar::heights)
+# heights_fit <- nlme::nlme(model = height_cm ~ year,
+#                           data = brolgar::heights,
+#                           fixed = year ~ 1,
+#                           random = country ~ 1,
+#                           group = ~country,
+#                           start = c(year=1800))
+heights_fit <- lmer(height_cm ~ year + (1|country), data = brolgar::heights)
 heights_aug <- brolgar::heights %>%
   add_predictions(heights_fit, var = "pred") %>%
   add_residuals(heights_fit, var = "res")
@@ -611,10 +615,11 @@ heights_aug %>%
 
 # Stereotyping
 
-This section addresses how to find those values who are representative, what lines are stereotypical of the minimum, maximum, or median? To find those who are "stereotypical" of a statistic.
+To help understand a population of measurements over time, it can be useful to understand which individual measurements are typical (or "stereotypical") of a measurement. For example, understand which individuals are a stereotypical of a statistic such as the minimum, median, and maximum height. This section discusses how to find these stereotypes in data.
 
+Figure \@ref(fig:heights-aug-res-summary) shows the residuals of the simple model fit to the data in the previous section. There is an overlaid five number summary, showing the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals, as well as a rug plot to show the data. We can use these residuals to understand the stereotypes of the data - those individuals in the model that best match to this five number summary. 
 
-```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values"}
+```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values", echo = FALSE}
 heights_aug_res_summary <- 
 tibble(names = names(summary(heights_aug$res)),
        values = as.numeric(round(summary(heights_aug$res),2))) %>% 
@@ -624,12 +629,10 @@ tibble(names = names(summary(heights_aug$res)),
 gg_resid <- 
 ggplot(heights_aug,
        aes(x = res)) + 
-  # geom_histogram(colour = "grey",
-  #                binwidth = 1) + 
-  geom_density() +
-  geom_rug()
-
-gg_resid
+  geom_histogram(colour = "grey",
+                 binwidth = 1) +
+  # geom_density() +
+  geom_rug(alpha = 0.2)
 
 gg_resid + 
   geom_vline(xintercept = heights_aug_res_summary$values,
@@ -640,24 +643,25 @@ gg_resid +
                            y = y_pos))
 ```
 
-The histogram of residuals from the model is seen in figure XX. The overlaid five number summary shows the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals. To understand these residuals it can be useful to find those observations in the model that best match to this five number summary. This can be achieved using `keys_near` in `brolgar`. By default this links back to the 5 number summary, but any function can be used. You specify the variable you want to find the keys nearest, in this case `res`, the residuals:
+We can do this using `keys_near()` from `brolgar`. By default this uses the 5 number summary, but any function can be used. You specify the variable you want to find the keys nearest, in this case `res`, the residuals:
 
 ```{r heights-aug-keys-near}
 keys_near(heights_aug, 
           var = res)
 ```
 
-To plot the data, they need to be joined back to the original data, and can then be plotted like so:
+To plot the data, they need to be joined back to the original data, we use a left join, joining by country.
 
-```{r heights-keys-near}
-# remotes::install_github("rensa/stickylabeller")
-library(stickylabeller)
-
+```{r heights-keys-near-join}
 heights_near_aug <- keys_near(heights_aug, 
           var = res) %>% 
   left_join(heights_aug,
             by = c("country"))
+```
 
+Figure \@ref(fig:heights-keys-near) shows those countries closest to the five number summary. Observing this, we see that the minimum residual for Ireland has a few outliers that throw the result off. This is useful, as it tells us that this model is not capturing the non-linear aspect of the data, and that such a model should be used to better represent the data.
+
+```{r heights-keys-near}
 ggplot(heights_near_aug,
        aes(x = year,
              y = pred,
@@ -670,40 +674,41 @@ ggplot(heights_near_aug,
   theme(legend.position = "none")
 ```
 
-From observing this, we see that the minimum residual for Ireland has a few outliers that throw the result off, and that perhaps a different model with a non-linear term would be useful for improving the model fit.
 
-More fits can be added, by changing `top_n = 5`, allowing for more 
+We can also look at the nearest 3 countries to each statistics, by changing `top_n = 5`:
 
-```{r heights-keys-near-fancy-label, fig.height = 12}
-heights_near_aug <- keys_near(heights_aug, 
+```{r heights-keys-near-extra}
+heights_near_aug_3 <- keys_near(heights_aug, 
           var = res,
-          top_n = 5) %>% 
+          top_n = 3) %>% 
   left_join(heights_aug,
             by = c("country"))
+```
 
-ggplot(heights_near_aug,
+Figure \@ref(fig:heights-keys-near-fancy-label) shows 
+
+```{r heights-keys-near-fancy-label, fig.height = 12, fig.cap = "Figure of stereotypes for three"}
+ggplot(heights_near_aug_3,
        aes(x = year,
              y = pred,
              group = country,
-             colour = country)) + 
+             colour = stat)) + 
   geom_line() + 
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~stat + country,
              labeller = label_glue("Country: {country} \nNearest to {stat} residual"),
-             ncol = 5) + 
+             ncol = 3) + 
   theme(legend.position = "none")
 ```
 
 
 # How to Install and Getting Started
 
-The `brolgar` R package can be installed from CRAN using `install.packages("brolgar")`. The functions are all designed to build upon existing packages. For example, extending upon `ggplot2` to provide facets for exploration: `facet_sample()` and `facet_strata()`. Extending dplyr's `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to find those keys near a summary statistic. Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`.
+The `brolgar` R package can be installed from CRAN using `install.packages("brolgar")`. The functions are all designed to build upon existing packages, but are predicated on working with `tsibble`.  The package extends upon `ggplot2` to provide facets for exploration: `facet_sample()` and `facet_strata()`. Extending `dplyr`'s `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to find those keys near a summary statistic. Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`.
 
 To get started with `brolgar` you must first ensure your data is specified as a `tsibble` - discussed earlier in the paper, there is also a vignette ["Longitudinal Data Structures"](http://brolgar.njtierney.com/articles/longitudinal-data-structures.html), which discusses these ideas. The next step we recommend is sampling some of your data with `facet_sample()`, and `facet_strata()`. When using `facet_strata()`, facets can be arranged in order of a variable, using the `along` argument, which can reveal interesting features. 
 
-For further exploring longitudinal data, we recommend finding summary features of each variable with `features`, and identifying variables that are near summary statistics, using `keys_near` to find individuals stereotypical of a statistical value.
-
-**note: not sure how much more to write here?**
+To further explore longitudinal data, we recommend finding summary features of each variable with `features`, and identifying variables that are near summary statistics, using `keys_near` to find individuals stereotypical of a statistical value.
 
 # Summary 
 
@@ -721,7 +726,7 @@ Future work will explore more features and stratifications, and stereotypes, and
 
 # Acknowledgements {-}
 
-We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain for their discussion on the design of brolgar. We'd also like to thank Rob Hyndman, Monash University, and ACEMS for their supporting this research.
+We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain for their discussion on the design of `brolgar`. We'd also like to thank Rob Hyndman, Monash University, and ACEMS for their supporting this research.
 
 # Notes for fixing
 
@@ -731,21 +736,3 @@ We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain
 - Keep it simple
 - Goal for next week, send it to Tania. 
 
-
-# Things taken out of literature review
-
-
-Other package to explore: 
-
-- `plm`
-
-Package resources: 
-
-- https://cran.r-project.org/web/packages/pmdplyr
-- https://nickch-k.github.io/pmdplyr/index.html
-- https://github.com/jacob-long/panelr
-- https://panelr.jacob-long.com/articles/wbm.html
-- https://bookdown.org/ccolonescu/RPoE4/panel-data-models.html
-- http://www.mysmu.edu/faculty/anthonytay/Notes/Panel_in_R.pdf
-- https://cran.r-project.org/web/packages/plm/index.html
-- https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html
