@@ -113,21 +113,19 @@ spaghetti <- ggplot(heights,
        aes(x = year,
            y = height_cm,
            group = country)) + 
-  geom_line()  +
-  labs(tag = "A")
+  geom_line()
 
 spaghetti_alpha <- ggplot(heights,
        aes(x = year,
            y = height_cm,
            group = country)) + 
-  geom_line(alpha = 0.3) +
-  labs(tag = "B")
+  geom_line(alpha = 0.3)
 
 spaghetti_smooth <- spaghetti_alpha + geom_smooth(method = "lm", 
-                                                  aes(group = NULL)) +
-  labs(tag = "C")
+                                                  aes(group = NULL))
 
-spaghetti + spaghetti_alpha + spaghetti_smooth
+spaghetti + spaghetti_alpha + spaghetti_smooth + 
+  plot_annotation(tag_levels = "A")
 ```
 
 This paper demonstrates how to effectively and efficiently explore longitudinal data, using the R package, `brolgar`. We examine four problems in exploring longitudinal data: 
@@ -491,25 +489,26 @@ heights %>%
 
 We can then look at the summaries of the differences in year by changing to long form and facetting (Figure \@ref(fig:heights-long-feat-diff)), we learn about the range of intervals between measurements, the smallest being 10 years, the largest being 125, and that most of the data is measured between 10 and 30 years.
 
-```{r heights-long-feat-diff, fig.cap = "Exploring the different summary statistics of the differences amongst the years. We learn that the smallest interval between measurements is 10 years, and the largest interval is between 10 and 125 years, and that most of the data is measured between 10 and 30 or so years."}
+```{r heights-long-feat-diff, fig.cap = "Exploring the different summary statistics of the differences amongst the years. We learn that the smallest interval between measurements is 10 years, and the largest interval is between 10 and 125 years, and that most of the data is measured between 10 and 30 or so years.", echo = FALSE}
 heights_diff_long <- heights_diffs %>% 
   pivot_longer(cols = -country,
                names_to = "feature",
-               values_to = "value") 
-  # mutate(feature = factor(feature,
-  #                         levels = c("diff_min",
-  #                                    "diff_q25",
-  #                                    "diff_median",
-  #                                    "diff_mean",
-  #                                    "diff_q75",
-  #                                    "diff_max",
-  #                                    "diff_sd",
-  #                                    "diff_var")))
+               values_to = "value") %>% 
+  mutate(feature = factor(feature,
+                          levels = c("diff_min",
+                                     "diff_q25",
+                                     "diff_median",
+                                     "diff_mean",
+                                     "diff_q75",
+                                     "diff_max",
+                                     "diff_sd",
+                                     "diff_var",
+                                     "diff_iqr")))
 
 ggplot(heights_diff_long,
        aes(x = value)) +
   geom_histogram(binwidth = 10,
-                 colour = "white") +
+                 colour = "gray") +
   facet_wrap(~feature,
              scales = "free")
 ```
@@ -536,9 +535,9 @@ heights_max_in <- heights %>%
 heights_max_in
 ```
 
-This returns a dataset of **one value per key**. Figure \@ref(fig:heights-max-in-examine) **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are wlays increasing.
+This returns a dataset of **one value per key**. Figure \@ref(fig:heights-max-in-examine) **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are always increasing.
 
-```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height"}
+```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height", echo = TRUE}
 
 gg_max <- ggplot(heights_max_in,
        aes(x = max)) + 
@@ -553,16 +552,50 @@ gg_max + gg_inc + plot_annotation(tag_levels = "A")
 
 ```
 
-We can now **Join this table back to the data to get all observations for those keys**
+We can now **Join this table back to the data to get all observations for those keys** to move from one key per row to all many rows per key.
 
-```{r}
+```{r heights-max-in-full}
+heights_max_in_full <- heights_max_in %>% 
+  left_join(heights,
+            by = "country")
 
+heights_max_in_full
+```
+
+We can then **arrange the keys or filter, using the feature**, for example, filtering only those countries that are only increasing:
+
+```{r heights-increase}
+heights_increase <- heights_max_in_full %>% filter(increase)
+heights_increase
+```
+
+Or tallest country
+
+```{r heights-top-5}
+heights_top <- heights_max_in_full %>% top_n(n = 1, wt = max)
+heights_top
+```
+
+We can then display the data by highlighting it in the background, first creating a background plot
+
+```{r gg-background}
+gg_height_bg <- ggplot(heights_max_in_full,
+       aes(x = year,
+           y = height_cm,
+           group = country)) +
+  geom_line(colour = "gray",
+            alpha = 0.3) 
+
+gg_height_bg
 ```
 
 
-
-5. Arrange the keys or filter, using the feature
-6. Display the data for selected keys
+```{r gg-increase-max}
+(gg_height_bg + 
+   geom_line(data = heights_increase)) +
+(gg_height_bg + geom_line(data = heights_top)) +
+  plot_annotation(tag_levels = "A")
+```
 
 
 # Dancing with Models
@@ -583,29 +616,7 @@ heights_aug <- brolgar::heights %>%
   add_residuals(heights_fit, var = "res")
 ```
 
-We can use the previous approach to explore the model results. First, looking at all the data (Figure \@ref(fig:gg-heights-lmer)A), then looking at many sub-samples with `facet_sample()` (Figure \@ref(fig:gg-heights-lmer)B), all sub-samples with `facet_strata()` (Figure \@ref(fig:gg-heights-lmer)C), all sub-samples, arranging along residuals, with `facet_strata(along = -res)` \@ref(fig:gg-heights-lmer)D). 
-
-((**Note**: I'm not entirely sure how useful this is? I mean the last one is kinda useful?)
-
-```{r gg-heights-lmer, fig.cap = "Figure of", fig.height = 10, fig.width = 6}
-gg_heights_aug <- ggplot(heights_aug,
-       aes(x = year,
-           y = pred,
-           group = country)) + 
-  geom_line() 
-
-p1 <- gg_heights_aug + labs(tag = "A")
-
-p2 <- gg_heights_aug + facet_sample(n_facets = 6) + labs(tag = "B")
-
-p3 <- gg_heights_aug + facet_strata(n_strata = 6) + labs(tag = "C")
-
-p4 <- gg_heights_aug + facet_strata(n_strata = 6, along = -res) + labs(tag = "D")
-
-p1 / p2 / (p3 + p4)
-```
-
-We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions. In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "stereotyping".
+We can use the previous approach to explore the model results. We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions. In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "stereotyping".
 
 ```{r sample-n-keys-model, fig.cap = "Exploration of a random sample of the data against the predictions"}
 heights_aug %>% 
@@ -692,7 +703,7 @@ heights_near_aug_3 <- keys_near(heights_aug,
 
 Figure \@ref(fig:heights-keys-near-fancy-label) shows the same information as the previous plot, but with the 3 representative countries for each statistic. This gives us more data on what the stereotypically "good" and "poor" fitting countries to this model.
 
-```{r heights-keys-near-fancy-label, fig.height = 12, fig.cap = "Figure of stereotypes for three"}
+```{r heights-keys-near-fancy-label, fig.height = 12, fig.cap = "Figure of stereotypes for three", echo = FALSE}
 ggplot(heights_near_aug_3,
        aes(x = year,
              y = pred,
@@ -721,10 +732,6 @@ The `brolgar` package facilitates exploring longitudinal data in R. It builds up
 
 Future work will explore more features and stratifications, and stereotypes, and generalise the tools to work for data without time components.
 
-**note - do I need this extra final paragraph, it feels a bit repetitive**
-
-> We have addressed the four problem areas of, "looking at some of the data" by describing how to treat longitudinal data as a time series, and then using `facet_sample()` and `facet_strata()`. Interesting observations can be identified by first deciding what features are interesting, summarising observations to one key, deciding how to filter,r and then joining the summarised data back to the original. Models can be understood by applying the same tools used to explore data. 
-
 # References {-}
 
 <div id="refs"></div>
@@ -741,3 +748,33 @@ We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain
 - Keep it simple
 - Goal for next week, send it to Tania. 
 
+
+# Extras
+
+ First, looking at all the data (Figure \@ref(fig:gg-heights-lmer)A), then looking at many sub-samples with `facet_sample()` (Figure \@ref(fig:gg-heights-lmer)B), all sub-samples with `facet_strata()` (Figure \@ref(fig:gg-heights-lmer)C), all sub-samples, arranging along residuals, with `facet_strata(along = -res)` \@ref(fig:gg-heights-lmer)D). 
+
+((**Note**: I'm not entirely sure how useful this is? I mean the last one is kinda useful?)
+
+```{r gg-heights-lmer, fig.cap = "Figure of", fig.height = 10, fig.width = 6, echo = FALSE}
+gg_heights_aug <- ggplot(heights_aug,
+       aes(x = year,
+           y = pred,
+           group = country)) + 
+  geom_line() 
+
+p1 <- gg_heights_aug
+
+p2 <- gg_heights_aug + facet_sample(n_facets = 6)
+
+p3 <- gg_heights_aug + facet_strata(n_strata = 6)
+
+p4 <- gg_heights_aug + facet_strata(n_strata = 6, along = -res)
+
+p1 / p2 / (p3 + p4) + plot_annotation(tag_levels = "A")
+```
+
+
+
+**note - do I need this extra final paragraph, it feels a bit repetitive**
+
+> We have addressed the four problem areas of, "looking at some of the data" by describing how to treat longitudinal data as a time series, and then using `facet_sample()` and `facet_strata()`. Interesting observations can be identified by first deciding what features are interesting, summarising observations to one key, deciding how to filter,r and then joining the summarised data back to the original. Models can be understood by applying the same tools used to explore data. 
