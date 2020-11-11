@@ -517,9 +517,7 @@ ggplot(heights_diff_long,
 
 # Finding Waldo
 
-Looking at a spaghetti plot, it can be hard to identify which lines are the most interesting, or unsual. A workflow to identify interesting individuals starts with: "what defines interesting?". In this case, let us suggest interesting is "tallest height", or "maximum height".
-
-The workflow is represented in the figure XX below, which shows:
+Looking at a spaghetti plot, it can be hard to identify which lines are the most interesting, or unusual. A workflow to identify interesting individuals starts with is given below:
 
 1. Decide upon an interesting feature (e.g., maximum)
 2. This feature produces one value per key
@@ -528,9 +526,7 @@ The workflow is represented in the figure XX below, which shows:
 5. Arrange the keys or filter, using the feature
 6. Display the data for selected keys
 
-(this will be a figure that combines slides 56 - 69 of https://njt-rstudio20.netlify.app/#85)
-
-Some of this workflow is demonstrated now. We calculate our own "feature", calculating the maximum height, and whether a value is increasing (with brolgar's `increasing` function) like so:
+This workflow is demonstrated now.  Firstly, we **deicde on an interesting feature**, "maximum height", and whether height is always increasing. We calculate our own "feature", calculating maximum height, and whether a value is increasing (with brolgar's `increasing` function) like so:
 
 ```{r heights-max}
 heights_max_in <- heights %>% 
@@ -540,26 +536,38 @@ heights_max_in <- heights %>%
 heights_max_in
 ```
 
-We pass `features` the variable we want to calculate a feature on (`height_cm`), and a named list of features (`list(max = max, ...)`). 
+This returns a dataset of **one value per key**. Figure \@ref(fig:heights-max-in-examine) **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are wlays increasing.
 
-Examining this,
+```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height"}
+
+gg_max <- ggplot(heights_max_in,
+       aes(x = max)) + 
+  geom_histogram(binwidth = 1,
+                 colour = "white") 
+
+gg_inc <- ggplot(heights_max_in,
+       aes(x = increase)) + 
+  geom_bar()
+
+gg_max + gg_inc + plot_annotation(tag_levels = "A")
+
+```
+
+We can now **Join this table back to the data to get all observations for those keys**
 
 ```{r}
-heights_max_in
+
 ```
 
 
-1. Decide upon an interesting feature (e.g., maximum)
-2. This feature produces one value per key
-3. Examine the distribution of the feature
-4. Join this table back to the data to get all observations for those keys
+
 5. Arrange the keys or filter, using the feature
 6. Display the data for selected keys
 
 
 # Dancing with Models
 
-These same workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year and a random intercept for country, adding the predicted and residual values. (fitting growth curves)
+These same workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year and a random intercept for country, adding the predicted and residual values.
 
 ```{r heights-lmer}
 # have a read of https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-3-linear-growth-models
@@ -609,9 +617,6 @@ heights_aug %>%
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~country)
 ```
-
-<!-- # Finding representative individuals -->
-<!-- # Summarising Distributions-->
 
 # Stereotyping
 
@@ -675,7 +680,7 @@ ggplot(heights_near_aug,
 ```
 
 
-We can also look at the nearest 3 countries to each statistics, by changing `top_n = 5`:
+We can also look at the nearest 3 countries to each statistics, by changing `top_n = 3`:
 
 ```{r heights-keys-near-extra}
 heights_near_aug_3 <- keys_near(heights_aug, 
@@ -685,7 +690,7 @@ heights_near_aug_3 <- keys_near(heights_aug,
             by = c("country"))
 ```
 
-Figure \@ref(fig:heights-keys-near-fancy-label) shows 
+Figure \@ref(fig:heights-keys-near-fancy-label) shows the same information as the previous plot, but with the 3 representative countries for each statistic. This gives us more data on what the stereotypically "good" and "poor" fitting countries to this model.
 
 ```{r heights-keys-near-fancy-label, fig.height = 12, fig.cap = "Figure of stereotypes for three"}
 ggplot(heights_near_aug_3,
