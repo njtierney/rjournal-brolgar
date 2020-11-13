@@ -604,14 +604,82 @@ These same workflows can be used to interpret and explore a model. Let's take an
 
 ```{r heights-lmer}
 # have a read of https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-3-linear-growth-models
-# heights_fit <- nlme::nlme(model = height_cm ~ year,
-#                           data = brolgar::heights,
-#                           fixed = year ~ 1,
-#                           random = country ~ 1,
-#                           group = ~country,
-#                           start = c(year=1800))
-heights_fit <- lmer(height_cm ~ year + (1|country), data = brolgar::heights)
-heights_aug <- brolgar::heights %>%
+
+# troubleshooting
+  # could be some issue to do with the start date that isn't the same
+  # i.e., the Loblolly data all IDs start at the same times
+  # using something like the broken stick model
+  # a bunch of different loess models could also be possible
+
+heights_nlme <- heights  %>%
+  mutate(year0 = year - 1710)
+
+library(nlme)
+heights_nlme_fit <- nlme(
+  # model = height_cm ~ year,
+  height_cm ~ SSasymp(year0, Asym, R0, lrc),
+  data = heights_nlme,
+  fixed = Asym + R0 + lrc ~ 1,
+  random = Asym ~ 1,
+  # fixed = year0 ~ 1,
+  # random = country ~ 1,
+  group = ~ country,
+  start = c(
+    # average finishing height
+    Asym = 170,
+    # intercept
+    R0 = 140,
+    # based on log(0.5)
+    lrc = -0.7
+  )
+)
+```
+
+```{r}
+heights_nlme_test <- heights_nlme %>% 
+  filter(n_obs > 15)
+
+ggplot(heights_nlme_test,
+       aes(x = year,
+           y = height_cm,
+           group = country)) + 
+  geom_line() + 
+  facet_strata()
+
+getInitial(height_cm ~ SSasymp(year0, Asym, resp0, lrc), 
+           data = heights_nlme_test)
+```
+
+
+```{r}
+fm1 <- nlme(height ~ SSasymp(age, Asym, R0, lrc),
+            data = Loblolly,
+            fixed = Asym + R0 + lrc ~ 1,
+            random = Asym ~ 1,
+            start = c(Asym = 103, R0 = -8.5, lrc = -3.3))
+summary(fm1)
+```
+
+```{r heights-lmer}
+heights_prep <- heights %>% mutate(year0 = year - 1710)
+```
+
+
+```{r}
+library(mgcv)
+gam_heights <- heights_prep %>% 
+  mutate(country_fct = factor(country)) %>% 
+  gam(height_cm ~ s(year0, by = country_fct) + country_fct, 
+      data = .,
+      method = "REML")
+```
+
+
+
+
+```{r heights-lmer}
+heights_fit <- lmer(height_cm ~ I(year0^2) + (1|country), data = heights_prep)
+heights_aug <- heights_prep %>%
   add_predictions(heights_fit, var = "pred") %>%
   add_residuals(heights_fit, var = "res")
 ```
