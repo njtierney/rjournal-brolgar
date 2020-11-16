@@ -14,7 +14,8 @@ prepare_heights <- function(n_obs_filter = 5) {
     filter(year > 1700) %>% 
     add_n_obs() %>% 
     filter(n_obs >= n_obs_filter) %>% 
-    mutate(year0 = year - 1710)
+    mutate(year0 = year - 1710) %>% 
+    mutate(country_fct = factor(country))
   
   heights_prep
 

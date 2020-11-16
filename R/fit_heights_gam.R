@@ -9,10 +9,17 @@
 ##' @export
 fit_heights_gam <- function(heights_brolgar) {
 
-  gam_heights <- heights_brolgar %>% 
-    mutate(country_fct = factor(country)) %>% 
-    gam(height_cm ~ s(year0, by = country_fct) + country_fct, 
-        data = .,
-        method = "REML")
+  start_time <- tic()
+  heights_gam <- gam(
+    height_cm ~ s(year0, by = country_fct) + country_fct,
+    data = heights_brolgar,
+    method = "REML"
+  )
+  end_time <- toc()
+  
+  total_time <- end_time$toc - end_time$tic
+  
+  return(list(model = heights_gam,
+              time_taken = total_time))
 
 }

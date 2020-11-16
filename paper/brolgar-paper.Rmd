@@ -63,7 +63,7 @@ conflict_prefer("filter", "dplyr")
 conflict_prefer("pull", "dplyr")
 conflict_prefer("heights", "brolgar")
 # the
-loadd(heights_prep)
+tar_load(heights_prep)
 # because we are exploring the temporal patterns, we cannot reliably say anything about those individuals with less than 5 measurements
 # NOTE - how to discuss that the data has been filtered from original source?
 ```
@@ -600,15 +600,32 @@ gg_height_bg
 
 # Dancing with Models
 
-These same workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year and a random intercept for country, adding the predicted and residual values.
+These same workflows can be used to interpret and explore a model. As the data tends to follow a non linear trajectory, we use a general additive model (gam) with the `mgcv` R package [@mgcv] using the code below:
 
-```{r loadd-gam}
-loadd(heights_gam)
+```{r mgcv-fit, eval = FALSE}
+heights_gam <- gam(
+    height_cm ~ s(year0, by = country_fct) + country_fct,
+    data = heights_brolgar,
+    method = "REML"
+  )
+```
+
+```{r tar-load-times}
+tar_load(model_time)
+```
+
+
+This fits height in centimetres with a smooth effect for year for each country, with a different intercept for each country. It is roughly equivalent to a random intercept varying slope model. Note that this gam model took approximately `r model_time` seconds to fit. We add the predicted and residual values for the model below
+
+```{r tar-load-gam, echo = FALSE}
+tar_load(heights_gam)
+tar_load(heights_brolgar)
 ```
 
 
 ```{r heights-lmer}
-heights_aug <- heights_prep %>%
+library(mgcv)
+heights_aug <- heights_brolgar %>%
   add_predictions(heights_gam, var = "pred") %>%
   add_residuals(heights_gam, var = "res")
 ```
@@ -677,10 +694,10 @@ Figure \@ref(fig:heights-keys-near) shows those countries closest to the five nu
 ```{r heights-keys-near}
 ggplot(heights_near_aug,
        aes(x = year,
-             y = pred,
-             group = country,
-             colour = country)) + 
-  geom_line() + 
+           y = pred,
+           group = country,
+           colour = country)) + 
+  geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~stat + country,
              labeller = label_glue("Country: {country} \nNearest to {stat} residual")) + 
@@ -706,7 +723,7 @@ ggplot(heights_near_aug_3,
              y = pred,
              group = country,
              colour = stat)) + 
-  geom_line() + 
+  geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~stat + country,
              labeller = label_glue("Country: {country} \nNearest to {stat} residual"),
