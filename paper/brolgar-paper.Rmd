@@ -46,26 +46,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r libraries, message = FALSE, echo = FALSE}
-library(tidyverse)
-library(kableExtra)
-library(lme4)
-library(modelr)
-library(tsibble)
-library(brolgar)
-library(patchwork)
-library(gridExtra)
-library(conflicted)
-# remotes::install_github("rensa/stickylabeller")
-library(stickylabeller)
-conflict_prefer("select", "dplyr")
-conflict_prefer("filter", "dplyr")
-conflict_prefer("pull", "dplyr")
-conflict_prefer("heights", "brolgar")
-# the
-heights <- brolgar::heights %>% filter(year > 1700)
-# because we are exploring the temporal patterns, we cannot reliably say anything about those individuals with less than 5 measurements
-# NOTE - how to discuss that the data has been filtered from original source?
+```{r load, message = FALSE, echo = FALSE}
+tar_load(heights_brolgar)
 ```
 
 # Abstract
@@ -79,7 +61,7 @@ This paper is about exploring longitudinal data effectively. Longitudinal data c
 
 ```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.", echo = FALSE}
 
-heights_oz <- heights %>% 
+heights_oz <- heights_brolgar %>% 
   filter(country == "Australia") %>% 
   slice_tail(n = 5) 
 
@@ -109,13 +91,13 @@ grid.arrange(tbl_heights_oz,
 The full dataset of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), showing 144 countries from the year 1700. This plot is challenging to understand because there is overplotting, making it hard to see the individuals. Solutions to this aren't always obvious. Showing separate individual plots of each country doesn't help, as 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) There is some set of countries that are similar, and they are distributed around the center of the countries, and 2) there is a general upward trend in heights over time. We learn about the collective, but lose sight of the individuals.
 
 ```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE, fig.cap = "The full dataset shown as a spaghetti plot (A), with transparency (B), and with a linear model overlayed (C). It is still hard to see the individuals.", echo = FALSE}
-spaghetti <- ggplot(heights,
+spaghetti <- ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
            group = country)) + 
   geom_line()
 
-spaghetti_alpha <- ggplot(heights,
+spaghetti_alpha <- ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
            group = country)) + 
@@ -170,7 +152,7 @@ We can formally define our `heights` data from Figure \@ref(fig:heights-sample-p
 
 
 ```{r define-heights, eval = FALSE}
-heights <- as_tsibble(heights,
+heights_brolgar <- as_tsibble(heights_brolgar,
                       index = year,
                       key = country,
                       regular = FALSE)
@@ -202,7 +184,7 @@ or, with the pipe:
 For example, to calculate the minimum height for each key (country), in `heights`, we specify the `heights` data, then the variable to calculate features on, `height_cm`, then the feature to calculate, `min` (we write `c(min = min)` so the column calculated gets the name "min"):
 
 ```{r heights-summary}
-heights_min <- features(.tbl = heights, 
+heights_min <- features(.tbl = heights_brolgar, 
                         .var = height_cm, 
                         features = c(min = min))
 
@@ -214,7 +196,7 @@ We call these summaries `features` of the data.  We can use this information to 
 We are not limited to one feature at a time, many features can also be calculated, for example:
 
 ```{r heights-example-three-features}
-heights_three <- heights %>%
+heights_three <- heights_brolgar %>%
   features(height_cm, c(
     min = min,
     median = median,
@@ -271,7 +253,7 @@ p1 + p2 + p3
 These sets of features can be pre-specified, for example, `brolgar` provides a five number summary (minimum, 25th quantile, median, mean, 75th quantile, and maximum) of the data with `feat_five_num`:
 
 ```{r features-fivenum, echo = TRUE}
-heights_five <- heights %>%
+heights_five <- heights_brolgar %>%
   features(height_cm, feat_five_num)
 
 heights_five
@@ -296,7 +278,7 @@ These are the ones that are already available:
 - ...
 
 ```{r heights-features}
-heights %>%
+heights_brolgar %>%
   features(height_cm, feat_ranges)
 
 ```
@@ -315,7 +297,7 @@ length(feat_brolgar)
 You could then run these like so: 
 
 ```{r run-features-set}
-heights %>%
+heights_brolgar %>%
   features(height_cm, feat_brolgar)
 ```
 
@@ -339,7 +321,7 @@ feat_first_three <- c(first = first,
 These are then passed to `features` like so:
 
 ```{r demo-feat-three, echo = TRUE}
-heights %>%
+heights_brolgar %>%
   features(height_cm, feat_first_three)
 ```
  
@@ -372,7 +354,7 @@ Just how spaghetti is portioned out for consumption, we can sample some of the d
 
 
 ```{r facet-sample, fig.cap = "Facet Samples"}
-ggplot(heights,
+ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
            group = country)) + 
@@ -383,7 +365,7 @@ ggplot(heights,
 This defaults to 12 facets and 3 samples per facet, and provides options for the number of facets, and the number of samples per facet. This means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?". The code to change the figure from Figure \@ref(fig:spaghetti) into \@ref(fig:facet-sample) requires only one line of code, shown below:
 
 ```r
-ggplot(heights,
+ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
            group = country)) + 
@@ -397,7 +379,7 @@ ggplot(heights,
 Extending this idea of samples, we can instead look at **all** of the data, spread out equally over facets, with `facet_strata()`, with the default being 12 facets, controllable with `n_strata`. The code to do so is shown below, creating Figure \@ref(fig:facet-strata).
 
 ```{r facet-strata, echo = TRUE, fig.cap = "Stratified plot of heights data."}
-ggplot(heights,
+ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
            group = country)) + 
@@ -410,7 +392,7 @@ ggplot(heights,
 Figure \@ref(fig:facet-strata) and Figure \@ref(facet-sample) only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \@ref(fig:facet-year-along):
 
 ```{r facet-year-along, echo = TRUE}
-heights %>% 
+heights_brolgar %>% 
 ggplot(aes(x = year,
            y = height_cm,
            group = country)) + 
@@ -433,26 +415,26 @@ Using a `tsibble` stores important key and index components, in turn allowing fo
 Longitudinal data is not always measured at the same time and at the same frequency. When exploring longitudinal data, a useful first step is to explore the frequency of measurements of the index. We can check if the index is regular using `index_regular()` and summarise the spacing of the index with `index_summary()`. These are S3 methods, so for `data.frame` objects, the `index` must be specified, however for the `tsibble` objects, the defined index is used.
 
 ```{r index-summary-regular}
-index_summary(heights)
-index_regular(heights)
+index_summary(heights_brolgar)
+index_regular(heights_brolgar)
 ```
 
 We can explore how many observations per country by counting the number of observations with `features`, like so:
 
 ```{r}
-heights %>% features(year, n_obs)
+heights_brolgar %>% features(year, n_obs)
 ```
 
 This can be further summarised by counting the number of times there are a given number of observations:
 
 ```{r}
-heights %>% features(year, n_obs) %>% count(n_obs)
+heights_brolgar %>% features(year, n_obs) %>% count(n_obs)
 ```
 
 Because we are exploring the temporal patterns, we cannot reliably say anything about those individuals with less than 5 measurements, so we can filter out those for further analysis. This uses `add_n_obs()` to add the number of observations to the existing data. This drops 25 countries, leaves us with 119 out of the original 144 countries.
 
 ```{r overwrite-heights}
-heights <- heights %>% 
+heights <- heights_brolgar %>% 
   add_n_obs() %>% 
   filter(n_obs >= 5)
 ```
@@ -600,88 +582,35 @@ gg_height_bg
 
 # Dancing with Models
 
-These same workflows can be used to interpret and explore a model. Let's take an example of the fixed effect of year and a random intercept for country, adding the predicted and residual values.
+These same workflows can be used to interpret and explore a model. As the data tends to follow a non linear trajectory, we use a general additive model (gam) with the `mgcv` R package [@mgcv] using the code below:
 
-```{r heights-lmer}
-# have a read of https://quantdev.ssri.psu.edu/tutorials/growth-modeling-chapter-3-linear-growth-models
-
-# troubleshooting
-  # could be some issue to do with the start date that isn't the same
-  # i.e., the Loblolly data all IDs start at the same times
-  # using something like the broken stick model
-  # a bunch of different loess models could also be possible
-
-heights_nlme <- heights  %>%
-  mutate(year0 = year - 1710)
-
-library(nlme)
-heights_nlme_fit <- nlme(
-  # model = height_cm ~ year,
-  height_cm ~ SSasymp(year0, Asym, R0, lrc),
-  data = heights_nlme,
-  fixed = Asym + R0 + lrc ~ 1,
-  random = Asym ~ 1,
-  # fixed = year0 ~ 1,
-  # random = country ~ 1,
-  group = ~ country,
-  start = c(
-    # average finishing height
-    Asym = 170,
-    # intercept
-    R0 = 140,
-    # based on log(0.5)
-    lrc = -0.7
+```{r mgcv-fit, eval = FALSE}
+heights_gam <- gam(
+    height_cm ~ s(year0, by = country_fct) + country_fct,
+    data = heights_brolgar,
+    method = "REML"
   )
-)
 ```
 
-```{r}
-heights_nlme_test <- heights_nlme %>% 
-  filter(n_obs > 15)
-
-ggplot(heights_nlme_test,
-       aes(x = year,
-           y = height_cm,
-           group = country)) + 
-  geom_line() + 
-  facet_strata()
-
-getInitial(height_cm ~ SSasymp(year0, Asym, resp0, lrc), 
-           data = heights_nlme_test)
+```{r tar-load-times}
+tar_load(model_time)
 ```
 
 
-```{r}
-fm1 <- nlme(height ~ SSasymp(age, Asym, R0, lrc),
-            data = Loblolly,
-            fixed = Asym + R0 + lrc ~ 1,
-            random = Asym ~ 1,
-            start = c(Asym = 103, R0 = -8.5, lrc = -3.3))
-summary(fm1)
+This fits height in centimetres with a smooth effect for year for each country, with a different intercept for each country. It is roughly equivalent to a random intercept varying slope model. Note that this gam model took approximately `r model_time` seconds to fit. We add the predicted and residual values for the model below
+
+```{r tar-load-gam, echo = FALSE}
+tar_load(heights_gam)
+heights_gam <- heights_gam$model
+tar_load(heights_brolgar)
 ```
+
 
 ```{r heights-lmer}
-heights_prep <- heights %>% mutate(year0 = year - 1710)
-```
-
-
-```{r}
 library(mgcv)
-gam_heights <- heights_prep %>% 
-  mutate(country_fct = factor(country)) %>% 
-  gam(height_cm ~ s(year0, by = country_fct) + country_fct, 
-      data = .,
-      method = "REML")
-```
-
-
-
-
-```{r heights-lmer}
-heights_fit <- lmer(height_cm ~ I(year0^2) + (1|country), data = heights_prep)
-heights_aug <- heights_prep %>%
-  add_predictions(heights_fit, var = "pred") %>%
-  add_residuals(heights_fit, var = "res")
+heights_aug <- heights_brolgar %>%
+  add_predictions(heights_gam, var = "pred") %>%
+  add_residuals(heights_gam, var = "res")
 ```
 
 We can use the previous approach to explore the model results. We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions. In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "stereotyping".
@@ -748,10 +677,10 @@ Figure \@ref(fig:heights-keys-near) shows those countries closest to the five nu
 ```{r heights-keys-near}
 ggplot(heights_near_aug,
        aes(x = year,
-             y = pred,
-             group = country,
-             colour = country)) + 
-  geom_line() + 
+           y = pred,
+           group = country,
+           colour = country)) + 
+  geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~stat + country,
              labeller = label_glue("Country: {country} \nNearest to {stat} residual")) + 
@@ -777,7 +706,7 @@ ggplot(heights_near_aug_3,
              y = pred,
              group = country,
              colour = stat)) + 
-  geom_line() + 
+  geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~stat + country,
              labeller = label_glue("Country: {country} \nNearest to {stat} residual"),
