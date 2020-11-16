@@ -11,6 +11,13 @@ tar_option_set(
     "fs",
     "rmarkdown",
     "mgcv",
-    "tictoc"
+    "tictoc",
+    "modelr",
+    "tsibble",
+    "patchwork",
+    "gridExtra",
+    "conflicted",
+    # remotes::install_github("rensa/stickylabeller")
+    "stickylabeller"
   )
 )
