@@ -19,7 +19,7 @@ future::plan(future::multiprocess)
 # pipeline ---------------------------------------------------------------------
 tar_pipeline(
   tar_target(heights_brolgar,
-             prepare_heights(n_obs_filter = 10)),
+             prepare_heights(n_obs_filter = 5)),
   tar_target(heights_gam,
              fit_heights_gam(heights_brolgar)),
   tar_target(model_time,
