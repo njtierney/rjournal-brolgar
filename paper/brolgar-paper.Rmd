@@ -9,44 +9,46 @@ output:
     keep_tex: yes
 ---
 
-<!-- --- -->
-<!-- title: "brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R" -->
-<!-- author: -->
-<!--   # see ?rjournal_article for more information -->
-<!--   - name: Nicholas Tierney -->
-<!--     affiliation: Monash University -->
-<!--     address: -->
-<!--     - Monash Clayton -->
-<!--     url: https://njtierney.com -->
-<!--     orcid: 0000-0002-9079-593X -->
-<!--     email:  nicholas.tierney@gmail.com -->
-<!--   - name: Dianne Cook -->
-<!--     url: https://dicook.org -->
-<!--     email: dicook@monash.edu -->
-<!--     orcid: 0000-0002-9079-593X -->
-<!--     affiliation: Monash University -->
-<!--     address: -->
-<!--     - Monash Clayton -->
-<!--     affiliation2: ACEMS -->
-<!--     address2: -->
-<!--     - ACEMS Brisbane -->
-<!-- abstract: > -->
-<!--   An abstract of less than 150 words. -->
-<!-- preamble: | -->
-<!--   % Any extra LaTeX you need in the preamble -->
-
-<!-- # per R journal requirement, the bib filename should be the same as the output  -->
-<!-- # tex file. Don't forget to rename the bib file and change this example value. -->
-<!-- bibliography: brolgar-paper.bib -->
-<!-- output: rticles::rjournal_article -->
-<!-- --- -->
-
+<!--
+---
+title: "brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R"
+author:
+  # see ?rjournal_article for more information
+  - name: Nicholas Tierney
+    affiliation: Monash University
+    address:
+    - Monash Clayton
+    url: https://njtierney.com
+    orcid: 0000-0002-9079-593X
+    email:  nicholas.tierney@gmail.com
+  - name: Dianne Cook
+    url: https://dicook.org
+    email: dicook@monash.edu
+    orcid: 0000-0002-9079-593X
+    affiliation: Monash University
+    address:
+    - Monash Clayton
+    affiliation2: ACEMS
+    address2:
+    - ACEMS Brisbane
+abstract: >
+  An abstract of less than 150 words.
+preamble: |
+  % Any extra LaTeX you need in the preamble
+# per R journal requirement, the bib filename should be the same as the output
+# tex file. Don't forget to rename the bib file and change this example value.
+bibliography: brolgar-paper.bib
+output: rticles::rjournal_article
+---
+-->
 
 ```{r setup, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r load, message = FALSE, echo = FALSE}
+tar_load(heights_gam)
+tar_load(model_time)
 tar_load(heights_brolgar)
 ```
 
@@ -90,7 +92,7 @@ grid.arrange(tbl_heights_oz,
 
 The full dataset of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), showing 144 countries from the year 1700. This plot is challenging to understand because there is overplotting, making it hard to see the individuals. Solutions to this aren't always obvious. Showing separate individual plots of each country doesn't help, as 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) There is some set of countries that are similar, and they are distributed around the center of the countries, and 2) there is a general upward trend in heights over time. We learn about the collective, but lose sight of the individuals.
 
-```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE, fig.cap = "The full dataset shown as a spaghetti plot (A), with transparency (B), and with a linear model overlayed (C). It is still hard to see the individuals.", echo = FALSE}
+```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE, fig.cap = "The full dataset shown as a spaghetti plot (A), with transparency (B), and with a linear model overlayed (C). It is still hard to see the individuals.", echo = FALSE, warning=FALSE}
 spaghetti <- ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
@@ -191,7 +193,7 @@ heights_min <- features(.tbl = heights_brolgar,
 heights_min
 ```
 
-We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \@ref(fig:gg-simple-features)A)
+We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \@ref(fig:feature-min-med-max)A)
 
 We are not limited to one feature at a time, many features can also be calculated, for example:
 
@@ -389,11 +391,11 @@ ggplot(heights_brolgar,
 
 ## Featuring
 
-Figure \@ref(fig:facet-strata) and Figure \@ref(facet-sample) only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \@ref(fig:facet-year-along):
+Figure \@ref(fig:facet-strata) and Figure \@ref(fig:facet-sample) only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \@ref(fig:facet-year-along):
 
-```{r facet-year-along, echo = TRUE}
-heights_brolgar %>% 
-ggplot(aes(x = year,
+```{r facet-year-along, echo = TRUE, fig.cap = "heights over time with facet strata along year"}
+ggplot(heights_brolgar,
+       aes(x = year,
            y = height_cm,
            group = country)) + 
   geom_line() + 
@@ -455,7 +457,7 @@ heights %>%
 
 We can explore the variation in first year using `feat_diff_summary`. This combines many summaries of the differences in `year`.
 
-```{r heights-diff-summary}
+```{r heights-diff-summary, message = FALSE, warning = FALSE}
 heights_diffs <- heights %>% 
   features(year, feat_diff_summary)
 
@@ -582,6 +584,9 @@ gg_height_bg
 
 # Dancing with Models
 
+**note - try using RSS instead of only residuals for the keys_near**
+**note - also look into Sweden - it's there twice**
+
 These same workflows can be used to interpret and explore a model. As the data tends to follow a non linear trajectory, we use a general additive model (gam) with the `mgcv` R package [@mgcv] using the code below:
 
 ```{r mgcv-fit, eval = FALSE}
@@ -592,17 +597,10 @@ heights_gam <- gam(
   )
 ```
 
-```{r tar-load-times}
-tar_load(model_time)
-```
-
-
-This fits height in centimetres with a smooth effect for year for each country, with a different intercept for each country. It is roughly equivalent to a random intercept varying slope model. Note that this gam model took approximately `r model_time` seconds to fit. We add the predicted and residual values for the model below
+This fits height in centimetres with a smooth effect for year for each country, with a different intercept for each country. It is roughly equivalent to a random intercept varying slope model. Note that this gam model took approximately `r round(model_time)` seconds to fit. We add the predicted and residual values for the model below
 
 ```{r tar-load-gam, echo = FALSE}
-tar_load(heights_gam)
 heights_gam <- heights_gam$model
-tar_load(heights_brolgar)
 ```
 
 
@@ -674,7 +672,7 @@ heights_near_aug <- keys_near(heights_aug,
 
 Figure \@ref(fig:heights-keys-near) shows those countries closest to the five number summary. Observing this, we see that the minimum residual for Ireland has a few outliers that throw the result off. This is useful, as it tells us that this model is not capturing the non-linear aspect of the data, and that such a model should be used to better represent the data.
 
-```{r heights-keys-near}
+```{r heights-keys-near, fig.cap = "keys nearest visualised"}
 ggplot(heights_near_aug,
        aes(x = year,
            y = pred,

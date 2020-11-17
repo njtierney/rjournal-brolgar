@@ -1,6 +1,7 @@
 library(targets)
 library(tarchetypes)
-options(tidyverse.quiet = TRUE)
+options(tidyverse.quiet = TRUE,
+        future.supportsMulticore.unstable = "quiet")
 ## Load your R files
 source("tar-option-set.R")
 fs::dir_walk(path = "R/", fun = source)
