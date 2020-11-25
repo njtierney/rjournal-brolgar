@@ -121,7 +121,7 @@ This paper demonstrates how to effectively and efficiently explore longitudinal 
 
 This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data (Section \@ref()), then the definition of longitudinal data (Section \@ref(data)),  then approaches to these four problems are discussed (Section (\@ref()) - Section (\@ref())), followed by a summary (\@ref()).
 
-# Other approaches to longitudinal data {#other-approaches}
+# Background {#other-approaches}
 
 R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through packages such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", or may contain irregular intervals.
 
@@ -713,9 +713,18 @@ ggplot(heights_near_aug_3,
 ```
 
 
-# How to Install and Getting Started
+# Getting Started
 
-The `brolgar` R package can be installed from CRAN using `install.packages("brolgar")`. The functions are all designed to build upon existing packages, but are predicated on working with `tsibble`.  The package extends upon `ggplot2` to provide facets for exploration: `facet_sample()` and `facet_strata()`. Extending `dplyr`'s `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to find those keys near a summary statistic. Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`.
+The `brolgar` R package can be installed from CRAN using 
+
+```{r eval=FALSE, echo=TRUE}
+# From CRAN
+install.packages("brolgar")
+# Development version
+remotes::install_github("njtierney/brolgar")
+```
+
+The functions are all designed to build upon existing packages, but are predicated on working with `tsibble`.  The package extends upon `ggplot2` to provide facets for exploration: `facet_sample()` and `facet_strata()`. Extending `dplyr`'s `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to find those keys near a summary statistic. Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`.
 
 To get started with `brolgar` you must first ensure your data is specified as a `tsibble` - discussed earlier in the paper, there is also a vignette ["Longitudinal Data Structures"](http://brolgar.njtierney.com/articles/longitudinal-data-structures.html), which discusses these ideas. The next step we recommend is sampling some of your data with `facet_sample()`, and `facet_strata()`. When using `facet_strata()`, facets can be arranged in order of a variable, using the `along` argument, which can reveal interesting features. 
 
@@ -734,6 +743,10 @@ Future work will explore more features and stratifications, and stereotypes, and
 # Acknowledgements {-}
 
 We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain for their discussion on the design of `brolgar`. We'd also like to thank Rob Hyndman, Monash University, and ACEMS for their supporting this research.
+
+## Paper Source
+
+XXX Say something about the paper build, and paper source files
 
 # Notes for fixing
 
