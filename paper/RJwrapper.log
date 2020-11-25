@@ -1,34 +1,34 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.8.13)  27 AUG 2020 15:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.11.6)  17 NOV 2020 11:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **RJwrapper.tex
 (./RJwrapper.tex
-LaTeX2e <2020-02-02> patch level 5
-L3 programming layer <2020-08-07> (/Users/ntie0001/Library/TinyTeX/texmf-dist/t
-ex/latex/base/report.cls
-Document Class: report 2019/12/20 v1.4l Standard LaTeX document class
+LaTeX2e <2020-10-01> patch level 2
+L3 programming layer <2020-10-27> xparse <2020-03-03> (/Users/ntie0001/Library/
+TinyTeX/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2020/04/10 v1.4m Standard LaTeX document class
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 )
-\c@part=\count168
-\c@chapter=\count169
-\c@section=\count170
-\c@subsection=\count171
-\c@subsubsection=\count172
-\c@paragraph=\count173
-\c@subparagraph=\count174
-\c@figure=\count175
-\c@table=\count176
+\c@part=\count175
+\c@chapter=\count176
+\c@section=\count177
+\c@subsection=\count178
+\c@subsubsection=\count179
+\c@paragraph=\count180
+\c@subparagraph=\count181
+\c@figure=\count182
+\c@table=\count183
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
-\bibindent=\dimen134
+\bibindent=\dimen138
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2018/08/11 v1.3c Input encoding file
+Package: inputenc 2020/08/01 v1.3d Input encoding file
 \inpenc@prehook=\toks15
 \inpenc@posthook=\toks16
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+Package: fontenc 2020/08/10 v2.0s Standard LaTeX package
 ) (./RJournal.sty
 Package: RJournal 2013/08/27 v0.13 RJournal package
 
@@ -38,32 +38,30 @@ y (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-c
 ommon.tex
 \pgfutil@everybye=\toks17
-\pgfutil@tempdima=\dimen135
-\pgfutil@tempdimb=\dimen136
+\pgfutil@tempdima=\dimen139
+\pgfutil@tempdimb=\dimen140
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-c
 ommon-lists.tex))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-l
 atex.def
-\pgfutil@abb=\box45
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/ms/everyshi.sty
-Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
-))
+\pgfutil@abb=\box47
+)
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.co
 de.tex (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision
 .tex)
-Package: pgfrcs 2020/01/08 v3.1.5b (3.1.5b)
+Package: pgfrcs 2020/10/01 v3.1.6a (3.1.6a)
 ))
-Package: pgf 2020/01/08 v3.1.5b (3.1.5b)
+Package: pgf 2020/10/01 v3.1.6a (3.1.6a)
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.st
 y (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks18
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
@@ -72,16 +70,16 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen137
-\Gin@req@width=\dimen138
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.st
 y
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.
 code.tex
-Package: pgfsys 2020/01/08 v3.1.5b (3.1.5b)
+Package: pgfsys 2020/10/01 v3.1.6a (3.1.6a)
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.c
 ode.tex
@@ -92,49 +90,49 @@ ode.tex
 ltered.code.tex
 \pgfkeys@tmptoks=\toks21
 ))
-\pgf@x=\dimen139
-\pgf@y=\dimen140
-\pgf@xa=\dimen141
-\pgf@ya=\dimen142
-\pgf@xb=\dimen143
-\pgf@yb=\dimen144
-\pgf@xc=\dimen145
-\pgf@yc=\dimen146
-\pgf@xd=\dimen147
-\pgf@yd=\dimen148
+\pgf@x=\dimen143
+\pgf@y=\dimen144
+\pgf@xa=\dimen145
+\pgf@ya=\dimen146
+\pgf@xb=\dimen147
+\pgf@yb=\dimen148
+\pgf@xc=\dimen149
+\pgf@yc=\dimen150
+\pgf@xd=\dimen151
+\pgf@yd=\dimen152
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count177
-\c@pgf@countb=\count178
-\c@pgf@countc=\count179
-\c@pgf@countd=\count180
+\c@pgf@counta=\count184
+\c@pgf@countb=\count185
+\c@pgf@countc=\count186
+\c@pgf@countd=\count187
 \t@pgf@toka=\toks22
 \t@pgf@tokb=\toks23
 \t@pgf@tokc=\toks24
-\pgf@sys@id@count=\count181
+\pgf@sys@id@count=\count188
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
-File: pgf.cfg 2020/01/08 v3.1.5b (3.1.5b)
+File: pgf.cfg 2020/10/01 v3.1.6a (3.1.6a)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-
 pdftex.def
-File: pgfsys-pdftex.def 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfsys-pdftex.def 2020/10/01 v3.1.6a (3.1.6a)
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-
 common-pdf.def
-File: pgfsys-common-pdf.def 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfsys-common-pdf.def 2020/10/01 v3.1.6a (3.1.6a)
 )))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyss
 oftpath.code.tex
-File: pgfsyssoftpath.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfsyssoftpath@smallbuffer@items=\count182
-\pgfsyssoftpath@bigbuffer@items=\count183
+File: pgfsyssoftpath.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgfsyssoftpath@smallbuffer@items=\count189
+\pgfsyssoftpath@bigbuffer@items=\count190
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysp
 rotocol.code.tex
-File: pgfsysprotocol.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfsysprotocol.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -153,7 +151,7 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.
 code.tex
-Package: pgfcore 2020/01/08 v3.1.5b (3.1.5b)
+Package: pgfcore 2020/10/01 v3.1.6a (3.1.6a)
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.t
 ex
@@ -163,9 +161,9 @@ de.tex
 de.tex)
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.
 code.tex
-\pgfmath@dimen=\dimen149
-\pgfmath@count=\count184
-\pgfmath@box=\box46
+\pgfmath@dimen=\dimen153
+\pgfmath@count=\count191
+\pgfmath@box=\box48
 \pgfmath@toks=\toks25
 \pgfmath@stack@operand=\toks26
 \pgfmath@stack@operation=\toks27
@@ -190,127 +188,127 @@ ns.misc.code.tex)
 ns.integerarithmetics.code.tex)))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.c
 ode.tex
-\c@pgfmathroundto@lastzeros=\count185
+\c@pgfmathroundto@lastzeros=\count192
 ))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.te
 x)
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorep
 oints.code.tex
-File: pgfcorepoints.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@picminx=\dimen150
-\pgf@picmaxx=\dimen151
-\pgf@picminy=\dimen152
-\pgf@picmaxy=\dimen153
-\pgf@pathminx=\dimen154
-\pgf@pathmaxx=\dimen155
-\pgf@pathminy=\dimen156
-\pgf@pathmaxy=\dimen157
-\pgf@xx=\dimen158
-\pgf@xy=\dimen159
-\pgf@yx=\dimen160
-\pgf@yy=\dimen161
-\pgf@zx=\dimen162
-\pgf@zy=\dimen163
+File: pgfcorepoints.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgf@picminx=\dimen154
+\pgf@picmaxx=\dimen155
+\pgf@picminy=\dimen156
+\pgf@picmaxy=\dimen157
+\pgf@pathminx=\dimen158
+\pgf@pathmaxx=\dimen159
+\pgf@pathminy=\dimen160
+\pgf@pathmaxy=\dimen161
+\pgf@xx=\dimen162
+\pgf@xy=\dimen163
+\pgf@yx=\dimen164
+\pgf@yy=\dimen165
+\pgf@zx=\dimen166
+\pgf@zy=\dimen167
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorep
 athconstruct.code.tex
-File: pgfcorepathconstruct.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@path@lastx=\dimen164
-\pgf@path@lasty=\dimen165
+File: pgfcorepathconstruct.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgf@path@lastx=\dimen168
+\pgf@path@lasty=\dimen169
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorep
 athusage.code.tex
-File: pgfcorepathusage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@shorten@end@additional=\dimen166
-\pgf@shorten@start@additional=\dimen167
+File: pgfcorepathusage.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgf@shorten@end@additional=\dimen170
+\pgf@shorten@start@additional=\dimen171
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcores
 copes.code.tex
-File: pgfcorescopes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfpic=\box47
-\pgf@hbox=\box48
-\pgf@layerbox@main=\box49
-\pgf@picture@serial@count=\count186
+File: pgfcorescopes.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgfpic=\box49
+\pgf@hbox=\box50
+\pgf@layerbox@main=\box51
+\pgf@picture@serial@count=\count193
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreg
 raphicstate.code.tex
-File: pgfcoregraphicstate.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgflinewidth=\dimen168
+File: pgfcoregraphicstate.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgflinewidth=\dimen172
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoret
 ransformations.code.tex
-File: pgfcoretransformations.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@pt@x=\dimen169
-\pgf@pt@y=\dimen170
-\pgf@pt@temp=\dimen171
+File: pgfcoretransformations.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgf@pt@x=\dimen173
+\pgf@pt@y=\dimen174
+\pgf@pt@temp=\dimen175
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreq
 uick.code.tex
-File: pgfcorequick.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcorequick.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreo
 bjects.code.tex
-File: pgfcoreobjects.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcoreobjects.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorep
 athprocessing.code.tex
-File: pgfcorepathprocessing.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcorepathprocessing.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorea
 rrows.code.tex
-File: pgfcorearrows.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfarrowsep=\dimen172
+File: pgfcorearrows.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgfarrowsep=\dimen176
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcores
 hade.code.tex
-File: pgfcoreshade.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@max=\dimen173
-\pgf@sys@shading@range@num=\count187
-\pgf@shadingcount=\count188
+File: pgfcoreshade.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgf@max=\dimen177
+\pgf@sys@shading@range@num=\count194
+\pgf@shadingcount=\count195
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorei
 mage.code.tex
-File: pgfcoreimage.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcoreimage.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoree
 xternal.code.tex
-File: pgfcoreexternal.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfexternal@startupbox=\box50
+File: pgfcoreexternal.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgfexternal@startupbox=\box52
 ))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorel
 ayers.code.tex
-File: pgfcorelayers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcorelayers.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoret
 ransparency.code.tex
-File: pgfcoretransparency.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcoretransparency.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorep
 atterns.code.tex
-File: pgfcorepatterns.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcorepatterns.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorer
 df.code.tex
-File: pgfcorerdf.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfcorerdf.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulesh
 apes.code.tex
-File: pgfmoduleshapes.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfnodeparttextbox=\box51
+File: pgfmoduleshapes.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgfnodeparttextbox=\box53
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulepl
 ot.code.tex
-File: pgfmoduleplot.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: pgfmoduleplot.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp
 -version-0-65.sty
-Package: pgfcomp-version-0-65 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@nodesepstart=\dimen174
-\pgf@nodesepend=\dimen175
+Package: pgfcomp-version-0-65 2020/10/01 v3.1.6a (3.1.6a)
+\pgf@nodesepstart=\dimen178
+\pgf@nodesepend=\dimen179
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp
 -version-1-18.sty
-Package: pgfcomp-version-1-18 2020/01/08 v3.1.5b (3.1.5b)
+Package: pgfcomp-version-1-18 2020/10/01 v3.1.6a (3.1.6a)
 )) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.s
 ty
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
@@ -322,54 +320,54 @@ h.sty
 ex))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.co
 de.tex
-Package: pgffor 2020/01/08 v3.1.5b (3.1.5b)
+Package: pgffor 2020/10/01 v3.1.6a (3.1.6a)
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.t
 ex)
-\pgffor@iter=\dimen176
-\pgffor@skip=\dimen177
+\pgffor@iter=\dimen180
+\pgffor@skip=\dimen181
 \pgffor@stack=\toks28
 \pgffor@toks=\toks29
 ))
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/
 tikz.code.tex
-Package: tikz 2020/01/08 v3.1.5b (3.1.5b)
+Package: tikz 2020/10/01 v3.1.6a (3.1.6a)
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibrar
 yplothandlers.code.tex
-File: pgflibraryplothandlers.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgf@plot@mark@count=\count189
-\pgfplotmarksize=\dimen178
+File: pgflibraryplothandlers.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgf@plot@mark@count=\count196
+\pgfplotmarksize=\dimen182
 )
-\tikz@lastx=\dimen179
-\tikz@lasty=\dimen180
-\tikz@lastxsaved=\dimen181
-\tikz@lastysaved=\dimen182
-\tikz@lastmovetox=\dimen183
-\tikz@lastmovetoy=\dimen184
-\tikzleveldistance=\dimen185
-\tikzsiblingdistance=\dimen186
-\tikz@figbox=\box52
-\tikz@figbox@bg=\box53
-\tikz@tempbox=\box54
-\tikz@tempbox@bg=\box55
-\tikztreelevel=\count190
-\tikznumberofchildren=\count191
-\tikznumberofcurrentchild=\count192
-\tikz@fig@count=\count193
+\tikz@lastx=\dimen183
+\tikz@lasty=\dimen184
+\tikz@lastxsaved=\dimen185
+\tikz@lastysaved=\dimen186
+\tikz@lastmovetox=\dimen187
+\tikz@lastmovetoy=\dimen188
+\tikzleveldistance=\dimen189
+\tikzsiblingdistance=\dimen190
+\tikz@figbox=\box54
+\tikz@figbox@bg=\box55
+\tikz@tempbox=\box56
+\tikz@tempbox@bg=\box57
+\tikztreelevel=\count197
+\tikznumberofchildren=\count198
+\tikznumberofcurrentchild=\count199
+\tikz@fig@count=\count266
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulema
 trix.code.tex
-File: pgfmodulematrix.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-\pgfmatrixcurrentrow=\count194
-\pgfmatrixcurrentcolumn=\count195
-\pgf@matrix@numberofcolumns=\count196
+File: pgfmodulematrix.code.tex 2020/10/01 v3.1.6a (3.1.6a)
+\pgfmatrixcurrentrow=\count267
+\pgfmatrixcurrentcolumn=\count268
+\pgf@matrix@numberofcolumns=\count269
 )
-\tikz@expandcount=\count197
+\tikz@expandcount=\count270
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/
 libraries/tikzlibrarytopaths.code.tex
-File: tikzlibrarytopaths.code.tex 2020/01/08 v3.1.5b (3.1.5b)
+File: tikzlibrarytopaths.code.tex 2020/10/01 v3.1.6a (3.1.6a)
 ))) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty
@@ -377,17 +375,17 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2020/03/06 v1.0d TeX engine tests
 ))
-\Gm@cnth=\count198
-\Gm@cntv=\count199
-\c@Gm@tempcnt=\count266
-\Gm@bindingoffset=\dimen187
-\Gm@wd@mp=\dimen188
-\Gm@odd@mp=\dimen189
-\Gm@even@mp=\dimen190
-\Gm@layoutwidth=\dimen191
-\Gm@layoutheight=\dimen192
-\Gm@layouthoffset=\dimen193
-\Gm@layoutvoffset=\dimen194
+\Gm@cnth=\count271
+\Gm@cntv=\count272
+\c@Gm@tempcnt=\count273
+\Gm@bindingoffset=\dimen191
+\Gm@wd@mp=\dimen192
+\Gm@odd@mp=\dimen193
+\Gm@even@mp=\dimen194
+\Gm@layoutwidth=\dimen195
+\Gm@layoutheight=\dimen196
+\Gm@layouthoffset=\dimen197
+\Gm@layoutvoffset=\dimen198
 \Gm@dimlist=\toks30
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
@@ -404,11 +402,11 @@ s
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2019/11/18 v2.7d Micro-typographical refinements (RS)
 \MT@toks=\toks31
-\MT@count=\count267
+\MT@count=\count274
 LaTeX Info: Redefining \textls on input line 790.
-\MT@outer@kern=\dimen195
+\MT@outer@kern=\dimen199
 LaTeX Info: Redefining \textmicrotypecontext on input line 1354.
-\MT@listname@count=\count268
+\MT@listname@count=\count275
 
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdfte
 x.def
@@ -442,12 +440,12 @@ sers/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
 \XKV@toks=\toks32
 \XKV@tempa@toks=\toks33
 )
-\XKV@depth=\count269
+\XKV@depth=\count276
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-\zifour@ocount=\count270
+\zifour@ocount=\count277
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+Package: fontenc 2020/08/10 v2.0s Standard LaTeX package
 LaTeX Font Info:    Trying to load font information for T1+ppl on input line 11
 2.
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/psnfss/t1ppl.fd
@@ -458,7 +456,7 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
-Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.s
 ty
@@ -490,11 +488,11 @@ Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
-Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
-\@linkdim=\dimen196
-\Hy@linkcounter=\count271
-\Hy@pagecounter=\count272
+\@linkdim=\dimen256
+\Hy@linkcounter=\count278
+\Hy@pagecounter=\count279
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -504,7 +502,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count273
+\Hy@SavedSpaceFactor=\count280
 Package hyperref Info: Hyper figures OFF on input line 4464.
 Package hyperref Info: Link nesting OFF on input line 4469.
 Package hyperref Info: Hyper index ON on input line 4472.
@@ -518,9 +516,10 @@ Package: backref 2020/01/14 v1.40 Bibliographical back referencing
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilec
 heck.sty
 Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/atveryend/atveryend.sty
-Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
-Package atveryend Info: \enddocument detected (standard20110627).
+(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
+e
+with kernel methods
 )
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecou
 nter.sty
@@ -534,15 +533,15 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 86.
 ))
-\c@Hy@tempcnt=\count274
+\c@Hy@tempcnt=\count281
 LaTeX Info: Redefining \url on input line 5076.
-\XeTeXLinkMargin=\dimen197
+\XeTeXLinkMargin=\dimen257
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 )
-\Fld@menulength=\count275
-\Field@Width=\dimen198
-\Fld@charsize=\dimen199
+\Fld@menulength=\count282
+\Field@Width=\dimen258
+\Fld@charsize=\dimen259
 Package hyperref Info: Hyper figures OFF on input line 6347.
 Package hyperref Info: Link nesting OFF on input line 6352.
 Package hyperref Info: Hyper index ON on input line 6355.
@@ -552,18 +551,20 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6372.
 Package hyperref Info: PDF/A mode OFF on input line 6377.
 LaTeX Info: Redefining \ref on input line 6417.
 LaTeX Info: Redefining \pageref on input line 6421.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/generic/atbegshi/atbegshi.sty
-Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
+ge
+with kernel methods
 )
-\Hy@abspage=\count276
-\c@Item=\count277
-\c@Hfootnote=\count278
+\Hy@abspage=\count283
+\c@Item=\count284
+\c@Hfootnote=\count285
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
-\Fld@listcount=\count279
-\c@bookmark@seq@number=\count280
+\Fld@listcount=\count286
+\c@bookmark@seq@number=\count287
 \Hy@SectionHShift=\skip59
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 62.
@@ -571,18 +572,18 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 62.
 Package: setspace 2011/12/19 v6.7a set line spacing
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2019/10/16 v2.13 Sectioning titles
-\ttl@box=\box56
+\ttl@box=\box58
 \beforetitleunit=\skip60
 \aftertitleunit=\skip61
-\ttl@plus=\dimen256
-\ttl@minus=\dimen257
+\ttl@plus=\dimen260
+\ttl@minus=\dimen261
 \ttl@toksa=\toks34
-\titlewidth=\dimen258
-\titlewidthlast=\dimen259
-\titlewidthfirst=\dimen260
+\titlewidth=\dimen262
+\titlewidthlast=\dimen263
+\titlewidthfirst=\dimen264
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/titlesec/titletoc.sty
 Package: titletoc 2019/10/16 v2.13 TOC entries
-\ttl@leftsep=\dimen261
+\ttl@leftsep=\dimen265
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
@@ -590,14 +591,14 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip62
 \bibsep=\skip63
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count281
+\c@NAT@ctr=\count288
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
 Package: fancyvrb 2020/05/03 v3.6 verbatim text (tvz,hv)
-\FV@CodeLineNo=\count282
+\FV@CodeLineNo=\count289
 \FV@InFile=\read3
-\FV@TabBox=\box57
-\c@FancyVerbLine=\count283
-\FV@StepNumber=\count284
+\FV@TabBox=\box59
+\c@FancyVerbLine=\count290
+\FV@StepNumber=\count291
 \FV@OutFile=\write4
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/alltt.sty
 Package: alltt 1997/06/16 v2.0g defines alltt environment
@@ -610,21 +611,20 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2020/05/30 v3.4k Customizing captions (AR)
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2020/07/20 v1.12b caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 61.
-\captionmargin=\dimen262
-\captionmargin@=\dimen263
-\captionwidth=\dimen264
-\caption@tempdima=\dimen265
-\caption@indent=\dimen266
-\caption@parindent=\dimen267
-\caption@hangindent=\dimen268
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen266
+\captionmargin@=\dimen267
+\captionwidth=\dimen268
+\caption@tempdima=\dimen269
+\caption@indent=\dimen270
+\caption@parindent=\dimen271
+\caption@hangindent=\dimen272
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count285
-\c@continuedfloat=\count286
+\c@caption@flags=\count292
+\c@continuedfloat=\count293
 Package caption Info: hyperref package is loaded.
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
@@ -634,7 +634,7 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 )
 \@envbody=\toks36
 )) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2020/01/20 v2.17e AMS math features
+Package: amsmath 2020/09/23 v2.17i AMS math features
 \@mathmargin=\skip64
 For additional information on amsmath, use the `?' option.
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -642,88 +642,89 @@ Package: amstext 2000/06/29 v2.01 AMS text
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks37
-\ex@=\dimen269
+\ex@=\dimen273
 )) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen270
+\pmbraise@=\dimen274
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 LaTeX Info: Redefining \operatorname on input line 43.
 )
-\inf@bad=\count287
-LaTeX Info: Redefining \frac on input line 227.
-\uproot@=\count288
-\leftroot@=\count289
-LaTeX Info: Redefining \overline on input line 389.
-\classnum@=\count290
-\DOTSCASE@=\count291
-LaTeX Info: Redefining \ldots on input line 486.
-LaTeX Info: Redefining \dots on input line 489.
-LaTeX Info: Redefining \cdots on input line 610.
-\Mathstrutbox@=\box58
-\strutbox@=\box59
-\big@size=\dimen271
-LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
-\macc@depth=\count292
-\c@MaxMatrixCols=\count293
+\inf@bad=\count294
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count295
+\leftroot@=\count296
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count297
+\DOTSCASE@=\count298
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box60
+\strutbox@=\box61
+\big@size=\dimen275
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count299
+\c@MaxMatrixCols=\count300
 \dotsspace@=\muskip17
-\c@parentequation=\count294
-\dspbrk@lvl=\count295
+\c@parentequation=\count301
+\dspbrk@lvl=\count302
 \tag@help=\toks38
-\row@=\count296
-\column@=\count297
-\maxfields@=\count298
+\row@=\count303
+\column@=\count304
+\maxfields@=\count305
 \andhelp@=\toks39
-\eqnshift@=\dimen272
-\alignsep@=\dimen273
-\tagshift@=\dimen274
-\tagwidth@=\dimen275
-\totwidth@=\dimen276
-\lineht@=\dimen277
+\eqnshift@=\dimen276
+\alignsep@=\dimen277
+\tagshift@=\dimen278
+\tagwidth@=\dimen279
+\totwidth@=\dimen280
+\lineht@=\dimen281
 \@envbody=\toks40
 \multlinegap=\skip65
 \multlinetaggap=\skip66
 \mathdisplay@stack=\toks41
-LaTeX Info: Redefining \[ on input line 2859.
-LaTeX Info: Redefining \] on input line 2860.
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
-Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
-\col@sep=\dimen278
-\ar@mcellbox=\box60
-\extrarowheight=\dimen279
+Package: array 2020/10/01 v2.5c Tabular extension package (FMi)
+\col@sep=\dimen282
+\ar@mcellbox=\box62
+\extrarowheight=\dimen283
 \NC@list=\toks42
 \extratabsurround=\skip67
 \backup@length=\skip68
-\ar@cellbox=\box61
+\ar@cellbox=\box63
 ) (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen280
-\lightrulewidth=\dimen281
-\cmidrulewidth=\dimen282
-\belowrulesep=\dimen283
-\belowbottomsep=\dimen284
-\aboverulesep=\dimen285
-\abovetopsep=\dimen286
-\cmidrulesep=\dimen287
-\cmidrulekern=\dimen288
-\defaultaddspace=\dimen289
-\@cmidla=\count299
-\@cmidlb=\count300
-\@aboverulesep=\dimen290
-\@belowrulesep=\dimen291
-\@thisruleclass=\count301
-\@lastruleclass=\count302
-\@thisrulewidth=\dimen292
+\heavyrulewidth=\dimen284
+\lightrulewidth=\dimen285
+\cmidrulewidth=\dimen286
+\belowrulesep=\dimen287
+\belowbottomsep=\dimen288
+\aboverulesep=\dimen289
+\abovetopsep=\dimen290
+\cmidrulesep=\dimen291
+\cmidrulekern=\dimen292
+\defaultaddspace=\dimen293
+\@cmidla=\count306
+\@cmidlb=\count307
+\@aboverulesep=\dimen294
+\@belowrulesep=\dimen295
+\@thisruleclass=\count308
+\@lastruleclass=\count309
+\@thisrulewidth=\dimen296
 )
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdfmo
-de.def
-File: l3backend-pdfmode.def 2020-08-07 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count303
-\l__pdf_internal_box=\box62
-) (./RJwrapper.aux)
+(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdfte
+x.def
+File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count310
+\l__pdf_internal_box=\box64
+)
+No file RJwrapper.aux.
 \openout1 = `RJwrapper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
@@ -742,7 +743,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
 LaTeX Font Info:    ... okay on input line 14.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 14.
 LaTeX Font Info:    ... okay on input line 14.
-ABD: EveryShipout initializing macros
+
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-bas
 e.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -807,8 +808,6 @@ File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
-Package backref Info: ** backref set up for natbib ** on input line 14.
-\AtBeginShipoutBox=\box63
 Package hyperref Info: Link coloring ON on input line 14.
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -819,729 +818,330 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 string.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count304
+\c@section@level=\count311
 )
 LaTeX Info: Redefining \ref on input line 14.
 LaTeX Info: Redefining \pageref on input line 14.
 LaTeX Info: Redefining \nameref on input line 14.
-(./RJwrapper.out) (./RJwrapper.out)
 \@outlinefile=\write5
 \openout5 = `RJwrapper.out'.
 
+Package backref Info: ** backref set up for natbib ** on input line 14.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 (./brolgar-paper.tex
-
-Package natbib Warning: Citation `dicook' on page 1 undefined on input line 14.
-
-
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 21
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 42
 .
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/inconsolata/t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
-LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
-(Font)              scaled to size 10.20004pt on input line 21.
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 9.18004pt on input line 42.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `zi4' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+<brolgar-paper_files/figure-latex/heights-sample-plot-1.pdf, id=7, 469.755pt x 
+325.215pt>
+File: brolgar-paper_files/figure-latex/heights-sample-plot-1.pdf Graphic file (
+type pdf)
+<use brolgar-paper_files/figure-latex/heights-sample-plot-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/heights-sample-plot-1
+.pdf  used on input line 48.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Package natbib Warning: Citation `njtierney' on page 1 undefined on input line 
-25.
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 48--48
+[][] 
+ []
 
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 48.
+<brolgar-paper_files/figure-latex/spaghetti-1.pdf, id=8, 867.24pt x 289.08pt>
+File: brolgar-paper_files/figure-latex/spaghetti-1.pdf Graphic file (type pdf)
+<use brolgar-paper_files/figure-latex/spaghetti-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/spaghetti-1.pdf  used
+ on input line 67.
+(pdftex.def)             Requested size: 867.2379pt x 289.07928pt.
 
-Package natbib Warning: Citation `Wang2019' on page 1 undefined on input line 5
-0.
+Overfull \hbox (468.89932pt too wide) in paragraph at lines 67--67
+[][] 
+ []
 
 
-Package natbib Warning: Citation `Wang2019' on page 1 undefined on input line 8
-3.
+Package natbib Warning: Citation `pmdplyr' on page 1 undefined on input line 10
+7.
 
-LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 8
-4.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ppl.fd
-File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
-)
-LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-84.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlzplm.fd
-File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
-)
-LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-84.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omszplm.fd
-File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
-)
-LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-84.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxzplm.fd
-File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
-)
-LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-84.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1zplm.fd
-File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `zplm' (encoding: OT1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 84.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
-)
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 84.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 84.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 84.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 84.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 84.
+
+Package natbib Warning: Citation `panelr' on page 1 undefined on input line 117
+.
+
 [1{/Users/ntie0001/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 }
 
-]
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 2
-07.
+] [2 <./brolgar-paper_files/figure-latex/heights-sample-plot-1.pdf> <./brolgar-
+paper_files/figure-latex/spaghetti-1.pdf>]
+LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
+(Font)              scaled to size 10.20004pt on input line 161.
+
+Package natbib Warning: Citation `fpp' on page 3 undefined on input line 165.
+
+
+Package natbib Warning: Citation `Wang2018' on page 3 undefined on input line 1
+67.
+
+[3]
+
+Package natbib Warning: Citation `fable' on page 4 undefined on input line 210.
+
+
+
+Package natbib Warning: Citation `feasts' on page 4 undefined on input line 211
+.
+
+
+Package natbib Warning: Citation `Wang2018' on page 4 undefined on input line 2
+16.
+
+[4]
+<brolgar-paper_files/figure-latex/feature-min-med-max-1.pdf, id=71, 469.755pt x
+ 325.215pt>
+File: brolgar-paper_files/figure-latex/feature-min-med-max-1.pdf Graphic file (
+type pdf)
+<use brolgar-paper_files/figure-latex/feature-min-med-max-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/feature-min-med-max-1
+.pdf  used on input line 324.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 324--324
+[][] 
+ []
+
+[5 <./brolgar-paper_files/figure-latex/feature-min-med-max-1.pdf>]
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 3
+67.
 (/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
-) [2] [3] [4] [5]
-<brolgar-paper_files/figure-latex/gg-min-wages-1.pdf, id=134, 469.755pt x 325.2
-15pt>
-File: brolgar-paper_files/figure-latex/gg-min-wages-1.pdf Graphic file (type pd
+) [6] [7]
+
+Package natbib Warning: Citation `ref' on page 8 undefined on input line 558.
+
+<brolgar-paper_files/figure-latex/facet-sample-1.pdf, id=97, 469.755pt x 325.21
+5pt>
+File: brolgar-paper_files/figure-latex/facet-sample-1.pdf Graphic file (type pd
 f)
-<use brolgar-paper_files/figure-latex/gg-min-wages-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-min-wages-1.pdf  u
-sed on input line 537.
+<use brolgar-paper_files/figure-latex/facet-sample-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/facet-sample-1.pdf  u
+sed on input line 590.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 537--538
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 537--538
-
- []
-
-[6 <./brolgar-paper_files/figure-latex/gg-min-wages-1.pdf>] [7]
-<brolgar-paper_files/figure-latex/gg-wages-mono-1.pdf, id=151, 469.755pt x 325.
-215pt>
-File: brolgar-paper_files/figure-latex/gg-wages-mono-1.pdf Graphic file (type p
-df)
-<use brolgar-paper_files/figure-latex/gg-wages-mono-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-wages-mono-1.pdf  
-used on input line 703.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 703--704
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 703--704
-
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 590--590
+[][] 
  []
 
 [8]
-
-Package natbib Warning: Citation `r4ds' on page 9 undefined on input line 711.
-
-[9 <./brolgar-paper_files/figure-latex/gg-wages-mono-1.pdf>]
-<brolgar-paper_files/figure-latex/use-gg-highlight-1.pdf, id=166, 469.755pt x 3
-25.215pt>
-File: brolgar-paper_files/figure-latex/use-gg-highlight-1.pdf Graphic file (typ
-e pdf)
-<use brolgar-paper_files/figure-latex/use-gg-highlight-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/use-gg-highlight-1.pd
-f  used on input line 797.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 797--798
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 797--798
-
- []
-
-[10]
-LaTeX Font Info:    Trying to load font information for TS1+zi4 on input line 8
-11.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
-File: ts1zi4.fd 2018/01/14 TS1/zi4 (Inconsolata)
-)
-LaTeX Font Info:    Font shape `TS1/zi4/m/n' will be
-(Font)              scaled to size 9.18004pt on input line 811.
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `zi4' (encoding: TS1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 832.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 8
-32.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/t1cmtt.fd
-File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `cmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
-832.
-(/Users/ntie0001/Library/TinyTeX/texmf-dist/tex/latex/base/ts1cmtt.fd
-File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `cmtt' (encoding: TS1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 832.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 832.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 832.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 834.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 834.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 834.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 834.
-[11 <./brolgar-paper_files/figure-latex/use-gg-highlight-1.pdf>]
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 876.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 876.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 876.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 876.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 878.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 878.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 878.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 878.
-<brolgar-paper_files/figure-latex/keys-near-plot-1.pdf, id=186, 469.755pt x 325
-.215pt>
-File: brolgar-paper_files/figure-latex/keys-near-plot-1.pdf Graphic file (type 
-pdf)
-<use brolgar-paper_files/figure-latex/keys-near-plot-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/keys-near-plot-1.pdf 
- used on input line 884.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 884--885
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 884--885
-
- []
-
-[12 <./brolgar-paper_files/figure-latex/keys-near-plot-1.pdf>]
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 948.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 948.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 948.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 948.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 950.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 950.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 950.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 950.
-<brolgar-paper_files/figure-latex/plot-keys-near-1.pdf, id=197, 469.755pt x 325
-.215pt>
-File: brolgar-paper_files/figure-latex/plot-keys-near-1.pdf Graphic file (type 
-pdf)
-<use brolgar-paper_files/figure-latex/plot-keys-near-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/plot-keys-near-1.pdf 
- used on input line 985.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 985--986
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 985--986
-
- []
-
-[13]
-<brolgar-paper_files/figure-latex/gghighlight-near-1.pdf, id=203, 469.755pt x 3
-25.215pt>
-File: brolgar-paper_files/figure-latex/gghighlight-near-1.pdf Graphic file (typ
-e pdf)
-<use brolgar-paper_files/figure-latex/gghighlight-near-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/gghighlight-near-1.pd
-f  used on input line 1011.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1011--1012
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1011--1012
-
- []
-
-[14 <./brolgar-paper_files/figure-latex/plot-keys-near-1.pdf>]
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1039.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1039.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1039.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1039.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1041.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1041.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1041.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1041.
-LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
-(Font)              scaled to size 12.24005pt on input line 1059.
-[15 <./brolgar-paper_files/figure-latex/gghighlight-near-1.pdf>] [16] [17]
-<brolgar-paper_files/figure-latex/join-top-stats-diff-1.pdf, id=236, 469.755pt 
-x 325.215pt>
-File: brolgar-paper_files/figure-latex/join-top-stats-diff-1.pdf Graphic file (
-type pdf)
-<use brolgar-paper_files/figure-latex/join-top-stats-diff-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/join-top-stats-diff-1
-.pdf  used on input line 1232.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1232--1233
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1232--1233
-
- []
-
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1250.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1250.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1250.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1250.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1252.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1252.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1252.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1252.
-<brolgar-paper_files/figure-latex/show-same-1.pdf, id=237, 469.755pt x 325.215p
-t>
-File: brolgar-paper_files/figure-latex/show-same-1.pdf Graphic file (type pdf)
-<use brolgar-paper_files/figure-latex/show-same-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/show-same-1.pdf  used
- on input line 1258.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1258--1259
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1258--1259
-
- []
-
-[18 <./brolgar-paper_files/figure-latex/join-top-stats-diff-1.pdf>] [19 <./brol
-gar-paper_files/figure-latex/show-same-1.pdf>]
-<brolgar-paper_files/figure-latex/wages-ggplot-1.pdf, id=258, 469.755pt x 325.2
+<brolgar-paper_files/figure-latex/facet-strata-1.pdf, id=108, 469.755pt x 325.2
 15pt>
-File: brolgar-paper_files/figure-latex/wages-ggplot-1.pdf Graphic file (type pd
+File: brolgar-paper_files/figure-latex/facet-strata-1.pdf Graphic file (type pd
 f)
-<use brolgar-paper_files/figure-latex/wages-ggplot-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/wages-ggplot-1.pdf  u
-sed on input line 1341.
+<use brolgar-paper_files/figure-latex/facet-strata-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/facet-strata-1.pdf  u
+sed on input line 629.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1341--1342
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 629--629
+[][] 
+ []
+
+<brolgar-paper_files/figure-latex/facet-year-along-1.pdf, id=109, 469.755pt x 3
+25.215pt>
+File: brolgar-paper_files/figure-latex/facet-year-along-1.pdf Graphic file (typ
+e pdf)
+<use brolgar-paper_files/figure-latex/facet-year-along-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/facet-year-along-1.pd
+f  used on input line 652.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (86.41528pt too wide) in paragraph at lines 652--653
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1341--1342
+Underfull \hbox (badness 10000) in paragraph at lines 652--653
 
  []
 
-<brolgar-paper_files/figure-latex/wages-ggplot-sample-1.pdf, id=259, 469.755pt 
+[9 <./brolgar-paper_files/figure-latex/facet-sample-1.pdf>] [10 <./brolgar-pape
+r_files/figure-latex/facet-strata-1.pdf> <./brolgar-paper_files/figure-latex/fa
+cet-year-along-1.pdf>]
+Overfull \hbox (17.20135pt too wide) in paragraph at lines 678--683
+\T1/zi4/m/n/9 stratify_keys()\T1/ppl/m/n/9 (-20) . These can be used to cre-ate
+ data struc-tures used in \T1/zi4/m/n/9 facet_sample() \T1/ppl/m/n/9 (-20) and 
+\T1/zi4/m/n/9 facet_strata()\T1/ppl/m/n/9 (-20) ,
+ []
+
+[11]
+<brolgar-paper_files/figure-latex/feature-first-gg-1.pdf, id=144, 469.755pt x 3
+25.215pt>
+File: brolgar-paper_files/figure-latex/feature-first-gg-1.pdf Graphic file (typ
+e pdf)
+<use brolgar-paper_files/figure-latex/feature-first-gg-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/feature-first-gg-1.pd
+f  used on input line 818.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 818--818
+[][] 
+ []
+
+[12] [13 <./brolgar-paper_files/figure-latex/feature-first-gg-1.pdf>]
+<brolgar-paper_files/figure-latex/heights-long-feat-diff-1.pdf, id=160, 469.755
+pt x 325.215pt>
+File: brolgar-paper_files/figure-latex/heights-long-feat-diff-1.pdf Graphic fil
+e (type pdf)
+<use brolgar-paper_files/figure-latex/heights-long-feat-diff-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/heights-long-feat-dif
+f-1.pdf  used on input line 889.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 889--889
+[][] 
+ []
+
+[14 <./brolgar-paper_files/figure-latex/heights-long-feat-diff-1.pdf>]
+<brolgar-paper_files/figure-latex/heights-max-in-examine-1.pdf, id=179, 469.755
+pt x 325.215pt>
+File: brolgar-paper_files/figure-latex/heights-max-in-examine-1.pdf Graphic fil
+e (type pdf)
+<use brolgar-paper_files/figure-latex/heights-max-in-examine-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/heights-max-in-examin
+e-1.pdf  used on input line 969.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 969--969
+[][] 
+ []
+
+[15 <./brolgar-paper_files/figure-latex/heights-max-in-examine-1.pdf>] [16]
+<brolgar-paper_files/figure-latex/gg-background-1.pdf, id=194, 469.755pt x 325.
+215pt>
+File: brolgar-paper_files/figure-latex/gg-background-1.pdf Graphic file (type p
+df)
+<use brolgar-paper_files/figure-latex/gg-background-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-background-1.pdf  
+used on input line 1074.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (86.41528pt too wide) in paragraph at lines 1074--1075
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1074--1075
+
+ []
+
+<brolgar-paper_files/figure-latex/gg-increase-max-1.pdf, id=195, 469.755pt x 32
+5.215pt>
+File: brolgar-paper_files/figure-latex/gg-increase-max-1.pdf Graphic file (type
+ pdf)
+<use brolgar-paper_files/figure-latex/gg-increase-max-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-increase-max-1.pdf
+  used on input line 1084.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+
+Overfull \hbox (86.41528pt too wide) in paragraph at lines 1084--1085
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1084--1085
+
+ []
+
+[17 <./brolgar-paper_files/figure-latex/gg-background-1.pdf>]
+
+Package natbib Warning: Citation `mgcv' on page 18 undefined on input line 1094
+.
+
+[18 <./brolgar-paper_files/figure-latex/gg-increase-max-1.pdf>]
+<brolgar-paper_files/figure-latex/sample-n-keys-model-1.pdf, id=222, 469.755pt 
 x 325.215pt>
-File: brolgar-paper_files/figure-latex/wages-ggplot-sample-1.pdf Graphic file (
+File: brolgar-paper_files/figure-latex/sample-n-keys-model-1.pdf Graphic file (
 type pdf)
-<use brolgar-paper_files/figure-latex/wages-ggplot-sample-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/wages-ggplot-sample-1
-.pdf  used on input line 1353.
+<use brolgar-paper_files/figure-latex/sample-n-keys-model-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/sample-n-keys-model-1
+.pdf  used on input line 1147.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1353--1354
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1353--1354
-
- []
-
-[20 <./brolgar-paper_files/figure-latex/wages-ggplot-1.pdf>]
-<brolgar-paper_files/figure-latex/unnamed-chunk-1-1.pdf, id=272, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/unnamed-chunk-1-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/unnamed-chunk-1-1.pdf
-  used on input line 1362.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1362--1362
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 1147--1147
 [][] 
  []
 
-[21 <./brolgar-paper_files/figure-latex/wages-ggplot-sample-1.pdf> <./brolgar-p
-aper_files/figure-latex/unnamed-chunk-1-1.pdf>]
-<brolgar-paper_files/figure-latex/unnamed-chunk-1-2.pdf, id=294, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/unnamed-chunk-1-2.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/unnamed-chunk-1-2.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/unnamed-chunk-1-2.pdf
-  used on input line 1367.
+<brolgar-paper_files/figure-latex/heights-aug-res-summary-1.pdf, id=223, 469.75
+5pt x 325.215pt>
+File: brolgar-paper_files/figure-latex/heights-aug-res-summary-1.pdf Graphic fi
+le (type pdf)
+<use brolgar-paper_files/figure-latex/heights-aug-res-summary-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/heights-aug-res-summa
+ry-1.pdf  used on input line 1171.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1367--1367
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 1171--1171
 [][] 
  []
 
-<brolgar-paper_files/figure-latex/unnamed-chunk-1-3.pdf, id=295, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/unnamed-chunk-1-3.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/unnamed-chunk-1-3.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/unnamed-chunk-1-3.pdf
-  used on input line 1372.
+[19 <./brolgar-paper_files/figure-latex/sample-n-keys-model-1.pdf>]
+<brolgar-paper_files/figure-latex/heights-keys-near-1.pdf, id=237, 469.755pt x 
+325.215pt>
+File: brolgar-paper_files/figure-latex/heights-keys-near-1.pdf Graphic file (ty
+pe pdf)
+<use brolgar-paper_files/figure-latex/heights-keys-near-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/heights-keys-near-1.p
+df  used on input line 1231.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1372--1372
+Overfull \hbox (86.41528pt too wide) in paragraph at lines 1231--1232
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1231--1232
+
+ []
+
+[20 <./brolgar-paper_files/figure-latex/heights-aug-res-summary-1.pdf>]
+<brolgar-paper_files/figure-latex/heights-keys-near-fancy-label-1.pdf, id=251, 
+469.755pt x 867.24pt>
+File: brolgar-paper_files/figure-latex/heights-keys-near-fancy-label-1.pdf Grap
+hic file (type pdf)
+<use brolgar-paper_files/figure-latex/heights-keys-near-fancy-label-1.pdf>
+Package pdftex.def Info: brolgar-paper_files/figure-latex/heights-keys-near-fan
+cy-label-1.pdf  used on input line 1253.
+(pdftex.def)             Requested size: 469.75386pt x 867.2379pt.
+
+Overfull \hbox (71.41528pt too wide) in paragraph at lines 1253--1253
 [][] 
  []
 
-[22 <./brolgar-paper_files/figure-latex/unnamed-chunk-1-2.pdf>]
-<brolgar-paper_files/figure-latex/unnamed-chunk-1-4.pdf, id=308, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/unnamed-chunk-1-4.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/unnamed-chunk-1-4.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/unnamed-chunk-1-4.pdf
-  used on input line 1376.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1376--1377
-[][]
- []
+LaTeX Warning: Float too large for page by 179.77567pt on input line 1254.
 
+[21 <./brolgar-paper_files/figure-latex/heights-keys-near-1.pdf>] [22 <./brolga
+r-paper_files/figure-latex/heights-keys-near-fancy-label-1.pdf>]
 
-Underfull \hbox (badness 10000) in paragraph at lines 1376--1377
+! LaTeX Error: Environment cslreferences undefined.
 
- []
-
-[23 <./brolgar-paper_files/figure-latex/unnamed-chunk-1-3.pdf> <./brolgar-paper
-_files/figure-latex/unnamed-chunk-1-4.pdf>]
-<brolgar-paper_files/figure-latex/gg-wages-aug-1.pdf, id=329, 469.755pt x 325.2
-15pt>
-File: brolgar-paper_files/figure-latex/gg-wages-aug-1.pdf Graphic file (type pd
-f)
-<use brolgar-paper_files/figure-latex/gg-wages-aug-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-wages-aug-1.pdf  u
-sed on input line 1416.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1416--1417
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1416--1417
-
- []
-
-<brolgar-paper_files/figure-latex/gg-wages-sample-1.pdf, id=330, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/gg-wages-sample-1.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/gg-wages-sample-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-wages-sample-1.pdf
-  used on input line 1430.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1430--1431
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1430--1431
-
- []
-
-[24 <./brolgar-paper_files/figure-latex/gg-wages-aug-1.pdf>]
-<brolgar-paper_files/figure-latex/unnamed-chunk-2-1.pdf, id=343, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/unnamed-chunk-2-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/unnamed-chunk-2-1.pdf
-  used on input line 1444.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1444--1445
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1444--1445
-
- []
-
-[25 <./brolgar-paper_files/figure-latex/gg-wages-sample-1.pdf>]
-<brolgar-paper_files/figure-latex/gg-wages-predictions-1.pdf, id=354, 469.755pt
- x 325.215pt>
-File: brolgar-paper_files/figure-latex/gg-wages-predictions-1.pdf Graphic file 
-(type pdf)
-<use brolgar-paper_files/figure-latex/gg-wages-predictions-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-wages-predictions-
-1.pdf  used on input line 1464.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1464--1465
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1464--1465
-
- []
-
-[26 <./brolgar-paper_files/figure-latex/unnamed-chunk-2-1.pdf>]
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1489.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1489.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1489.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1489.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1491.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1491.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1491.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family zi4 in TS1 encoding.
-(textcomp)             Default family used instead on input line 1491.
-[27 <./brolgar-paper_files/figure-latex/gg-wages-predictions-1.pdf>]
-<brolgar-paper_files/figure-latex/join-wages-near-1.pdf, id=373, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/join-wages-near-1.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/join-wages-near-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/join-wages-near-1.pdf
-  used on input line 1538.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1538--1538
-[][] 
- []
-
-<brolgar-paper_files/figure-latex/join-wages-near-2.pdf, id=374, 469.755pt x 32
-5.215pt>
-File: brolgar-paper_files/figure-latex/join-wages-near-2.pdf Graphic file (type
- pdf)
-<use brolgar-paper_files/figure-latex/join-wages-near-2.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/join-wages-near-2.pdf
-  used on input line 1544.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1544--1545
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1544--1545
-
- []
-
-[28 <./brolgar-paper_files/figure-latex/join-wages-near-1.pdf>]
-<brolgar-paper_files/figure-latex/gg-stratify-residuals-1.pdf, id=384, 469.755p
-t x 325.215pt>
-File: brolgar-paper_files/figure-latex/gg-stratify-residuals-1.pdf Graphic file
- (type pdf)
-<use brolgar-paper_files/figure-latex/gg-stratify-residuals-1.pdf>
-Package pdftex.def Info: brolgar-paper_files/figure-latex/gg-stratify-residuals
--1.pdf  used on input line 1570.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Overfull \hbox (86.41528pt too wide) in paragraph at lines 1570--1571
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1570--1571
-
- []
-
-[29 <./brolgar-paper_files/figure-latex/join-wages-near-2.pdf>]
-
-Package natbib Warning: Citation `dicook' on page 30 undefined on input line 15
-74.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1579--1581
-
- []
-
-
-Package natbib Warning: Citation `dicook' on page 30 undefined on input line 15
-86.
-
-(./RJwrapper.bbl (./RJwrapper.brf)
-\tf@brf=\write6
-\openout6 = `RJwrapper.brf'.
-
-
-Package natbib Warning: Empty `thebibliography' environment on input line 8.
-
-)
-
-LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 1659.
-
-LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 9.18004pt on input line 1659.
-[30 <./brolgar-paper_files/figure-latex/gg-stratify-residuals-1.pdf>])
-
-Package natbib Warning: There were undefined citations.
-
-[31]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 27.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
-(./RJwrapper.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 27.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 27.
-Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
-(rerunfilecheck)             Checksum: 27EEBFD2F5A6D8568166EAF5549123BB;1229.
-Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
- ) 
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1312 \begin{cslreferences}
+                             
 Here is how much of TeX's memory you used:
- 22194 strings out of 482841
- 413490 string characters out of 5955581
- 682958 words of memory out of 5000000
- 36842 multiletter control sequences out of 15000+600000
- 568863 words of font info for 147 fonts, out of 8000000 for 9000
+ 22109 strings out of 481433
+ 414108 string characters out of 5919429
+ 730300 words of memory out of 5000000
+ 38195 multiletter control sequences out of 15000+600000
+ 559025 words of font info for 144 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 68i,12n,100p,425b,725s stack positions out of 5000i,500n,10000p,200000b,80000s
- </Users/ntie0001/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt0
-900.600pk>{/Users/ntie0001/Library/TinyTeX/texmf-dist/fonts/enc/dvips/inconsola
-ta/i4-ts1.enc}{/Users/ntie0001/Library/TinyTeX/texmf-dist/fonts/enc/dvips/incon
-solata/i4-t1-0.enc}{/Users/ntie0001/Library/TinyTeX/texmf-dist/fonts/enc/dvips/
-base/8r.enc}</Users/ntie0001/Library/TinyTeX/texmf-dist/fonts/type1/public/inco
-nsolata/Inconsolata-zi4b.pfb></Users/ntie0001/Library/TinyTeX/texmf-dist/fonts/
-type1/public/inconsolata/Inconsolata-zi4r.pfb></Users/ntie0001/Library/TinyTeX/
-texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></Users/ntie0001/Library/TinyTeX
-/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></Users/ntie0001/Library/TinyTe
-X/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (31 pages, 599896 bytes).
-PDF statistics:
- 467 PDF objects out of 1000 (max. 8388607)
- 382 compressed objects within 4 object streams
- 92 named destinations out of 1000 (max. 500000)
- 33526 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 122i,12n,128p,814b,746s stack positions out of 5000i,500n,10000p,200000b,80000s
 
+!  ==> Fatal error occurred, no output PDF file produced!

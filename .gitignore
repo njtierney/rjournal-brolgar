@@ -6,6 +6,6 @@
 RJwrapper.pdf
 brolgar-paper.tex
 brolgar-paper.R
-.log
+*.log
 brolgar-paper_files/
 paper/*.html

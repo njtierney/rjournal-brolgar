@@ -46,6 +46,12 @@ output: rticles::rjournal_article
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r source-pkgs}
+source(here::here("packages.R"))
+source(here::here("conflicts.R"))
+```
+
+
 ```{r load, message = FALSE, echo = FALSE}
 tar_load(heights_gam)
 tar_load(model_time)
@@ -119,7 +125,7 @@ This paper demonstrates how to effectively and efficiently explore longitudinal 
 3. Finding representative individuals
 4. Understanding a model
 
-This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data (Section \@ref()), then the definition of longitudinal data (Section \@ref(data)),  then approaches to these four problems are discussed (Section (\@ref()) - Section (\@ref())), followed by a summary (\@ref()).
+This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data (Section \@ref(other-approaches)), then the definition of longitudinal data (Section \@ref(data)), then approaches to these four problems are discussed (Section (\@ref(building-on-tsibble)) - Section (\@ref(steretyping))), followed by a summary (\@ref(summary)).
 
 # Other approaches to longitudinal data {#other-approaches}
 
@@ -129,18 +135,13 @@ Other packages focus more directly on panel data in R, focussing on data operati
 
 These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. They all share similar features, providing some identifying or index variable, and some grouping or key. 
 
-(**not sure where to put this paragraph**)
-
-Operations for custom long and wide formats of panel data are not needed since they are handled using `tsibble` and `dplyr`. This avoids needing to learn additional new functions that achieve the same reshaping results. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
-
-
 # Longitudinal Data Structures {#data}
 
 Longitudinal data goes by many names: Panel data, survey data, repeated measures, and time series, to name a few. Although there are small differences among these definitions related to data collection, context, and field, these data structures all share a fundamental similarity: they are measurements of the same individual over a time period. 
 
 This time period has structure - the time component (dates, times, waves, seconds, etc), and the spacing between measurements - unequal or equal. This data structure needs to be respected during analysis, to avoid for example, collapsing across month when the data is collected every second, or assuming measurements occur at fixed time intervals. These mistakes can be avoided by encoding the data structure into the data itself. This information can then be accessed by analysis tools, providing a consistent way to understand and summarise the data. This ensures the different types of longitudinal data previously mentioned can be handled in the same way. 
 
-## Building on `tsibble`
+## Building on `tsibble` {#building-on-tsibble}
 
 Because longitudinal data can be thought of as "individuals repeatedly measured through time", they can be considered as a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**". This definition has been realised as a time series `tsibble` in [@Wang2018]. These objects are defined as data meeting these conditions:
 
@@ -271,43 +272,28 @@ This takes the `heights` data, pipes it to `features`, and then tells it to summ
 - `feat_brolgar()`, which will calculate all features available in the `brolgar` package.
 - Other examples of features from `feasts`
 
-(Note: tie this section in below to this one)
-
-You can use a prepared summary, for which `brolgar` provides a few - we've already seen `feat_diff_summary`, which provided a summary of the `diff` of a variable. `feat_ranges` produces range related features, minimum, maximum, difference from the range, and the interquartile range.
-
-These are the ones that are already available:
-
-- ...
-
-```{r heights-features}
-heights_brolgar %>%
-  features(height_cm, feat_ranges)
-
-```
-
-
-### Feature Sets
+### Feature Sets (note - potentially remove? This isn't something we really demonstrate in the paper)
 
 If you want to run many or all features from a package on your data you can collect them all with `feature_set`. For example:
 
 ```{r show-features-set}
 library(fabletools)
-feat_brolgar <- feature_set(pkgs = "brolgar")
-length(feat_brolgar)
+feat_set_brolgar <- feature_set(pkgs = "brolgar")
+length(feat_set_brolgar)
 ```
 
 You could then run these like so: 
 
 ```{r run-features-set}
 heights_brolgar %>%
-  features(height_cm, feat_brolgar)
+  features(height_cm, feat_set_brolgar)
 ```
 
-For more information see `?fabletools::feature_set`
+For more information run `library(feasts)` then `?fabletools::feature_set`, to see other features available in the `feasts` R package.
 
 ### Creating Your Own Feature
 
-To create your own features or summaries to pass to `features`, you provide a named vector of functions. These can include functions that you have written yourself. For example, returning the first three elements of a series
+To create your own features or summaries to pass to `features`, you provide a named vector of functions. These can include functions that you have written yourself. For example, returning the first three elements of a series, by writing our own `second` and `third` functions.
 
 ```{r create-three, echo = TRUE}
 
@@ -342,7 +328,7 @@ feat_five_num <- function(x, ...) {
 ```
 
 Here the functions `b_` are functions with a default of `na.rm = TRUE`, and in 
-the cases of quantiles, they use `type = 8`, and `names = FALSE`. What is particularly useful is that these will work on any type of time series data, and you can use other more typical time series features from the `feasts` package, such as autocorrelation, `feat_acf()`, Seasonal and Trend decomposition using Loess `feat_stl()` [@ref].
+the cases of quantiles, they use `type = 8`, and `names = FALSE`. What is particularly useful is that these will work on any type of time series data, and you can use other more typical time series features from the `feasts` package, such as autocorrelation, `feat_acf()`, Seasonal and Trend decomposition using Loess `feat_stl()` [@feasts].
 
 This demonstrates a workflow that can be used to understand and explore your longitudinal data. `brolgar` builds upon this workflow made available by `feasts` and `fabletools`. Users can also create their own features to summarise the data.
 
@@ -355,7 +341,7 @@ Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and 
 Just how spaghetti is portioned out for consumption, we can sample some of the data by randomly sampling the data into sub-plots with the `facet_sample()` function  (Figure \@ref(fig:facet-sample)). 
 
 
-```{r facet-sample, fig.cap = "Facet Samples"}
+```{r facet-sample, fig.cap = "Twelve facets with three keys per facet shown. This allows us to quickly view a random sample of the data."}
 ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
@@ -378,9 +364,9 @@ ggplot(heights_brolgar,
 
 ## Stratifying
 
-Extending this idea of samples, we can instead look at **all** of the data, spread out equally over facets, with `facet_strata()`, with the default being 12 facets, controllable with `n_strata`. The code to do so is shown below, creating Figure \@ref(fig:facet-strata).
+Extending this idea of samples, we can instead look at **all** of the data, spread out equally over facets, using `facet_strata()`. Is uses 12 facets by default, controllable with `n_strata`. The code to do so is shown below, creating Figure \@ref(fig:facet-strata).
 
-```{r facet-strata, echo = TRUE, fig.cap = "Stratified plot of heights data."}
+```{r facet-strata, echo = TRUE, fig.cap = "All of the data is shown by spreading out each key across twelve facets. Each key is only shown once, and is randomly allocated to a facet."}
 ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
@@ -393,7 +379,7 @@ ggplot(heights_brolgar,
 
 Figure \@ref(fig:facet-strata) and Figure \@ref(fig:facet-sample) only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \@ref(fig:facet-year-along):
 
-```{r facet-year-along, echo = TRUE, fig.cap = "heights over time with facet strata along year"}
+```{r facet-year-along, echo = TRUE, fig.cap = "Displaying all the data across twelve facets. Instead of each key being randomly in a facet, each facet displays a specified range of values of year. In this case, the top left facet shows the keys with the earliest starting year, and the bottom right shows the facet with the latest starting year."}
 ggplot(heights_brolgar,
        aes(x = year,
            y = height_cm,
@@ -433,10 +419,10 @@ This can be further summarised by counting the number of times there are a given
 heights_brolgar %>% features(year, n_obs) %>% count(n_obs)
 ```
 
-Because we are exploring the temporal patterns, we cannot reliably say anything about those individuals with less than 5 measurements, so we can filter out those for further analysis. This uses `add_n_obs()` to add the number of observations to the existing data. This drops 25 countries, leaves us with 119 out of the original 144 countries.
+Because we are exploring the temporal patterns, we cannot reliably say anything about those individuals with few measurements. The data used, `heights_brolgar` has less than 5 measurements. This was done using `add_n_obs()`, which adds the number of observations to the existing data. Overall this drops 25 countries, leaves us with 119 out of the original 144 countries.
 
-```{r overwrite-heights}
-heights <- heights_brolgar %>% 
+```{r overwrite-heights, eval = FALSE}
+heights_brolgar <- heights %>% 
   add_n_obs() %>% 
   filter(n_obs >= 5)
 ```
@@ -444,21 +430,21 @@ heights <- heights_brolgar %>%
 We can further explore when countries are first getting measured using `features` to find the first year for each country number of starting years with the `first` function from `dplyr`, and explore this with a visualisation (Figure \@ref(fig:feature-first-gg)).
 
 ```{r feature-first}
-heights %>% 
+heights_brolgar %>% 
   features(year, c(first = first))
 ```
 
-```{r feature-first-gg, fig.cap = "The starting years of measurement."}
-heights %>% 
+```{r feature-first-gg, fig.cap = "Distribution of starting years of measurement. The data is already binned into 10 year blocks. Most of the years start between 1840 and 1900."}
+heights_brolgar %>% 
   features(year, c(first = first)) %>% 
   ggplot(aes(x = first)) +
-  geom_bar() # data is already binned into 10 year blocks.
+  geom_bar()
 ```
 
 We can explore the variation in first year using `feat_diff_summary`. This combines many summaries of the differences in `year`.
 
 ```{r heights-diff-summary, message = FALSE, warning = FALSE}
-heights_diffs <- heights %>% 
+heights_diffs <- heights_brolgar %>% 
   features(year, feat_diff_summary)
 
 heights_diffs
@@ -467,7 +453,7 @@ heights_diffs
 This is particularly useful as using `diff` on `year` would return a very wide dataset that is hard to explore:
 
 ```{r diff-wide, message = FALSE, warning = FALSE}
-heights %>% 
+heights_brolgar %>% 
   features(year, diff)
 ```
 
@@ -512,7 +498,7 @@ Looking at a spaghetti plot, it can be hard to identify which lines are the most
 This workflow is demonstrated now.  Firstly, we **deicde on an interesting feature**, "maximum height", and whether height is always increasing. We calculate our own "feature", calculating maximum height, and whether a value is increasing (with brolgar's `increasing` function) like so:
 
 ```{r heights-max}
-heights_max_in <- heights %>% 
+heights_max_in <- heights_brolgar %>% 
   features(height_cm, list(max = max,
                            increase = increasing))
 
@@ -540,7 +526,7 @@ We can now **Join this table back to the data to get all observations for those 
 
 ```{r heights-max-in-full}
 heights_max_in_full <- heights_max_in %>% 
-  left_join(heights,
+  left_join(heights_brolgar,
             by = "country")
 
 heights_max_in_full
@@ -560,23 +546,19 @@ heights_top <- heights_max_in_full %>% top_n(n = 1, wt = max)
 heights_top
 ```
 
-We can then display the data by highlighting it in the background, first creating a background plot
+We can then display the data by highlighting it in the background, first creating a background plot and overlaying the plots on top of this as an additional ggplot layer, in Figure \@ref(fig:gg-increase-max).
 
-```{r gg-background}
+```{r gg-background, echo = FALSE}
 gg_height_bg <- ggplot(heights_max_in_full,
        aes(x = year,
            y = height_cm,
            group = country)) +
   geom_line(colour = "gray",
             alpha = 0.3) 
-
-gg_height_bg
 ```
 
-
-```{r gg-increase-max}
-(gg_height_bg + 
-   geom_line(data = heights_increase)) +
+```{r gg-increase-max, echo = FALSE, fig.cap = "Plots of the data in background, with the countries that always increase in height in A, and the country with the tallest people on B"}
+(gg_height_bg + geom_line(data = heights_increase)) +
 (gg_height_bg + geom_line(data = heights_top)) +
   plot_annotation(tag_levels = "A")
 ```
@@ -585,7 +567,12 @@ gg_height_bg
 # Dancing with Models
 
 **note - try using RSS instead of only residuals for the keys_near**
+
+
 **note - also look into Sweden - it's there twice**
+
+- Sweden appears only once in the data
+
 
 These same workflows can be used to interpret and explore a model. As the data tends to follow a non linear trajectory, we use a general additive model (gam) with the `mgcv` R package [@mgcv] using the code below:
 
@@ -597,18 +584,21 @@ heights_gam <- gam(
   )
 ```
 
-This fits height in centimetres with a smooth effect for year for each country, with a different intercept for each country. It is roughly equivalent to a random intercept varying slope model. Note that this gam model took approximately `r round(model_time)` seconds to fit. We add the predicted and residual values for the model below
+This fits height in centimetres with a smooth effect for year for each country, with a different intercept for each country. It is roughly equivalent to a random intercept varying slope model. Note that this gam model took approximately `r round(model_time)` seconds to fit. We add the predicted and residual values for the model below, as well as the residual sums of squares for each country.
 
 ```{r tar-load-gam, echo = FALSE}
 heights_gam <- heights_gam$model
 ```
 
-
 ```{r heights-lmer}
 library(mgcv)
+library(modelr)
 heights_aug <- heights_brolgar %>%
   add_predictions(heights_gam, var = "pred") %>%
-  add_residuals(heights_gam, var = "res")
+  add_residuals(heights_gam, var = "res") %>% 
+  group_by_key() %>% 
+  mutate(rss = sum(res^2)) %>% 
+  ungroup()
 ```
 
 We can use the previous approach to explore the model results. We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions. In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "stereotyping".
@@ -624,7 +614,7 @@ heights_aug %>%
   facet_wrap(~country)
 ```
 
-# Stereotyping
+# Stereotyping {#steretyping}
 
 To help understand a population of measurements over time, it can be useful to understand which individual measurements are typical (or "stereotypical") of a measurement. For example, understand which individuals are a stereotypical of a statistic such as the minimum, median, and maximum height. This section discusses how to find these stereotypes in data.
 
@@ -654,23 +644,22 @@ gg_resid +
                            y = y_pos))
 ```
 
-We can do this using `keys_near()` from `brolgar`. By default this uses the 5 number summary, but any function can be used. You specify the variable you want to find the keys nearest, in this case `res`, the residuals:
+We can do this using `keys_near()` from `brolgar`. By default this uses the 5 number summary, but any function can be used. You specify the variable you want to find the keys nearest, in this case `rss`, residual sums of squares for each key:
 
 ```{r heights-aug-keys-near}
-keys_near(heights_aug, 
-          var = res)
+keys_near(heights_aug, var = rss)
 ```
 
 To plot the data, they need to be joined back to the original data, we use a left join, joining by country.
 
 ```{r heights-keys-near-join}
-heights_near_aug <- keys_near(heights_aug, 
-          var = res) %>% 
-  left_join(heights_aug,
+heights_near_aug <- heights_aug %>% 
+  keys_near(var = rss) %>% 
+  left_join(heights_aug, 
             by = c("country"))
 ```
 
-Figure \@ref(fig:heights-keys-near) shows those countries closest to the five number summary. Observing this, we see that the minimum residual for Ireland has a few outliers that throw the result off. This is useful, as it tells us that this model is not capturing the non-linear aspect of the data, and that such a model should be used to better represent the data.
+Figure \@ref(fig:heights-keys-near) shows those countries closest to the five number summary. Observing this, we see that the minimum RSS for Moldova fits a nearly perfectly straight line, and the maximum residuals for Myanmar have wide spread of values.
 
 ```{r heights-keys-near, fig.cap = "keys nearest visualised"}
 ggplot(heights_near_aug,
@@ -681,16 +670,17 @@ ggplot(heights_near_aug,
   geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~stat + country,
-             labeller = label_glue("Country: {country} \nNearest to {stat} residual")) + 
+             labeller = label_glue("Country: {country} \nNearest to {stat} RSS")) + 
   theme(legend.position = "none")
 ```
 
+(Note - this doesn't work?)
 
-We can also look at the nearest 3 countries to each statistics, by changing `top_n = 3`:
+We can also look at the nearest 3 countries to each statistic, by changing `top_n = 3`:
 
 ```{r heights-keys-near-extra}
 heights_near_aug_3 <- keys_near(heights_aug, 
-          var = res,
+          var = rss,
           top_n = 3) %>% 
   left_join(heights_aug,
             by = c("country"))
@@ -707,13 +697,13 @@ ggplot(heights_near_aug_3,
   geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
   facet_wrap(~stat + country,
-             labeller = label_glue("Country: {country} \nNearest to {stat} residual"),
+             labeller = label_glue("Country: {country} \nNearest to {stat} RSS"),
              ncol = 3) + 
   theme(legend.position = "none")
 ```
 
 
-# How to Install and Getting Started
+# How to Install and Getting Started {#install}
 
 The `brolgar` R package can be installed from CRAN using `install.packages("brolgar")`. The functions are all designed to build upon existing packages, but are predicated on working with `tsibble`.  The package extends upon `ggplot2` to provide facets for exploration: `facet_sample()` and `facet_strata()`. Extending `dplyr`'s `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to find those keys near a summary statistic. Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`.
 
@@ -721,7 +711,7 @@ To get started with `brolgar` you must first ensure your data is specified as a 
 
 To further explore longitudinal data, we recommend finding summary features of each variable with `features`, and identifying variables that are near summary statistics, using `keys_near` to find individuals stereotypical of a statistical value.
 
-# Summary 
+# Summary {#summary}
 
 The `brolgar` package facilitates exploring longitudinal data in R. It builds upon existing infrastructure from `tsibble`, and `feasts`, which work within the `tidyverse` family of R packages, as well as the newer, `tidyverts`, time series packages. Users familiar with either of these package families will find a lot of similarity in their use, and first time users will be able to easily transition from `brolgar` to the `tidyverse` or `tidyverts`. 
 
@@ -741,35 +731,9 @@ We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain
 - Remove large chunks of code
 - No more overthinking! Just clean it up!
 - Keep it simple
-- Goal for next week, send it to Tania. 
-
 
 # Extras
 
- First, looking at all the data (Figure \@ref(fig:gg-heights-lmer)A), then looking at many sub-samples with `facet_sample()` (Figure \@ref(fig:gg-heights-lmer)B), all sub-samples with `facet_strata()` (Figure \@ref(fig:gg-heights-lmer)C), all sub-samples, arranging along residuals, with `facet_strata(along = -res)` \@ref(fig:gg-heights-lmer)D). 
+(**not sure where to put this paragraph**)
 
-((**Note**: I'm not entirely sure how useful this is? I mean the last one is kinda useful?)
-
-```{r gg-heights-lmer, fig.cap = "Figure of", fig.height = 10, fig.width = 6, echo = FALSE}
-gg_heights_aug <- ggplot(heights_aug,
-       aes(x = year,
-           y = pred,
-           group = country)) + 
-  geom_line() 
-
-p1 <- gg_heights_aug
-
-p2 <- gg_heights_aug + facet_sample(n_facets = 6)
-
-p3 <- gg_heights_aug + facet_strata(n_strata = 6)
-
-p4 <- gg_heights_aug + facet_strata(n_strata = 6, along = -res)
-
-p1 / p2 / (p3 + p4) + plot_annotation(tag_levels = "A")
-```
-
-
-
-**note - do I need this extra final paragraph, it feels a bit repetitive**
-
-> We have addressed the four problem areas of, "looking at some of the data" by describing how to treat longitudinal data as a time series, and then using `facet_sample()` and `facet_strata()`. Interesting observations can be identified by first deciding what features are interesting, summarising observations to one key, deciding how to filter,r and then joining the summarised data back to the original. Models can be understood by applying the same tools used to explore data. 
+Operations for custom long and wide formats of panel data are not needed since they are handled using `tsibble` and `dplyr`. This avoids needing to learn additional new functions that achieve the same reshaping results. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 

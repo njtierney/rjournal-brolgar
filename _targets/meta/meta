@@ -4,9 +4,9 @@ prepare_heights|function|08e03d21fc58ed44||||||||||||||
 fit_heights_gam|function|e083e740765b47ee||||||||||||||
 heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|3f0477b2a5ddd982|f2a2ac9c3636eaec|12621|rds|vector|||0.107||
 model_time|stem|deffa83754933688|2ac57ca4e6b6ed92|20b130699c7c5196|1209628497|_targets/objects/model_time|83e882c1d2ba4be9|b3654bf3682c79ca|86|rds|vector|||0||
-report|stem|2590241fe40fdfd1|da0ce404dca11327|3a21e20a5859c4ec|-237041703|paper/brolgar-paper.html*paper/brolgar-paper.Rmd|69a70c2135767e38|10cfe210b0471406|5415919|file|vector|||25.121|The labels figheightskeysnear not found .|
+report|stem|8c85ac8c3f89277e|da0ce404dca11327|3a21e20a5859c4ec|-237041703|paper/brolgar-paper.html*paper/brolgar-paper.Rmd|3a017b6f03bbe25f||5416863|file|vector|||15.093||Faceting variables must have at least one value .
 prepare_heights|function|08e03d21fc58ed44
 fit_heights_gam|function|e083e740765b47ee
 heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|3f0477b2a5ddd982|f2a2ac9c3636eaec|12621|rds|vector|||0.107||
 model_time|stem|deffa83754933688|2ac57ca4e6b6ed92|20b130699c7c5196|1209628497|_targets/objects/model_time|83e882c1d2ba4be9|b3654bf3682c79ca|86|rds|vector|||0||
-report|stem|21e0b43a0e5b2ec3|da0ce404dca11327|3a21e20a5859c4ec|-237041703|paper/brolgar-paper.html*paper/brolgar-paper.Rmd|c4bf9b043fd7534f|6f579210d99193de|5416363|file|vector|||22.778||
+report|stem|ae314929bc92acc3|da0ce404dca11327|3a21e20a5859c4ec|-237041703|paper/brolgar-paper.html*paper/brolgar-paper.Rmd|5c19f9cd5cde07fc|9b5b26c5752d6506|4265394|file|vector|||20.487||
