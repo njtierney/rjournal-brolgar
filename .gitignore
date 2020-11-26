@@ -9,3 +9,4 @@ brolgar-paper.R
 *.log
 brolgar-paper_files/
 paper/*.html
+.DS_Store

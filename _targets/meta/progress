@@ -1,4 +1,7 @@
 name|progress
-heights_brolgar|running
-heights_brolgar|built
 heights_gam|running
+heights_gam|built
+model_time|running
+model_time|built
+report|running
+report|built

@@ -46,7 +46,7 @@ output: rticles::rjournal_article
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r source-pkgs}
+```{r source-pkgs, echo = FALSE}
 source(here::here("packages.R"))
 source(here::here("conflicts.R"))
 ```
@@ -566,14 +566,6 @@ gg_height_bg <- ggplot(heights_max_in_full,
 
 # Dancing with Models
 
-**note - try using RSS instead of only residuals for the keys_near**
-
-
-**note - also look into Sweden - it's there twice**
-
-- Sweden appears only once in the data
-
-
 These same workflows can be used to interpret and explore a model. As the data tends to follow a non linear trajectory, we use a general additive model (gam) with the `mgcv` R package [@mgcv] using the code below:
 
 ```{r mgcv-fit, eval = FALSE}
@@ -611,7 +603,8 @@ heights_aug %>%
              group = country)) + 
   geom_line() +
   geom_point(aes(y = height_cm)) + 
-  facet_wrap(~country)
+  facet_wrap(~country,
+             nrow = 1)
 ```
 
 # Stereotyping {#steretyping}
@@ -674,30 +667,38 @@ ggplot(heights_near_aug,
   theme(legend.position = "none")
 ```
 
-(Note - this doesn't work?)
-
-We can also look at the nearest 3 countries to each statistic, by changing `top_n = 3`:
+We can also look at the highest and lowest 3 residual sums of squares:
 
 ```{r heights-keys-near-extra}
-heights_near_aug_3 <- keys_near(heights_aug, 
-          var = rss,
-          top_n = 3) %>% 
+heights_near_aug_top_3 <- heights_aug %>% 
+  distinct(country, rss) %>% 
+  top_n(n = 3,
+        wt = rss)
+
+heights_near_aug_bottom_3 <- heights_aug %>% 
+  distinct(country, rss) %>% 
+  top_n(n = -3,
+        wt = rss)
+
+heights_near_top_bot_3 <- bind_rows(highest_3 = heights_near_aug_top_3,
+                                    lowest_3 = heights_near_aug_bottom_3,
+                                    .id = "rank") %>% 
   left_join(heights_aug,
-            by = c("country"))
+            by = c("country", "rss"))
 ```
 
 Figure \@ref(fig:heights-keys-near-fancy-label) shows the same information as the previous plot, but with the 3 representative countries for each statistic. This gives us more data on what the stereotypically "good" and "poor" fitting countries to this model.
 
 ```{r heights-keys-near-fancy-label, fig.height = 12, fig.cap = "Figure of stereotypes for three", echo = FALSE}
-ggplot(heights_near_aug_3,
+ggplot(heights_near_top_bot_3,
        aes(x = year,
              y = pred,
              group = country,
-             colour = stat)) + 
+             colour = rank)) + 
   geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
-  facet_wrap(~stat + country,
-             labeller = label_glue("Country: {country} \nNearest to {stat} RSS"),
+  facet_wrap(~rank + country,
+             labeller = label_glue("Country: {country} \n{rank} RSS"),
              ncol = 3) + 
   theme(legend.position = "none")
 ```
@@ -726,27 +727,14 @@ The `brolgar` package facilitates exploring longitudinal data in R. It builds up
 
 Future work will explore more features and stratifications, and stereotypes, and generalise the tools to work for data without time components.
 
-# References {-}
-
-<div id="refs"></div>
-
 # Acknowledgements {-}
 
 We'd like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles McBain for their discussion on the design of `brolgar`. We'd also like to thank Rob Hyndman, Monash University, and ACEMS for their supporting this research.
 
-## Paper Source
+# Paper Source {-}
 
 The complete source files for the paper can be found at https://github.com/njtierney/rjournal-brolgar. The paper is built using rmarkdown, `targets` and `capsule` to ensure R package versions are the same. See the README file on the github repository for details on recreating the paper.
 
-# Notes for fixing
+# References {-}
 
-- Keep it simple
-- Remove large chunks of code
-- No more overthinking! Just clean it up!
-- Keep it simple
-
-# Extras
-
-(**not sure where to put this paragraph**)
-
-Operations for custom long and wide formats of panel data are not needed since they are handled using `tsibble` and `dplyr`. This avoids needing to learn additional new functions that achieve the same reshaping results. There are indeed some useful aspects of the specific data cleaning, but they are limited in how they interact with other R packages. `brolgar` provides more flexibility since it relies on `tsibble`, which ensures data manipulation with `dplyr` respects groups. Additionally, it is not limited to specific panel data tools, and can work more generally with general modelling software, in particular other ecosystems such as `fable`  and `feasts`. 
+<div id="refs"></div>
