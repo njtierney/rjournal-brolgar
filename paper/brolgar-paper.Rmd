@@ -58,8 +58,7 @@ knitr::opts_chunk$set(warning = FALSE,
                       out.width = "95%",
                       retina = 3,
                       fig.height = 4,
-                      dev = "png",
-                      dpi = 300)
+                      dev = "png")
 ```
 
 ```{r source-pkgs, echo = FALSE, include = FALSE}
@@ -660,7 +659,7 @@ heights_near_aug <- heights_aug %>%
 
 Figure \ref{fig:heights-keys-near} shows those countries closest to the five number summary. Observing this, we see that the minimum RSS for Moldova fits a nearly perfectly straight line, and the maximum residuals for Myanmar have wide spread of values.
 
-```{r heights-keys-near, fig.cap = "The keys nearest to the five number summary of the residual sums of squares are displayed. We learn that Moldova and Madagascar are fit by a nearly straight line, and the remaining countries with poorer fit have greater variation in height.", fig.height = 8, fig.width = 8}
+```{r heights-keys-near, fig.cap = "The keys nearest to the five number summary of the residual sums of squares are displayed. We learn that Moldova and Madagascar are fit by a nearly straight line, and the remaining countries with poorer fit have greater variation in height.", fig.height = 2}
 ggplot(heights_near_aug,
        aes(x = year,
            y = pred,
@@ -670,9 +669,10 @@ ggplot(heights_near_aug,
   geom_point(aes(y = height_cm)) + 
   scale_x_continuous(breaks = c(1780, 1880, 1980)) +
   facet_wrap(~stat + country,
-             labeller = label_glue("Country: {country} \nNearest to {stat} RSS"),
+             labeller = label_glue("Country: {country} \nNearest to \n{stat} RSS"),
              nrow = 1) + 
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+        aspect.ratio = 1)
 ```
 
 We can also look at the highest and lowest 3 residual sums of squares:
