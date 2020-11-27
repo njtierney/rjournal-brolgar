@@ -1,17 +1,4 @@
 ---
-title: 'brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R'
-authors: "Nicholas Tierney, Dianne Cook, Tania Prvan"
-output:
-  bookdown::html_document2:
-    toc: yes
-    toc_float: yes
-  pdf_document:
-    keep_tex: yes
-bibliography: brolgar-paper.bib
----
-
-<!--
----
 title: "brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R"
 author:
   # see ?rjournal_article for more information
@@ -32,16 +19,38 @@ author:
     affiliation2: ACEMS
     address2:
     - ACEMS Brisbane
+  - name: Tania Prvan
+    url: https://dicook.org
+    email: dicook@monash.edu
+    orcid: 0000-0002-9079-593X
+    affiliation: Monash University
+    address:
+    - Monash Clayton
+    affiliation2: ACEMS
+    address2:
+    - ACEMS Brisbane
 abstract: >
-  An abstract of less than 150 words.
+  Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 preamble: |
   % Any extra LaTeX you need in the preamble
-# per R journal requirement, the bib filename should be the same as the output
-# tex file. Don't forget to rename the bib file and change this example value.
 bibliography: brolgar-paper.bib
-output: rticles::rjournal_article
+output: 
+  bookdown::pdf_book:
+    base_format: rticles::rjournal_article
 ---
--->
+
+<!-- --- -->
+<!-- title: 'brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R' -->
+<!-- authors: "Nicholas Tierney, Dianne Cook, Tania Prvan" -->
+<!-- output: -->
+<!--   bookdown::html_document2: -->
+<!--     toc: yes -->
+<!--     toc_float: yes -->
+<!--   pdf_document: -->
+<!--     keep_tex: yes -->
+
+<!-- --- -->
+
 
 ```{r setup, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -52,16 +61,11 @@ suppressMessages(source(here::here("packages.R")))
 suppressMessages(source(here::here("conflicts.R")))
 ```
 
-
 ```{r load, message = FALSE, echo = FALSE}
 tar_load(heights_gam)
 tar_load(model_time)
 tar_load(heights_brolgar)
 ```
-
-# Abstract
-
-Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 
 # Introduction
 
@@ -595,7 +599,7 @@ heights_aug <- heights_brolgar %>%
 
 We can use the previous approach to explore the model results. We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions. In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "stereotyping".
 
-```{r sample-n-keys-model, fig.cap = "Exploration of a random sample of the data using the 'sample_n_keys' function. This shows the data in points of 12 countries, with the model fit (blue)."}
+```{r sample-n-keys-model, fig.cap = "Exploration of a random sample of the data. This shows the data in points of 12 countries, with the model fit in blue."}
 heights_aug %>% 
   sample_n_keys(12) %>% 
   ggplot(aes(x = year,
