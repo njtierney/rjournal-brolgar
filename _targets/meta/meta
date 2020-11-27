@@ -1,10 +1,12 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|iteration|parent|children|seconds|warnings|error
+heights_gam|stem|db8efefeadc5ef8d|8abaadad8a802885|1d99044961d65f83|375493368|_targets/objects/heights_gam|dd076a5538b0beda|c0a57c062a39a767|59061659|rds|vector|||8074.414||
 prepare_heights|function|08e03d21fc58ed44||||||||||||||
 fit_heights_gam|function|e083e740765b47ee||||||||||||||
-heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|ff22c7e063282a90|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
+heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|1be559a65e0f91e5|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
+model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497|_targets/objects/model_time|3923a1fdc6d0c44d|b3654bf3682c79ca|86|rds|vector|||0||
+report|stem|11a8ef2a6ba9b886|da0ce404dca11327|391c22420cd72d81|-237041703|paper/brolgar-paper.html*paper/brolgar-paper.Rmd|39e08842203cdd1d|4a3e6eef3898b765|4147197|file|vector|||20.943||
 prepare_heights|function|08e03d21fc58ed44
 fit_heights_gam|function|e083e740765b47ee
-heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|ff22c7e063282a90|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
-heights_gam|stem|db8efefeadc5ef8d|8abaadad8a802885|1d99044961d65f83|375493368|_targets/objects/heights_gam|196d97615bd241d0|c0a57c062a39a767|59061659|rds|vector|||8074.414||
-model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497|_targets/objects/model_time|17b3615f408befea|b3654bf3682c79ca|86|rds|vector|||0||
-report|stem|56b4cb743698f279|da0ce404dca11327|391c22420cd72d81|-237041703|paper/brolgar-paper.html*paper/brolgar-paper.Rmd|0f3a464a7aa35386|dc09dca764e24498|4260829|file|vector|||31.02||
+heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|1be559a65e0f91e5|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
+model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497|_targets/objects/model_time|3923a1fdc6d0c44d|b3654bf3682c79ca|86|rds|vector|||0||
+report|stem|6a6727f4a694f325|da0ce404dca11327|391c22420cd72d81|-237041703|paper/brolgar-paper.html*paper/brolgar-paper.Rmd|4b141b1d4c208a70|84a420eee1bcefa1|4139338|file|vector|||21.847||

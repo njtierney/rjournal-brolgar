@@ -7,6 +7,7 @@ output:
     toc_float: yes
   pdf_document:
     keep_tex: yes
+bibliography: brolgar-paper.bib
 ---
 
 <!--
@@ -46,9 +47,9 @@ output: rticles::rjournal_article
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r source-pkgs, echo = FALSE}
-source(here::here("packages.R"))
-source(here::here("conflicts.R"))
+```{r source-pkgs, echo = FALSE, include = FALSE}
+suppressMessages(source(here::here("packages.R")))
+suppressMessages(source(here::here("conflicts.R")))
 ```
 
 
@@ -67,7 +68,7 @@ Longitudinal (panel) data provide the opportunity to examine temporal patterns o
 This paper is about exploring longitudinal data effectively. Longitudinal data can be defined as individuals repeatedly measured through time, and its inherent structure allows us to examine temporal patterns of individuals. This structure is shown in Figure \@ref(fig:heights-sample-plot), which shows a sample of data from the average height of Australian males. The individual component is `country`, and the time component is `year`. The variable `country` is measured repeatedly from 1900 to 1970, with irregular time periods between years.
 
 
-```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.", echo = FALSE}
+```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.", echo = FALSE, fig.height = 5, fig.width = 12}
 
 heights_oz <- heights_brolgar %>% 
   filter(country == "Australia") %>% 
@@ -125,11 +126,11 @@ This paper demonstrates how to effectively and efficiently explore longitudinal 
 3. Finding representative individuals
 4. Understanding a model
 
-This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data (Section \@ref(other-approaches)), then the definition of longitudinal data (Section \@ref(data)), then approaches to these four problems are discussed (Section (\@ref(building-on-tsibble)) - Section (\@ref(steretyping))), followed by a summary (\@ref(summary)).
+This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data (Section \@ref(other-approaches)), then the definition of longitudinal data (Section \@ref(data)), then approaches to these four problems are discussed (Section \@ref(building-on-tsibble) - Section \@ref(steretyping)), followed by a summary in Section \@ref(summary).
 
 # Background {#other-approaches}
 
-R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through packages such as `xts`, and `zoo`, which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", or may contain irregular intervals.
+R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through packages such as `xts`, and `zoo` [@xts; @zoo], which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...2", or may contain irregular intervals.
 
 Other packages focus more directly on panel data in R, focussing on data operations and model interfaces. The `pmdplyr` package provides "Panel Manoeuvres" in "dplyr" [@pmdplyr]. It defines the data structure in as a `pibble` object (**p**anel t**ibble**), requiring an `id` and `group` column being defined to identify the unique identifier and grouping. The `pmdplyr` package focusses on efficient and custom joins and functions, such as `inexact_left_join()`. It does not implement tidyverse equivalent tools, but instead extends their usecase with a new function, for example `mutate_cascade` and `mutate_subset`. `panelr` provides an interface for data reshaping on panel data, providing widening and lengthening functions (`widen_panel()` and `long_panel()` [@panelr]. It also provides model facilitating functions by providing its own interface for models mixed effects models. 
 
@@ -143,7 +144,7 @@ This time period has structure - the time component (dates, times, waves, second
 
 ## Building on `tsibble` {#building-on-tsibble}
 
-Because longitudinal data can be thought of as "individuals repeatedly measured through time", they can be considered as a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**". This definition has been realised as a time series `tsibble` in [@Wang2018]. These objects are defined as data meeting these conditions:
+Because longitudinal data can be thought of as "individuals repeatedly measured through time", they can be considered as a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**". This definition has been realised as a time series `tsibble` in [@Wang2020]. These objects are defined as data meeting these conditions:
 
 1. The `index`: the time variable
 2. The `key`: variable(s) defining individual groups (or series)
@@ -164,7 +165,7 @@ heights_brolgar <- as_tsibble(heights_brolgar,
 
 The `index` is `year`, the `key` is `country`, and `regular = FALSE`, since there are not regular intervals in the years measured. Using a `tsibble` means they index and key time series information is recorded **once**, and can be referred to many times in other parts of the data analysis by time-aware tools.
 
-In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts].  For example, `tsibble` provides `tidyverse` extension functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For full details and examples of use with the tidyverts time series packages, see @Wang2018.
+In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts].  For example, `tsibble` provides `tidyverse` extension functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For full details and examples of use with the tidyverts time series packages, see @Wang2020.
 
 The `brolgar` package uses `tsibble` so users can take advantage of these tools, learning one way of operating a data analysis that will work and have overlap with other contexts.
 
@@ -211,13 +212,12 @@ heights_three
 
 These can then be visualised together (Figure \@ref(fig:feature-min-med-max)).
 
-```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in cm. We see that there is overlap amongst all three.", echo = FALSE}
+```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in centimeters. Part A shows just the distribution of minimum, part B shows the distribution of minimum, median, and maximum, and part C shows these three values plotted together as a line graph. We see that there is overlap amongst all three statistics. That is, some countries minimum heights are taller that some countries maximum heights.", echo = FALSE}
 p1 <- ggplot(heights_min,
        aes(x = min)) + 
-  geom_density(fill = "salmon") +
+  geom_density(fill = qualitative_hcl(n = 3, palette = "Dark3")[1]) +
   theme(aspect.ratio = 1)
 
-library(colorspace)
 p2 <- heights_three %>% 
   pivot_longer(cols = min:max,
                names_to = "feature",
@@ -249,7 +249,7 @@ ggplot(aes(x = feature,
   geom_line(alpha = 0.6) +
   theme(aspect.ratio = 1)
 
-p1 + p2 + p3
+p1 + p2 + p3 + plot_annotation(tag_levels = "A")
 ```
 
 
@@ -272,7 +272,7 @@ This takes the `heights` data, pipes it to `features`, and then tells it to summ
 - `feat_brolgar()`, which will calculate all features available in the `brolgar` package.
 - Other examples of features from `feasts`
 
-### Feature Sets (note - potentially remove? This isn't something we really demonstrate in the paper)
+### Feature Sets 
 
 If you want to run many or all features from a package on your data you can collect them all with `feature_set`. For example:
 
@@ -284,7 +284,7 @@ length(feat_set_brolgar)
 
 You could then run these like so: 
 
-```{r run-features-set}
+```{r run-features-set, message = FALSE}
 heights_brolgar %>%
   features(height_cm, feat_set_brolgar)
 ```
@@ -507,7 +507,7 @@ heights_max_in
 
 This returns a dataset of **one value per key**. Figure \@ref(fig:heights-max-in-examine) **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are always increasing.
 
-```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height", echo = TRUE}
+```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height", echo = FALSE, fig.height = 4}
 
 gg_max <- ggplot(heights_max_in,
        aes(x = max)) + 
@@ -522,7 +522,7 @@ gg_max + gg_inc + plot_annotation(tag_levels = "A")
 
 ```
 
-We can now **Join this table back to the data to get all observations for those keys** to move from one key per row to all many rows per key.
+We can now **join this table back to the data to get all observations for those keys** to move from one key per row to all many rows per key.
 
 ```{r heights-max-in-full}
 heights_max_in_full <- heights_max_in %>% 
@@ -557,7 +557,7 @@ gg_height_bg <- ggplot(heights_max_in_full,
             alpha = 0.3) 
 ```
 
-```{r gg-increase-max, echo = FALSE, fig.cap = "Plots of the data in background, with the countries that always increase in height in A, and the country with the tallest people on B"}
+```{r gg-increase-max, echo = FALSE, fig.cap = "Plots of the data in background, with the countries that always increase in height in A, and the country with the tallest people on B", fig.height = 4}
 (gg_height_bg + geom_line(data = heights_increase)) +
 (gg_height_bg + geom_line(data = heights_top)) +
   plot_annotation(tag_levels = "A")
@@ -595,16 +595,15 @@ heights_aug <- heights_brolgar %>%
 
 We can use the previous approach to explore the model results. We can take a look at a sample of the predictions along with the data, by using `sample_n_keys`. This provides a useful way to explore some set of the model predictions. In order to find those predictions that best summarise the best, and worst, and in between, we need to use the methods in the next section, "stereotyping".
 
-```{r sample-n-keys-model, fig.cap = "Exploration of a random sample of the data against the predictions"}
+```{r sample-n-keys-model, fig.cap = "Exploration of a random sample of the data using the 'sample_n_keys' function. This shows the data in points of 12 countries, with the model fit (blue)."}
 heights_aug %>% 
-  sample_n_keys(10) %>% 
+  sample_n_keys(12) %>% 
   ggplot(aes(x = year,
              y = pred,
              group = country)) + 
-  geom_line() +
+  geom_line(colour = "steelblue") +
   geom_point(aes(y = height_cm)) + 
-  facet_wrap(~country,
-             nrow = 1)
+  facet_wrap(~country)
 ```
 
 # Stereotyping {#steretyping}
@@ -613,7 +612,7 @@ To help understand a population of measurements over time, it can be useful to u
 
 Figure \@ref(fig:heights-aug-res-summary) shows the residuals of the simple model fit to the data in the previous section. There is an overlaid five number summary, showing the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals, as well as a rug plot to show the data. We can use these residuals to understand the stereotypes of the data - those individuals in the model that best match to this five number summary. 
 
-```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values", echo = FALSE}
+```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values from the model fit. The residuals are centered around zero with some variation.", echo = FALSE}
 heights_aug_res_summary <- 
 tibble(names = names(summary(heights_aug$res)),
        values = as.numeric(round(summary(heights_aug$res),2))) %>% 
@@ -654,7 +653,7 @@ heights_near_aug <- heights_aug %>%
 
 Figure \@ref(fig:heights-keys-near) shows those countries closest to the five number summary. Observing this, we see that the minimum RSS for Moldova fits a nearly perfectly straight line, and the maximum residuals for Myanmar have wide spread of values.
 
-```{r heights-keys-near, fig.cap = "keys nearest visualised"}
+```{r heights-keys-near, fig.cap = "The keys nearest to the five number summary of the residual sums of squares are displayed. We learn that Moldova and Madagascar are fit by a nearly straight line, and the remaining countries with poorer fit have greater variation in height.", fig.height = 4}
 ggplot(heights_near_aug,
        aes(x = year,
            y = pred,
@@ -662,8 +661,10 @@ ggplot(heights_near_aug,
            colour = country)) + 
   geom_line(colour = "orange") + 
   geom_point(aes(y = height_cm)) + 
+  scale_x_continuous(breaks = c(1780, 1880, 1980)) +
   facet_wrap(~stat + country,
-             labeller = label_glue("Country: {country} \nNearest to {stat} RSS")) + 
+             labeller = label_glue("Country: {country} \nNearest to {stat} RSS"),
+             nrow = 1) + 
   theme(legend.position = "none")
 ```
 
@@ -689,7 +690,7 @@ heights_near_top_bot_3 <- bind_rows(highest_3 = heights_near_aug_top_3,
 
 Figure \@ref(fig:heights-keys-near-fancy-label) shows the same information as the previous plot, but with the 3 representative countries for each statistic. This gives us more data on what the stereotypically "good" and "poor" fitting countries to this model.
 
-```{r heights-keys-near-fancy-label, fig.height = 12, fig.cap = "Figure of stereotypes for three", echo = FALSE}
+```{r heights-keys-near-fancy-label, fig.cap = "Figure of stereotypes for three", echo = FALSE}
 ggplot(heights_near_top_bot_3,
        aes(x = year,
              y = pred,
