@@ -5,38 +5,37 @@ author:
   - name: Nicholas Tierney
     affiliation: Monash University
     address:
-    - Monash Clayton
+    - Department of Econometrics and Business Statistics
     url: https://njtierney.com
-    orcid: 0000-0002-9079-593X
+    orcid: 0000-0003-1460-8722
     email:  nicholas.tierney@gmail.com
+    affiliation2: ACEMS
+    address2:
+    - ACEMS Brisbane
   - name: Dianne Cook
     url: https://dicook.org
     email: dicook@monash.edu
-    orcid: 0000-0002-9079-593X
+    orcid: 0000-0002-3813-7155
     affiliation: Monash University
     address:
-    - Monash Clayton
+    - Department of Econometrics and Business Statistics
     affiliation2: ACEMS
     address2:
     - ACEMS Brisbane
   - name: Tania Prvan
-    url: https://dicook.org
-    email: dicook@monash.edu
-    orcid: 0000-0002-9079-593X
-    affiliation: Monash University
+    email: tania.prvan@mq.edu.au
+    orcid: 0000-0002-6403-4344
+    affiliation: MacQuarie University
     address:
-    - Monash Clayton
-    affiliation2: ACEMS
-    address2:
-    - ACEMS Brisbane
+    - Department of Mathematics and Statistics
 abstract: >
   Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 preamble: |
-  % Any extra LaTeX you need in the preamble
+  \usepackage{float}
 bibliography: brolgar-paper.bib
-output: 
-  bookdown::pdf_book:
-    base_format: rticles::rjournal_article
+output: rticles::rjournal_article
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- --- -->
@@ -52,8 +51,15 @@ output:
 <!-- --- -->
 
 
-```{r setup, echo = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE, comment = FALSE}
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE, 
+                      echo = TRUE,
+                      out.width = "95%",
+                      retina = 3,
+                      fig.height = 4,
+                      dev = "png",
+                      dpi = 300)
 ```
 
 ```{r source-pkgs, echo = FALSE, include = FALSE}
@@ -69,7 +75,7 @@ tar_load(heights_brolgar)
 
 # Introduction
 
-This paper is about exploring longitudinal data effectively. Longitudinal data can be defined as individuals repeatedly measured through time, and its inherent structure allows us to examine temporal patterns of individuals. This structure is shown in Figure \@ref(fig:heights-sample-plot), which shows a sample of data from the average height of Australian males. The individual component is `country`, and the time component is `year`. The variable `country` is measured repeatedly from 1900 to 1970, with irregular time periods between years.
+This paper is about exploring longitudinal data effectively. Longitudinal data can be defined as individuals repeatedly measured through time, and its inherent structure allows us to examine temporal patterns of individuals. This structure is shown in Figure \ref{fig:heights-sample-plot}, which shows a sample of data from the average height of Australian males. The individual component is `country`, and the time component is `year`. The variable `country` is measured repeatedly from 1900 to 1970, with irregular time periods between years.
 
 
 ```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.", echo = FALSE, fig.height = 5, fig.width = 12}
@@ -101,7 +107,7 @@ grid.arrange(tbl_heights_oz,
              as.table = TRUE)
 ```
 
-The full dataset of Figure \@ref(fig:heights-sample-plot) is shown in Figure \@ref(fig:spaghetti), showing 144 countries from the year 1700. This plot is challenging to understand because there is overplotting, making it hard to see the individuals. Solutions to this aren't always obvious. Showing separate individual plots of each country doesn't help, as 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \@ref(fig:spaghetti)B, might be a common first step to see common trends. However, all this seems to clarify is: 1) There is some set of countries that are similar, and they are distributed around the center of the countries, and 2) there is a general upward trend in heights over time. We learn about the collective, but lose sight of the individuals.
+The full dataset of Figure \ref{fig:heights-sample-plot} is shown in Figure \ref{fig:spaghetti}, showing 144 countries from the year 1700. This plot is challenging to understand because there is overplotting, making it hard to see the individuals. Solutions to this aren't always obvious. Showing separate individual plots of each country doesn't help, as 144 plots is too many. Making the lines transparent or fitting a simple model to all the data Figure \ref{fig:spaghetti}B, might be a common first step to see common trends. However, all this seems to clarify is: 1) There is some set of countries that are similar, and they are distributed around the center of the countries, and 2) there is a general upward trend in heights over time. We learn about the collective, but lose sight of the individuals.
 
 ```{r spaghetti, fig.height = 4, fig.width = 12, message = FALSE, fig.cap = "The full dataset shown as a spaghetti plot (A), with transparency (B), and with a linear model overlayed (C). It is still hard to see the individuals.", echo = FALSE, warning=FALSE}
 spaghetti <- ggplot(heights_brolgar,
@@ -130,7 +136,7 @@ This paper demonstrates how to effectively and efficiently explore longitudinal 
 3. Finding representative individuals
 4. Understanding a model
 
-This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data (Section \@ref(other-approaches)), then the definition of longitudinal data (Section \@ref(data)), then approaches to these four problems are discussed (Section \@ref(building-on-tsibble) - Section \@ref(steretyping)), followed by a summary in Section \@ref(summary).
+This paper proceeds in the following way: first, a brief review of existing approaches to longitudinal data, then the definition of longitudinal data, then approaches to these four problems are discussed, followed by a summary.
 
 # Background {#other-approaches}
 
@@ -156,7 +162,7 @@ Because longitudinal data can be thought of as "individuals repeatedly measured 
 
 If the specified key and index pair do not define a distinct row - for example, if there are duplicates in the data, the `tsibble` will not be created. This helps ensure the data is properly understood and cleaned before analysis is conducted, removing avoidable errors that might have impacted downstream decisions.
 
-We can formally define our `heights` data from Figure \@ref(fig:heights-sample-plot) as a `tsibble` using, `as_tsibble`:
+We can formally define our `heights` data from Figure \ref{fig:heights-sample-plot} as a `tsibble` using, `as_tsibble`:
 
 
 ```{r define-heights, eval = FALSE}
@@ -199,7 +205,7 @@ heights_min <- features(.tbl = heights_brolgar,
 heights_min
 ```
 
-We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \@ref(fig:feature-min-med-max)A)
+We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \ref{fig:feature-min-med-max}A)
 
 We are not limited to one feature at a time, many features can also be calculated, for example:
 
@@ -214,13 +220,12 @@ heights_three <- heights_brolgar %>%
 heights_three
 ```
 
-These can then be visualised together (Figure \@ref(fig:feature-min-med-max)).
+These can then be visualised together (Figure \ref{fig:feature-min-med-max}).
 
 ```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in centimeters. Part A shows just the distribution of minimum, part B shows the distribution of minimum, median, and maximum, and part C shows these three values plotted together as a line graph. We see that there is overlap amongst all three statistics. That is, some countries minimum heights are taller that some countries maximum heights.", echo = FALSE}
 p1 <- ggplot(heights_min,
        aes(x = min)) + 
-  geom_density(fill = qualitative_hcl(n = 3, palette = "Dark3")[1]) +
-  theme(aspect.ratio = 1)
+  geom_density(fill = qualitative_hcl(n = 3, palette = "Dark3")[1]) 
 
 p2 <- heights_three %>% 
   pivot_longer(cols = min:max,
@@ -234,8 +239,7 @@ p2 <- heights_three %>%
        fill = "Feature") + 
   scale_fill_discrete_qualitative(palette = "Dark 3") +
   # inset the legend?
-  theme(legend.position = "none",
-        aspect.ratio = 1)
+  theme(legend.position = "none")
 
 
 p3 <- 
@@ -250,8 +254,7 @@ heights_three %>%
 ggplot(aes(x = feature,
            y = value,
            group = country)) + 
-  geom_line(alpha = 0.6) +
-  theme(aspect.ratio = 1)
+  geom_line(alpha = 0.6)
 
 p1 + p2 + p3 + plot_annotation(tag_levels = "A")
 ```
@@ -338,11 +341,11 @@ This demonstrates a workflow that can be used to understand and explore your lon
 
 # Breaking up the Spaghetti
 
-Plots like Figure \@ref(fig:spaghetti) are often called, "spaghetti plots", and can be useful for a high level understanding as a whole. However, we cannot process and understand the individuals when the data is presented like this.
+Plots like Figure \ref{fig:spaghetti} are often called, "spaghetti plots", and can be useful for a high level understanding as a whole. However, we cannot process and understand the individuals when the data is presented like this.
 
 ## Sampling
 
-Just how spaghetti is portioned out for consumption, we can sample some of the data by randomly sampling the data into sub-plots with the `facet_sample()` function  (Figure \@ref(fig:facet-sample)). 
+Just how spaghetti is portioned out for consumption, we can sample some of the data by randomly sampling the data into sub-plots with the `facet_sample()` function  (Figure \ref{fig:facet-sample}). 
 
 
 ```{r facet-sample, fig.cap = "Twelve facets with three keys per facet shown. This allows us to quickly view a random sample of the data."}
@@ -354,7 +357,7 @@ ggplot(heights_brolgar,
   facet_sample()
 ```
 
-This defaults to 12 facets and 3 samples per facet, and provides options for the number of facets, and the number of samples per facet. This means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?". The code to change the figure from Figure \@ref(fig:spaghetti) into \@ref(fig:facet-sample) requires only one line of code, shown below:
+This defaults to 12 facets and 3 samples per facet, and provides options for the number of facets, and the number of samples per facet. This means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?". The code to change the figure from Figure \ref{fig:spaghetti} into \ref{fig:facet-sample} requires only one line of code, shown below:
 
 ```r
 ggplot(heights_brolgar,
@@ -368,7 +371,7 @@ ggplot(heights_brolgar,
 
 ## Stratifying
 
-Extending this idea of samples, we can instead look at **all** of the data, spread out equally over facets, using `facet_strata()`. Is uses 12 facets by default, controllable with `n_strata`. The code to do so is shown below, creating Figure \@ref(fig:facet-strata).
+Extending this idea of samples, we can instead look at **all** of the data, spread out equally over facets, using `facet_strata()`. Is uses 12 facets by default, controllable with `n_strata`. The code to do so is shown below, creating Figure \ref{fig:facet-strata}.
 
 ```{r facet-strata, echo = TRUE, fig.cap = "All of the data is shown by spreading out each key across twelve facets. Each key is only shown once, and is randomly allocated to a facet."}
 ggplot(heights_brolgar,
@@ -381,7 +384,7 @@ ggplot(heights_brolgar,
 
 ## Featuring
 
-Figure \@ref(fig:facet-strata) and Figure \@ref(fig:facet-sample) only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \@ref(fig:facet-year-along):
+Figure \ref{fig:facet-strata} and Figure \ref{fig:facet-sample} only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \ref{fig:facet-year-along}:
 
 ```{r facet-year-along, echo = TRUE, fig.cap = "Displaying all the data across twelve facets. Instead of each key being randomly in a facet, each facet displays a specified range of values of year. In this case, the top left facet shows the keys with the earliest starting year, and the bottom right shows the facet with the latest starting year."}
 ggplot(heights_brolgar,
@@ -431,14 +434,14 @@ heights_brolgar <- heights %>%
   filter(n_obs >= 5)
 ```
 
-We can further explore when countries are first getting measured using `features` to find the first year for each country number of starting years with the `first` function from `dplyr`, and explore this with a visualisation (Figure \@ref(fig:feature-first-gg)).
+We can further explore when countries are first getting measured using `features` to find the first year for each country number of starting years with the `first` function from `dplyr`, and explore this with a visualisation (Figure \ref{fig:feature-first-gg}).
 
 ```{r feature-first}
 heights_brolgar %>% 
   features(year, c(first = first))
 ```
 
-```{r feature-first-gg, fig.cap = "Distribution of starting years of measurement. The data is already binned into 10 year blocks. Most of the years start between 1840 and 1900."}
+```{r feature-first-gg, fig.cap = "Distribution of starting years of measurement. The data is already binned into 10 year blocks. Most of the years start between 1840 and 1900.", fig.height = 3, fig.width = 3}
 heights_brolgar %>% 
   features(year, c(first = first)) %>% 
   ggplot(aes(x = first)) +
@@ -461,7 +464,7 @@ heights_brolgar %>%
   features(year, diff)
 ```
 
-We can then look at the summaries of the differences in year by changing to long form and facetting (Figure \@ref(fig:heights-long-feat-diff)), we learn about the range of intervals between measurements, the smallest being 10 years, the largest being 125, and that most of the data is measured between 10 and 30 years.
+We can then look at the summaries of the differences in year by changing to long form and facetting (Figure \ref{fig:heights-long-feat-diff}), we learn about the range of intervals between measurements, the smallest being 10 years, the largest being 125, and that most of the data is measured between 10 and 30 years.
 
 ```{r heights-long-feat-diff, fig.cap = "Exploring the different summary statistics of the differences amongst the years. We learn that the smallest interval between measurements is 10 years, and the largest interval is between 10 and 125 years, and that most of the data is measured between 10 and 30 or so years.", echo = FALSE}
 heights_diff_long <- heights_diffs %>% 
@@ -509,7 +512,7 @@ heights_max_in <- heights_brolgar %>%
 heights_max_in
 ```
 
-This returns a dataset of **one value per key**. Figure \@ref(fig:heights-max-in-examine) **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are always increasing.
+This returns a dataset of **one value per key**. Figure \ref{fig:heights-max-in-examine} **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are always increasing.
 
 ```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height", echo = FALSE, fig.height = 4}
 
@@ -550,7 +553,7 @@ heights_top <- heights_max_in_full %>% top_n(n = 1, wt = max)
 heights_top
 ```
 
-We can then display the data by highlighting it in the background, first creating a background plot and overlaying the plots on top of this as an additional ggplot layer, in Figure \@ref(fig:gg-increase-max).
+We can then display the data by highlighting it in the background, first creating a background plot and overlaying the plots on top of this as an additional ggplot layer, in Figure \ref{fig:gg-increase-max}.
 
 ```{r gg-background, echo = FALSE}
 gg_height_bg <- ggplot(heights_max_in_full,
@@ -614,7 +617,7 @@ heights_aug %>%
 
 To help understand a population of measurements over time, it can be useful to understand which individual measurements are typical (or "stereotypical") of a measurement. For example, understand which individuals are a stereotypical of a statistic such as the minimum, median, and maximum height. This section discusses how to find these stereotypes in data.
 
-Figure \@ref(fig:heights-aug-res-summary) shows the residuals of the simple model fit to the data in the previous section. There is an overlaid five number summary, showing the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals, as well as a rug plot to show the data. We can use these residuals to understand the stereotypes of the data - those individuals in the model that best match to this five number summary. 
+Figure \ref{fig:heights-aug-res-summary} shows the residuals of the simple model fit to the data in the previous section. There is an overlaid five number summary, showing the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals, as well as a rug plot to show the data. We can use these residuals to understand the stereotypes of the data - those individuals in the model that best match to this five number summary. 
 
 ```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values from the model fit. The residuals are centered around zero with some variation.", echo = FALSE}
 heights_aug_res_summary <- 
@@ -655,9 +658,9 @@ heights_near_aug <- heights_aug %>%
             by = c("country"))
 ```
 
-Figure \@ref(fig:heights-keys-near) shows those countries closest to the five number summary. Observing this, we see that the minimum RSS for Moldova fits a nearly perfectly straight line, and the maximum residuals for Myanmar have wide spread of values.
+Figure \ref{fig:heights-keys-near} shows those countries closest to the five number summary. Observing this, we see that the minimum RSS for Moldova fits a nearly perfectly straight line, and the maximum residuals for Myanmar have wide spread of values.
 
-```{r heights-keys-near, fig.cap = "The keys nearest to the five number summary of the residual sums of squares are displayed. We learn that Moldova and Madagascar are fit by a nearly straight line, and the remaining countries with poorer fit have greater variation in height.", fig.height = 4}
+```{r heights-keys-near, fig.cap = "The keys nearest to the five number summary of the residual sums of squares are displayed. We learn that Moldova and Madagascar are fit by a nearly straight line, and the remaining countries with poorer fit have greater variation in height.", fig.height = 8, fig.width = 8}
 ggplot(heights_near_aug,
        aes(x = year,
            y = pred,
@@ -692,7 +695,7 @@ heights_near_top_bot_3 <- bind_rows(highest_3 = heights_near_aug_top_3,
             by = c("country", "rss"))
 ```
 
-Figure \@ref(fig:heights-keys-near-fancy-label) shows the same information as the previous plot, but with the 3 representative countries for each statistic. This gives us more data on what the stereotypically "good" and "poor" fitting countries to this model.
+Figure \ref{fig:heights-keys-near-fancy-label} shows the same information as the previous plot, but with the 3 representative countries for each statistic. This gives us more data on what the stereotypically "good" and "poor" fitting countries to this model.
 
 ```{r heights-keys-near-fancy-label, fig.cap = "Figure of stereotypes for three", echo = FALSE}
 ggplot(heights_near_top_bot_3,
