@@ -58,6 +58,8 @@ knitr::opts_chunk$set(warning = FALSE,
                       out.width = "95%",
                       retina = 3,
                       fig.height = 4,
+                      fig.align = "center",
+                      dpi = 300,
                       dev = "png")
 ```
 
@@ -77,7 +79,7 @@ tar_load(heights_brolgar)
 This paper is about exploring longitudinal data effectively. Longitudinal data can be defined as individuals repeatedly measured through time, and its inherent structure allows us to examine temporal patterns of individuals. This structure is shown in Figure \ref{fig:heights-sample-plot}, which shows a sample of data from the average height of Australian males. The individual component is `country`, and the time component is `year`. The variable `country` is measured repeatedly from 1900 to 1970, with irregular time periods between years.
 
 
-```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.", echo = FALSE, fig.height = 5, fig.width = 12}
+```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.", echo = FALSE, fig.height = 4, fig.width = 12}
 
 heights_oz <- heights_brolgar %>% 
   filter(country == "Australia") %>% 
@@ -221,7 +223,7 @@ heights_three
 
 These can then be visualised together (Figure \ref{fig:feature-min-med-max}).
 
-```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in centimeters. Part A shows just the distribution of minimum, part B shows the distribution of minimum, median, and maximum, and part C shows these three values plotted together as a line graph. We see that there is overlap amongst all three statistics. That is, some countries minimum heights are taller that some countries maximum heights.", echo = FALSE}
+```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in centimeters. Part A shows just the distribution of minimum, part B shows the distribution of minimum, median, and maximum, and part C shows these three values plotted together as a line graph. We see that there is overlap amongst all three statistics. That is, some countries minimum heights are taller that some countries maximum heights.", fig.height = 3, fig.width = 9, echo = FALSE}
 p1 <- ggplot(heights_min,
        aes(x = min)) + 
   geom_density(fill = qualitative_hcl(n = 3, palette = "Dark3")[1]) 
@@ -255,7 +257,7 @@ ggplot(aes(x = feature,
            group = country)) + 
   geom_line(alpha = 0.6)
 
-p1 + p2 + p3 + plot_annotation(tag_levels = "A")
+p1 + p2 + p3 + plot_annotation(tag_levels = "A") & theme(aspect.ratio = 1)
 ```
 
 
@@ -353,7 +355,8 @@ ggplot(heights_brolgar,
            y = height_cm,
            group = country)) + 
   geom_line() + 
-  facet_sample()
+  facet_sample() + 
+  scale_x_continuous(breaks = c(1750, 1850, 1950))
 ```
 
 This defaults to 12 facets and 3 samples per facet, and provides options for the number of facets, and the number of samples per facet. This means the user only needs to consider the most relevant questions: "How many keys per facet?" and "How many facets to look at?". The code to change the figure from Figure \ref{fig:spaghetti} into \ref{fig:facet-sample} requires only one line of code, shown below:
@@ -378,7 +381,8 @@ ggplot(heights_brolgar,
            y = height_cm,
            group = country)) + 
   geom_line() + 
-  facet_strata()
+  facet_strata() +
+  scale_x_continuous(breaks = c(1750, 1850, 1950))
 ```
 
 ## Featuring
@@ -391,7 +395,8 @@ ggplot(heights_brolgar,
            y = height_cm,
            group = country)) + 
   geom_line() + 
-  facet_strata(along = -year)
+  facet_strata(along = -year) + 
+  scale_x_continuous(breaks = c(1750, 1850, 1950))
 ```
 
 Note we have not lost any of the data, and only the order they are presented has changed. We learn the distribution and changes in heights over time, and  those measured from the earliest times appear to be more similar, but there is much wider variation in the middle years, and then for more recent heights measured from the early 1900s, the heights are more similar. The starting point of each of these years seems to increase at roughly the same interval. This tells us the starting times of the years is roughly uniform.
@@ -440,7 +445,7 @@ heights_brolgar %>%
   features(year, c(first = first))
 ```
 
-```{r feature-first-gg, fig.cap = "Distribution of starting years of measurement. The data is already binned into 10 year blocks. Most of the years start between 1840 and 1900.", fig.height = 3, fig.width = 3}
+```{r feature-first-gg, fig.cap = "Distribution of starting years of measurement. The data is already binned into 10 year blocks. Most of the years start between 1840 and 1900.", fig.height = 3, fig.width = 5, out.width = "60%"}
 heights_brolgar %>% 
   features(year, c(first = first)) %>% 
   ggplot(aes(x = first)) +
@@ -513,7 +518,7 @@ heights_max_in
 
 This returns a dataset of **one value per key**. Figure \ref{fig:heights-max-in-examine} **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are always increasing.
 
-```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height", echo = FALSE, fig.height = 4}
+```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A showing the distribution of maximum height, and B showing the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that vast majority of countries are not always increasing in height.", echo = FALSE, fig.height = 3}
 
 gg_max <- ggplot(heights_max_in,
        aes(x = max)) + 
@@ -563,7 +568,7 @@ gg_height_bg <- ggplot(heights_max_in_full,
             alpha = 0.3) 
 ```
 
-```{r gg-increase-max, echo = FALSE, fig.cap = "Plots of the data in background, with the countries that always increase in height in A, and the country with the tallest people on B", fig.height = 4}
+```{r gg-increase-max, echo = FALSE, fig.cap = "Plots of the data in background, with the countries that always increase in height in A, and the country with the tallest people on B", fig.height = 3}
 (gg_height_bg + geom_line(data = heights_increase)) +
 (gg_height_bg + geom_line(data = heights_top)) +
   plot_annotation(tag_levels = "A")
@@ -618,7 +623,7 @@ To help understand a population of measurements over time, it can be useful to u
 
 Figure \ref{fig:heights-aug-res-summary} shows the residuals of the simple model fit to the data in the previous section. There is an overlaid five number summary, showing the minimum, 1st quantile, median, 3rd quantile, and maximum residual value residuals, as well as a rug plot to show the data. We can use these residuals to understand the stereotypes of the data - those individuals in the model that best match to this five number summary. 
 
-```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values from the model fit. The residuals are centered around zero with some variation.", echo = FALSE}
+```{r heights-aug-res-summary, fig.cap = "Five number summary of residual values from the model fit. The residuals are centered around zero with some variation.", echo = FALSE, out.width = "60%"}
 heights_aug_res_summary <- 
 tibble(names = names(summary(heights_aug$res)),
        values = as.numeric(round(summary(heights_aug$res),2))) %>% 
@@ -659,7 +664,7 @@ heights_near_aug <- heights_aug %>%
 
 Figure \ref{fig:heights-keys-near} shows those countries closest to the five number summary. Observing this, we see that the minimum RSS for Moldova fits a nearly perfectly straight line, and the maximum residuals for Myanmar have wide spread of values.
 
-```{r heights-keys-near, fig.cap = "The keys nearest to the five number summary of the residual sums of squares are displayed. We learn that Moldova and Madagascar are fit by a nearly straight line, and the remaining countries with poorer fit have greater variation in height.", fig.height = 2}
+```{r heights-keys-near, fig.cap = "The keys nearest to the five number summary of the residual sums of squares. Moldova and Madagascar are well fit by the model, and are fit by a straight line. The remaining countries with poorer fit have greater variation in height. It is not clear how a better model fit could be achieved.", fig.height = 2.5, fig.width = 8}
 ggplot(heights_near_aug,
        aes(x = year,
            y = pred,
@@ -697,7 +702,7 @@ heights_near_top_bot_3 <- bind_rows(highest_3 = heights_near_aug_top_3,
 
 Figure \ref{fig:heights-keys-near-fancy-label} shows the same information as the previous plot, but with the 3 representative countries for each statistic. This gives us more data on what the stereotypically "good" and "poor" fitting countries to this model.
 
-```{r heights-keys-near-fancy-label, fig.cap = "Figure of stereotypes for three", echo = FALSE}
+```{r heights-keys-near-fancy-label, fig.cap = "Figure of stereotypes for those keys with the three highest and lowest RSS values. Those that fit best tend to be linear, but those that first worst have wider variation in heights.", echo = FALSE, fig.height = 5, fig.width = 8}
 ggplot(heights_near_top_bot_3,
        aes(x = year,
              y = pred,
