@@ -1,0 +1,21 @@
+---
+from: Dr. Nicholas Tierney
+fromqualifications: BPsySc(Hons), PhD (Statistics)
+fromtitle: Lecturer
+fromWWW: njtierney.com
+fromemail: nicholas.tierney@monash.edu
+fromphone: +61 406 839 690
+fromsignature: sigfile.png
+toname: Prof. Michael Kane
+toaddress: Yale University
+opening: Dear Prof. Kane
+closing: Kind Regards, \newline  Dr. Nicholas Tierney
+spacing: 1.4
+output: MonashEBSTemplates::letter
+---
+
+Please find enclosed my submission of "brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R", to consider for publication in the R Journal. This paper is not under consideration for publication elsewhere, but will be submitted to arXiv as a pre-print. This work provides new tools for exploring longitudinal data in the R package `brolgar`. The paper describes getting up and running, sampling intelligently to avoid typical spaghetti plots, how to find interesting individuals, defining individuals based on features, and diagnosing model fits.
+The methods are illustrated using data on heights across many countries measured over time. 
+
+We have very much enjoyed working on this topic, and have found it very useful in our own analysis of longitudinal data. We hope you find this work, and the paper interesting to the readers of the R Journal.
+

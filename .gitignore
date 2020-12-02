@@ -10,3 +10,6 @@ brolgar-paper.R
 brolgar-paper_files/
 paper/*.html
 .DS_Store
+sigfile.png
+cover-letter/*.pdf
+*.zip

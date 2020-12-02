@@ -4,9 +4,10 @@ prepare_heights|function|08e03d21fc58ed44||||||||||||||
 fit_heights_gam|function|e083e740765b47ee||||||||||||||
 heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|1be559a65e0f91e5|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
 model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497|_targets/objects/model_time|3923a1fdc6d0c44d|b3654bf3682c79ca|86|rds|vector|||0||
-report|stem|ecb5a42be75547b0|da0ce404dca11327|391c22420cd72d81|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|ea8be8793df3d5ce|92a44a82c4ef15c2|3004907|file|vector|||43.787||
+report|stem|25586ff4b7d5519c|da0ce404dca11327|391c22420cd72d81|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|f5807554da1dcb2c|daea23d884a3defa|3123475|file|vector|||70.785||
+zip_for_arxiv|function|fb452978333b1209
 prepare_heights|function|08e03d21fc58ed44
 fit_heights_gam|function|e083e740765b47ee
 heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|1be559a65e0f91e5|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
+arxiv_paper|stem|da626207fd6f7f3c|6a3796176a48d023|102f039540afe1c3|769651482|_targets/objects/arxiv_paper|1812dfc2a0804c5d|2a8869f2435f83e9|47|rds|vector|||0.846||
 model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497|_targets/objects/model_time|3923a1fdc6d0c44d|b3654bf3682c79ca|86|rds|vector|||0||
-report|stem|6ad9fb79045f7876|da0ce404dca11327|391c22420cd72d81|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|050a205e0220f76a|be3c68db1bf85cd1|3123347|file|vector|||48.456||

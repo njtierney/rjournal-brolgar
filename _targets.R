@@ -25,6 +25,12 @@ tar_pipeline(
              fit_heights_gam(heights_brolgar)),
   tar_target(model_time,
              heights_gam$time_taken),
+  # also need to add in a part that checks if a .bib file has been changed
+  # perhaps using `tar_target(format = "file")`, 
   tar_render(name = report,
-             path = "paper/brolgar-paper.Rmd")
+             path = "paper/brolgar-paper.Rmd"),
+  # ideally this would only run if the report has been rendered,
+  # not sure how to detect that.
+  tar_target(arxiv_paper,
+             zip_for_arxiv())
 )
