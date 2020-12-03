@@ -32,5 +32,7 @@ tar_pipeline(
   # ideally this would only run if the report has been rendered,
   # not sure how to detect that.
   tar_target(arxiv_paper,
-             zip_for_arxiv())
+             zip_for_arxiv()),
+  tar_target(rjournal,
+             zip_for_rjournal())
 )

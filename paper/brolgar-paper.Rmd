@@ -33,23 +33,12 @@ abstract: >
 preamble: |
   \usepackage{float}
 bibliography: brolgar-paper.bib
+citation_package: 'natbib'
 output: rticles::rjournal_article
+keep_tex: yes
 editor_options: 
   chunk_output_type: console
 ---
-
-<!-- --- -->
-<!-- title: 'brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R' -->
-<!-- authors: "Nicholas Tierney, Dianne Cook, Tania Prvan" -->
-<!-- output: -->
-<!--   bookdown::html_document2: -->
-<!--     toc: yes -->
-<!--     toc_float: yes -->
-<!--   pdf_document: -->
-<!--     keep_tex: yes -->
-
-<!-- --- -->
-
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE, comment = FALSE}
 knitr::opts_chunk$set(warning = FALSE, 
@@ -61,6 +50,7 @@ knitr::opts_chunk$set(warning = FALSE,
                       fig.align = "center",
                       dpi = 300,
                       dev = "png")
+options(tinytex.clean = FALSE)
 ```
 
 ```{r source-pkgs, echo = FALSE, include = FALSE}

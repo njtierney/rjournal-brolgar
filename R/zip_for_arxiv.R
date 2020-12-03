@@ -13,9 +13,24 @@ zip_for_arxiv <- function() {
   files_to_zip_all <- dir_ls(path = "paper/",
                          recurse = TRUE)
   
+  to_ignore <- glue_ignore(c("html", 
+                             "R",
+                             "Rmd",
+                             "bib",
+                             "aux",
+                             "bldg",
+                             "pdf",
+                             "brf",
+                             "out"))
+  
   files_to_zip <- str_subset(string = files_to_zip_all,
-                             pattern = "morgue|html$|\\.R$",
+                             pattern = paste0("morgue|",to_ignore),
                              negate = TRUE)
+  
+  if (file_exists("paper/arxiv-submission.zip")) {
+    file_delete("paper/arxiv-submission.zip")
+  }
+  
   zip(zipfile = "arxiv/arxiv-submission.zip",
       files = files_to_zip)
 

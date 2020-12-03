@@ -13,3 +13,7 @@ paper/*.html
 sigfile.png
 cover-letter/*.pdf
 *.zip
+*.aux
+*.blg
+*.brf
+*.out
