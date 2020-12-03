@@ -1,21 +1,24 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|iteration|parent|children|seconds|warnings|error
 heights_gam|stem|db8efefeadc5ef8d|8abaadad8a802885|1d99044961d65f83|375493368|_targets/objects/heights_gam|dd076a5538b0beda|c0a57c062a39a767|59061659|rds|vector|||8074.414||
-report|stem|a4225a5d5abb9119|da0ce404dca11327|391c22420cd72d81|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|8e45a0e49b5796b1|1a60131bf59a08ed|3123192|file|vector|||36.825||
 glue_ignore|function|b5f7351bc88d4b2c||||||||||||||
 prepare_heights|function|08e03d21fc58ed44||||||||||||||
 fit_heights_gam|function|e083e740765b47ee||||||||||||||
-zip_for_arxiv|function|32cf58a27cb55666||||||||||||||
+zip_for_arxiv|function|ea3e931512c08330||||||||||||||
 zip_for_rjournal|function|36963dd74ba6a499||||||||||||||
 heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|1be559a65e0f91e5|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
-rjournal|stem|da626207fd6f7f3c|3dbae314caf7b4a6|e322c3d9406cf7e1|-2104393652|_targets/objects/rjournal|04c6957de47966f5|2a8869f2435f83e9|47|rds|vector|||0.386||
-arxiv_paper|stem|da626207fd6f7f3c|6a3796176a48d023|b1f0fb0ba6f335ac|769651482|_targets/objects/arxiv_paper|606f1dcd86f51d6f|2a8869f2435f83e9|47|rds|vector|||0.3||
+paper_bib|stem|ce6292b659979e15|30159ecc42a0bc25|ef46db3751d8e999|110890073|paper/brolgar-paper.bib|29bbbc66f2d425bc|548f1a9b096c11f2|3202|file|vector|||0||
+rjournal|stem|da626207fd6f7f3c|3dbae314caf7b4a6|e322c3d9406cf7e1|-2104393652|_targets/objects/rjournal|dfe923c13e074a3c|2a8869f2435f83e9|47|rds|vector|||0.412||
+arxiv_paper|stem|da626207fd6f7f3c|6a3796176a48d023|0dbbe49ee208a040|769651482|_targets/objects/arxiv_paper|16ec9efc913f1114|2a8869f2435f83e9|47|rds|vector|||0.24||
 model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497|_targets/objects/model_time|3923a1fdc6d0c44d|b3654bf3682c79ca|86|rds|vector|||0||
+report|stem|a026cbad71569fe0|20209f15db0d4527|1923db674890b601|-237041703|paper/brolgar-paper.pdf*paper/brolgar-paper.Rmd|b56aed3c17574efa|b1fce6b4c642df4b|3569273|file|vector|||78.695|Package xcolor Warning Incompatible color definition on input line 413.Package xcolor Warning Incompatible color definition o|
 glue_ignore|function|b5f7351bc88d4b2c
 prepare_heights|function|08e03d21fc58ed44
 fit_heights_gam|function|e083e740765b47ee
 zip_for_arxiv|function|ea3e931512c08330
 zip_for_rjournal|function|36963dd74ba6a499
 heights_brolgar|stem|6c81b335c70015ae|0f2cac7aa1a7e40e|fcdb4739ce8cbf33|-1582780914|_targets/objects/heights_brolgar|1be559a65e0f91e5|f2a2ac9c3636eaec|12621|rds|vector|||0.139||
+paper_bib|stem|ce6292b659979e15|30159ecc42a0bc25|ef46db3751d8e999|110890073|paper/brolgar-paper.bib|29bbbc66f2d425bc|548f1a9b096c11f2|3202|file|vector|||0||
 rjournal|stem|da626207fd6f7f3c|3dbae314caf7b4a6|e322c3d9406cf7e1|-2104393652|_targets/objects/rjournal|dfe923c13e074a3c|2a8869f2435f83e9|47|rds|vector|||0.412||
 arxiv_paper|stem|da626207fd6f7f3c|6a3796176a48d023|0dbbe49ee208a040|769651482|_targets/objects/arxiv_paper|16ec9efc913f1114|2a8869f2435f83e9|47|rds|vector|||0.24||
 model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497|_targets/objects/model_time|3923a1fdc6d0c44d|b3654bf3682c79ca|86|rds|vector|||0||
+report|stem|3a2496f9b02ade74|20209f15db0d4527|1923db674890b601|-237041703|paper/brolgar-paper.pdf*paper/brolgar-paper.Rmd|6c19cd0176b4c308|33b07edca555fd54|3569278|file|vector|||41.577|Package xcolor Warning Incompatible color definition on input line 413.Package xcolor Warning Incompatible color definition o|

@@ -1,0 +1,366 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{pmdplyr}{manual}{}
+      \name{author}{2}{}{%
+        {{hash=6887be9a9a480474e5f6f4d0070a8ca6}{%
+           family={Huntington-Klein},
+           familyi={H\bibinithyphendelim K\bibinitperiod},
+           given={Nick},
+           giveni={N\bibinitperiod}}}%
+        {{hash=aeeea67e71c49bf5746c301e40a10abf}{%
+           family={Khor},
+           familyi={K\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{e83b359d59de9cd124a68e6149039667}
+      \strng{fullhash}{e83b359d59de9cd124a68e6149039667}
+      \strng{bibnamehash}{e83b359d59de9cd124a68e6149039667}
+      \strng{authorbibnamehash}{e83b359d59de9cd124a68e6149039667}
+      \strng{authornamehash}{e83b359d59de9cd124a68e6149039667}
+      \strng{authorfullhash}{e83b359d59de9cd124a68e6149039667}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{R package version 0.3.3}
+      \field{title}{pmdplyr: 'dplyr' Extension for Common Panel Data Maneuvers}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://CRAN.R-project.org/package=pmdplyr
+      \endverb
+      \verb{url}
+      \verb https://CRAN.R-project.org/package=pmdplyr
+      \endverb
+    \endentry
+    \entry{fpp}{book}{}
+      \name{author}{2}{}{%
+        {{hash=545fc8489be67de406e55444d3e26ea3}{%
+           family={Hyndman},
+           familyi={H\bibinitperiod},
+           given={{Robin John}},
+           giveni={R\bibinitperiod}}}%
+        {{hash=95cfbf5a8396e08b434cc6f7f5b18dc8}{%
+           family={Athanasopoulos},
+           familyi={A\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {English}%
+      }
+      \list{location}{1}{%
+        {Australia}%
+      }
+      \list{publisher}{1}{%
+        {OTexts}%
+      }
+      \strng{namehash}{8721f21ae791f82f9ddc1c4aeabe655f}
+      \strng{fullhash}{8721f21ae791f82f9ddc1c4aeabe655f}
+      \strng{bibnamehash}{8721f21ae791f82f9ddc1c4aeabe655f}
+      \strng{authorbibnamehash}{8721f21ae791f82f9ddc1c4aeabe655f}
+      \strng{authornamehash}{8721f21ae791f82f9ddc1c4aeabe655f}
+      \strng{authorfullhash}{8721f21ae791f82f9ddc1c4aeabe655f}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{Forecasting: Principles and Practice}
+      \field{year}{2018}
+    \endentry
+    \entry{panelr}{manual}{}
+      \name{author}{1}{}{%
+        {{hash=7ee2eb84ac3fb6ae0cc177587fcaff6a}{%
+           family={Long},
+           familyi={L\bibinitperiod},
+           given={Jacob\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{7ee2eb84ac3fb6ae0cc177587fcaff6a}
+      \strng{fullhash}{7ee2eb84ac3fb6ae0cc177587fcaff6a}
+      \strng{bibnamehash}{7ee2eb84ac3fb6ae0cc177587fcaff6a}
+      \strng{authorbibnamehash}{7ee2eb84ac3fb6ae0cc177587fcaff6a}
+      \strng{authornamehash}{7ee2eb84ac3fb6ae0cc177587fcaff6a}
+      \strng{authorfullhash}{7ee2eb84ac3fb6ae0cc177587fcaff6a}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{R package version 0.7.3}
+      \field{title}{panelr: Regression Models and Utilities for Repeated Measures and Panel Data}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://cran.r-project.org/package=panelr
+      \endverb
+      \verb{url}
+      \verb https://cran.r-project.org/package=panelr
+      \endverb
+    \endentry
+    \entry{fable}{manual}{}
+      \name{author}{3}{}{%
+        {{hash=b78ae24e12b0542cb7c21cfc4f364f74}{%
+           family={O'Hara-Wild},
+           familyi={O\bibinithyphendelim W\bibinitperiod},
+           given={Mitchell},
+           giveni={M\bibinitperiod}}}%
+        {{hash=26cab5588ef760169b2a464b6f3ca8a6}{%
+           family={Hyndman},
+           familyi={H\bibinitperiod},
+           given={Rob},
+           giveni={R\bibinitperiod}}}%
+        {{hash=7325ea25da301caccb3ac5eff724bc95}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Earo},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{bb804a19841014d65e37445ce302791c}
+      \strng{fullhash}{bb804a19841014d65e37445ce302791c}
+      \strng{bibnamehash}{bb804a19841014d65e37445ce302791c}
+      \strng{authorbibnamehash}{bb804a19841014d65e37445ce302791c}
+      \strng{authornamehash}{bb804a19841014d65e37445ce302791c}
+      \strng{authorfullhash}{bb804a19841014d65e37445ce302791c}
+      \field{extraname}{1}
+      \field{sortinit}{O}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{R package version 0.2.1}
+      \field{title}{fable: Forecasting Models for Tidy Time Series}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://CRAN.R-project.org/package=fable
+      \endverb
+      \verb{url}
+      \verb https://CRAN.R-project.org/package=fable
+      \endverb
+    \endentry
+    \entry{feasts}{manual}{}
+      \name{author}{3}{}{%
+        {{hash=b78ae24e12b0542cb7c21cfc4f364f74}{%
+           family={O'Hara-Wild},
+           familyi={O\bibinithyphendelim W\bibinitperiod},
+           given={Mitchell},
+           giveni={M\bibinitperiod}}}%
+        {{hash=26cab5588ef760169b2a464b6f3ca8a6}{%
+           family={Hyndman},
+           familyi={H\bibinitperiod},
+           given={Rob},
+           giveni={R\bibinitperiod}}}%
+        {{hash=7325ea25da301caccb3ac5eff724bc95}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Earo},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{bb804a19841014d65e37445ce302791c}
+      \strng{fullhash}{bb804a19841014d65e37445ce302791c}
+      \strng{bibnamehash}{bb804a19841014d65e37445ce302791c}
+      \strng{authorbibnamehash}{bb804a19841014d65e37445ce302791c}
+      \strng{authornamehash}{bb804a19841014d65e37445ce302791c}
+      \strng{authorfullhash}{bb804a19841014d65e37445ce302791c}
+      \field{extraname}{2}
+      \field{sortinit}{O}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{R package version 0.1.5}
+      \field{title}{feasts: Feature Extraction and Statistics for Time Series}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://CRAN.R-project.org/package=feasts
+      \endverb
+      \verb{url}
+      \verb https://CRAN.R-project.org/package=feasts
+      \endverb
+    \endentry
+    \entry{xts}{manual}{}
+      \name{author}{2}{}{%
+        {{hash=a55a4f53c08d65d7856f690d76521fcd}{%
+           family={Ryan},
+           familyi={R\bibinitperiod},
+           given={Jeffrey\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=b8ec00822fdab6c0a0db64e81a127217}{%
+           family={Ulrich},
+           familyi={U\bibinitperiod},
+           given={Joshua\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cb79d0f5b9c5816d42718961ac92fbfe}
+      \strng{fullhash}{cb79d0f5b9c5816d42718961ac92fbfe}
+      \strng{bibnamehash}{cb79d0f5b9c5816d42718961ac92fbfe}
+      \strng{authorbibnamehash}{cb79d0f5b9c5816d42718961ac92fbfe}
+      \strng{authornamehash}{cb79d0f5b9c5816d42718961ac92fbfe}
+      \strng{authorfullhash}{cb79d0f5b9c5816d42718961ac92fbfe}
+      \field{sortinit}{R}
+      \field{sortinithash}{b9c68a358aea118dfa887b6e902414a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{R package version 0.12.1}
+      \field{title}{xts: eXtensible Time Series}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://CRAN.R-project.org/package=xts
+      \endverb
+      \verb{url}
+      \verb https://CRAN.R-project.org/package=xts
+      \endverb
+    \endentry
+    \entry{Wang2020}{article}{}
+      \name{author}{3}{}{%
+        {{hash=7325ea25da301caccb3ac5eff724bc95}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Earo},
+           giveni={E\bibinitperiod}}}%
+        {{hash=703a76ee965b0aabaf5b41a58ab3995c}{%
+           family={Cook},
+           familyi={C\bibinitperiod},
+           given={Dianne},
+           giveni={D\bibinitperiod}}}%
+        {{hash=2f709db8a046ae1d056e75c1f3aad31c}{%
+           family={Hyndman},
+           familyi={H\bibinitperiod},
+           given={Rob\bibnamedelima J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{7b94a1d8bcd2f1018059f94fdc847a6c}
+      \strng{fullhash}{7b94a1d8bcd2f1018059f94fdc847a6c}
+      \strng{bibnamehash}{7b94a1d8bcd2f1018059f94fdc847a6c}
+      \strng{authorbibnamehash}{7b94a1d8bcd2f1018059f94fdc847a6c}
+      \strng{authornamehash}{7b94a1d8bcd2f1018059f94fdc847a6c}
+      \strng{authorfullhash}{7b94a1d8bcd2f1018059f94fdc847a6c}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1061-8600}
+      \field{journaltitle}{Journal of Computational and Graphical Statistics}
+      \field{month}{7}
+      \field{note}{Publisher: Taylor \& Francis \_eprint: https://doi.org/10.1080/10618600.2019.1695624}
+      \field{number}{3}
+      \field{title}{A {New} {Tidy} {Data} {Structure} to {Support} {Exploration} and {Modeling} of {Temporal} {Data}}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2020}
+      \field{volume}{29}
+      \field{year}{2020}
+      \field{urldateera}{ce}
+      \field{pages}{466\bibrangedash 478}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1080/10618600.2019.1695624
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1080/10618600.2019.1695624
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1080/10618600.2019.1695624
+      \endverb
+      \keyw{Data pipelines,Data science,Data wrangling,Forecasting,Longitudinal data,Time series}
+    \endentry
+    \entry{mgcv}{book}{}
+      \name{author}{1}{}{%
+        {{hash=568b7f37fac36f378aa92315d52ada17}{%
+           family={Wood},
+           familyi={W\bibinitperiod},
+           given={S.N},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Chapman}%
+        {Hall/CRC}%
+      }
+      \strng{namehash}{568b7f37fac36f378aa92315d52ada17}
+      \strng{fullhash}{568b7f37fac36f378aa92315d52ada17}
+      \strng{bibnamehash}{568b7f37fac36f378aa92315d52ada17}
+      \strng{authorbibnamehash}{568b7f37fac36f378aa92315d52ada17}
+      \strng{authornamehash}{568b7f37fac36f378aa92315d52ada17}
+      \strng{authorfullhash}{568b7f37fac36f378aa92315d52ada17}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Generalized Additive Models: An Introduction with R}
+      \field{year}{2017}
+    \endentry
+    \entry{zoo}{article}{}
+      \name{author}{2}{}{%
+        {{hash=9b2b213ce13e040cff6fc8714922a812}{%
+           family={Zeileis},
+           familyi={Z\bibinitperiod},
+           given={Achim},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b649c42a78fddcb1e868b517781c0f2f}{%
+           family={Grothendieck},
+           familyi={G\bibinitperiod},
+           given={Gabor},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{d22ce263668503aa2f1bd94b7c6cfc15}
+      \strng{fullhash}{d22ce263668503aa2f1bd94b7c6cfc15}
+      \strng{bibnamehash}{d22ce263668503aa2f1bd94b7c6cfc15}
+      \strng{authorbibnamehash}{d22ce263668503aa2f1bd94b7c6cfc15}
+      \strng{authornamehash}{d22ce263668503aa2f1bd94b7c6cfc15}
+      \strng{authorfullhash}{d22ce263668503aa2f1bd94b7c6cfc15}
+      \field{sortinit}{Z}
+      \field{sortinithash}{8f7b480688e809b50b6f6577b16f3db5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Statistical Software}
+      \field{number}{6}
+      \field{title}{zoo: S3 Infrastructure for Regular and Irregular Time Series}
+      \field{volume}{14}
+      \field{year}{2005}
+      \field{pages}{1\bibrangedash 27}
+      \range{pages}{27}
+      \verb{doi}
+      \verb 10.18637/jss.v014.i06
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
