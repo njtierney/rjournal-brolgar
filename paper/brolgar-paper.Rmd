@@ -62,6 +62,7 @@ suppressMessages(source(here::here("conflicts.R")))
 tar_load(heights_gam)
 tar_load(model_time)
 tar_load(heights_brolgar)
+tar_load(paper_bib)
 ```
 
 # Introduction
