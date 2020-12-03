@@ -27,6 +27,9 @@ tar_pipeline(
              heights_gam$time_taken),
   # also need to add in a part that checks if a .bib file has been changed
   # perhaps using `tar_target(format = "file")`, 
+  tar_target(paper_bib,
+             "paper/brolgar-paper.bib",
+             format = "file"),
   tar_render(name = report,
              path = "paper/brolgar-paper.Rmd"),
   # ideally this would only run if the report has been rendered,
