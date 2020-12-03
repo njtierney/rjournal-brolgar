@@ -7,24 +7,27 @@
 ##' @return
 ##' @author Nicholas Tierney
 ##' @export
-zip_for_arxiv <- function() {
+zip_for_rjournal <- function() {
 
-  dir_create("arxiv")
-  zip_name <- "arxiv/arxiv-submission.zip"
+  dir_create("rjournal")
+  zip_name <- "rjournal/rjournal-submission.zip"
   files_to_zip_all <- dir_ls(path = "paper/",
-                         recurse = TRUE)
+                             recurse = TRUE)
+  
+  cover_letter <- dir_ls(path = "cover-letter",
+                         regexp = "cover-letter.pdf$")
   
   to_ignore <- glue_ignore(c("html", 
-                             "R",
-                             "Rmd",
-                             "bib",
                              "aux",
+                             "bbl",
+                             "blg",
+                             "sty",
                              "bldg",
-                             "pdf",
                              "brf",
                              "out"))
   
-  files_to_zip <- str_subset(string = files_to_zip_all,
+  files_to_zip <- str_subset(string = c(files_to_zip_all,
+                                        cover_letter),
                              pattern = paste0("morgue|",to_ignore),
                              negate = TRUE)
   
@@ -34,5 +37,6 @@ zip_for_arxiv <- function() {
   
   zip(zipfile = zip_name,
       files = files_to_zip)
+  
 
 }
