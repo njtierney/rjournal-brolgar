@@ -1,4 +1,4 @@
-\begin{thebibliography}{9}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -23,6 +23,14 @@ J.~A. Long.
   and Panel Data}, 2020.
 \newblock URL \url{https://cran.r-project.org/package=panelr}.
 \newblock R package version 0.7.3.
+
+\bibitem[Millo(2017)]{plm}
+G.~Millo.
+\newblock Robust standard error estimators for panel models: A unifying
+  approach.
+\newblock \emph{Journal of Statistical Software}, 82\penalty0 (3):\penalty0
+  1--27, 2017.
+\newblock \doi{10.18637/jss.v082.i03}.
 
 \bibitem[O'Hara-Wild et~al.(2020{\natexlab{a}})O'Hara-Wild, Hyndman, and
   Wang]{fable}
