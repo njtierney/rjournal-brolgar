@@ -1,5 +1,8 @@
-name|progress
-rjournal|running
-rjournal|built
-arxiv_paper|running
-arxiv_paper|built
+name|type|parent|branches|progress
+heights_brolgar|stem|heights_brolgar|0|skipped
+paper_bib|stem|paper_bib|0|skipped
+rjournal|stem|rjournal|0|skipped
+arxiv_paper|stem|arxiv_paper|0|skipped
+heights_gam|stem|heights_gam|0|skipped
+model_time|stem|model_time|0|skipped
+report|stem|report|0|skipped
