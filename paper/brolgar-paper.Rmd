@@ -53,10 +53,13 @@ suppressMessages(source(here::here("conflicts.R")))
 ```
 
 ```{r load, message = FALSE, echo = FALSE}
-tar_load(contains("heights_gam"))
-tar_load(contains("model_time"))
-tar_load(contains("heights_brolgar"))
-tar_load(contains("paper_bib"))
+# tar_load(heights_gam)
+# tar_load(model_time)
+# tar_load(heights_brolgar)
+# tar_load(paper_bib)
+heights_gam <- read_rds(here::here("rds", "heights_gam.rds"))
+heights_brolgar <- read_rds(here::here("rds", "heights_brolgar.rds"))
+model_time <- read_rds(here::here("rds", "model_time.rds"))
 ```
 
 # Introduction
