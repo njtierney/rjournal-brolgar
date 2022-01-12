@@ -12,7 +12,8 @@ write_rds_return_path <- function(x = heights_brolgar, file) {
 
   write_rds(
     x = x,
-    file = file
+    file = file,
+    compress = "xz"
   )
   
   return(
