@@ -5,9 +5,13 @@ rjournal|stem|da626207fd6f7f3c|3dbae314caf7b4a6|e322c3d9406cf7e1|-2104393652||t1
 arxiv_paper|stem|da626207fd6f7f3c|6a3796176a48d023|0dbbe49ee208a040|769651482||t18599.0731365741s|2a8869f2435f83e9|47|rds|vector|||0.24||
 heights_gam|stem|db8efefeadc5ef8d|8abaadad8a802885|1d99044961d65f83|375493368||t18592.1234606481s|c0a57c062a39a767|59061659|rds|vector|||8074.414||
 model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497||t18592.1234606481s|b3654bf3682c79ca|86|rds|vector|||0||
-report|stem|4bf76a79f00c410b|ebc1a8a90fcbf5a4|abb255cf20de20ee|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|t19003.0519055687s|d0ee05870b8132f2|2503028|file|vector|||358.495|Package microtype Warning Unable to apply patch footnote on input line 16.|
+heights_brolgar_rds|stem|37597256ffe504ee|754e48cde45d3b46|3e2d81e0af77bf33|508176588||t19004.2096692098s|758d7d51407f572d|117|rds|vector|||2.43||
+heights_gam_rds|stem|c663d17673329dd5|f1544103be46e83a|20c069075dcba351|-721711837||t19004.2096851365s|f21b4888ae8bdafc|118|rds|vector|||0.54||
 glue_ignore|function|b5f7351bc88d4b2c||||||||||||||
 prepare_heights|function|08e03d21fc58ed44||||||||||||||
+write_rds_return_path|function|c2af13dc852816b0||||||||||||||
 fit_heights_gam|function|e083e740765b47ee||||||||||||||
 zip_for_arxiv|function|ea3e931512c08330||||||||||||||
 zip_for_rjournal|function|36963dd74ba6a499||||||||||||||
+model_time_rds|stem|408e19a596fa33b0|3702fe713c6394e4|faec1f2d684a6d99|120132263||t19004.212654334s|758d7d51407f572d|117|rds|vector|||2.429||
+report|stem|01174e09ca3db2a1|51b8c62bdd3acb11|f55ad25898d02036|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|t19004.2131098926s|3adc63f253f9a7f5|2503226|file|vector|||39.393|Package microtype Warning Unable to apply patch footnote on input line 16.|

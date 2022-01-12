@@ -9,6 +9,7 @@ tar_option_set(
     "targets",
     "tarchetypes",
     "fs",
+    "here",
     "rmarkdown",
     "mgcv",
     "tictoc",
