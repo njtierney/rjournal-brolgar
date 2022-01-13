@@ -545,7 +545,8 @@ heights_top <- heights_max_in_full %>% top_n(n = 1, wt = max)
 heights_top
 ```
 
-We can then display the data by highlighting it in the background, first creating a background plot and overlaying the plots on top of this as an additional ggplot layer, in Figure \@ref(ig:gg-increase-max).
+We can then display the data by highlighting it in the background, first creating a background plot and overlaying the plots on top of this as an additional ggplot layer, in Figure
+`r knitr::asis_output(ifelse(knitr::is_html_output(), '\\@ref(fig:interactive-gg-inc-max)', '\\@ref(fig:gg-increase-max)'))`.
 
 ```{r gg-background, echo = FALSE}
 gg_height_bg <- ggplot(heights_max_in_full,
@@ -556,12 +557,38 @@ gg_height_bg <- ggplot(heights_max_in_full,
             alpha = 0.3) 
 ```
 
-```{r gg-increase-max, echo = FALSE, fig.cap = "Plots of the data in the background, with the countries that always increase in height through time in A, and the country with the tallest people in B", fig.height = 3}
+```{r gg-increase-max, echo = FALSE, fig.cap = "Plots of the data in the background, with the countries that always increase in height through time in A, and the country with the tallest people in B", fig.height = 3, eval=knitr::is_latex_output()}
 (gg_height_bg + geom_line(data = heights_increase)) +
 (gg_height_bg + geom_line(data = heights_top)) +
   plot_annotation(tag_levels = "A")
 ```
 
+```{r interactive-gg-inc-max, echo = FALSE, fig.cap = "Interactive plot to explore longnostics of maximum height and slope from a simple linear fit, relative to the profiles. Click on either plot to select countries. For example, the country with the most negative slope, that is people are getting shorter is Eritrea.", layout = "l-body-outset", eval=knitr::is_html_output()}
+library(tsibbletalk)
+library(plotly)
+slopes <- key_slope(brolgar::heights, height_cm ~ year)
+heights_max_in_full <- heights_max_in_full %>%
+  left_join(slopes) %>%
+  rename(slope = .slope_year)
+heights_max_in_full_ts <- heights_max_in_full %>%
+  select(country, year, height_cm, max, slope) %>%
+  as_tsibble(index = year, key = country) %>%
+  as_shared_tsibble()
+h1 <- ggplot(heights_max_in_full_ts, aes(x = slope, 
+                                      y = max, 
+                                      group = country)) +
+  geom_point()
+h2 <- ggplot(heights_max_in_full_ts, aes(x = year, 
+                                      y = height_cm, 
+                                      group = country)) +
+  geom_line(alpha=0.2)
+subplot(
+    ggplotly(h1, tooltip = c("slope", "max", "country"), 
+             width = 100, height = 400),
+    ggplotly(h2, tooltip = "country", width = 900, height = 400),
+    nrows = 1, widths=c(0.4, 0.6)) %>%
+  highlight(dynamic = TRUE)
+```
 
 # Dancing with Models
 
