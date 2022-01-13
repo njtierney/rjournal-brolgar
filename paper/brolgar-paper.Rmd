@@ -64,10 +64,10 @@ model_time <- read_rds(here::here("rds", "model_time.rds"))
 
 # Introduction
 
-This paper is about exploring longitudinal data effectively. Longitudinal data can be defined as individuals repeatedly measured through time, and its inherent structure allows us to examine temporal patterns of individuals. This structure is shown in Figure \@ref(fig:heights-sample-plot), which shows a sample of data from the average height of Australian males. The individual component is `country`, and the time component is `year`. The variable `country` along with other variables is measured repeatedly from 1900 to 1970, with irregular time periods between years.
+This paper is about exploring longitudinal data effectively. By "longitudinal data" we specifically mean individuals repeatedly measured through time. This could include panel data, where possibly different samples from a key variable (e.g. country), are aggregated at each time collection. The important component is a key variable with repeated measurements regularly, or irregularly over time.  The inherent structure allows us to examine temporal patterns of individuals, shown in Figure \@ref(fig:heights-sample-plot), of the average height of Australian males over years. The individual component is `country`, and the time component is `year`. The variable `country` along with other variables is measured repeatedly from 1900 to 1970, with irregular intervals between years.
 
 
-```{r heights-sample-plot, fig.cap = "A sample of average heights of men in Australia for 1900-1970. The heights increase over time, but are measured at irregular intervals.", echo = FALSE, fig.height = 4, fig.width = 12}
+```{r heights-sample-plot, fig.cap = "Example of longitudinal data: average height of men in Australia for 1900-1970. The height increase over time, and are measured at irregular intervals.", echo = FALSE, fig.height = 4, fig.width = 12}
 
 heights_oz <- heights_brolgar %>% 
   filter(country == "Australia") %>% 
@@ -137,7 +137,7 @@ These software generally re-implement their own custom panel data class object, 
 
 # Longitudinal Data Structures {#data}
 
-Longitudinal data is known by many names: Panel data, survey data, repeated measures, and time series, to name a few. Although there are small differences among these definitions related to data collection, context, and field, these data structures all share a fundamental similarity: they are measurements of the same individual over a time period. 
+Longitudinal data is a sibling of many other temporal data forms, including panel data, repeated measures, and time series. The differences are many, can be in data collection, context and even the field of research. Time series are usually long and regularly spaced in time. Panel data may measure different units at each time point and aggregate these values by a categorical or key variable. Repeated measures typically measure before and after treatment effects. We like to think of  longitudinal as measuring the same individual (e.g. wage earner) over time, but this definition is not universally agreed on. Despite the differences, they all share a fundamental similarity: they are measurements over a time period. 
 
 This time period has structure - the time component (dates, times, waves, seconds, etc), and the spacing between measurements - unequal or equal. This data structure needs to be respected during analysis to preserve the lowest level of granularity, to avoid for example, collapsing across month when the data is collected every second, or assuming measurements occur at fixed time intervals. These mistakes can be avoided by encoding the data structure into the data itself. This information can then be accessed by analysis tools, providing a consistent way to understand and summarise the data. This ensures the different types of longitudinal data previously mentioned can be handled in the same way. 
 
@@ -164,7 +164,7 @@ heights_brolgar <- as_tsibble(heights_brolgar,
 
 The `index` is `year`, the `key` is `country`, and `regular = FALSE` since the intervals in the years measured are not regular. Using a `tsibble` means that the index and key time series information is recorded only **once**, and can be referred to many times in other parts of the data analysis by time-aware tools.
 
-In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts].  For example, `tsibble` provides `tidyverse` extension functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For full details and examples of use with the tidyverts time series packages, see @Wang2020.
+In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts].  For example, `tsibble` provides modified  `tidyverse` functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For full details and examples of use with the tidyverts time series packages, see @Wang2020.
 
 The `brolgar` package uses `tsibble` so users can take advantage of these tools, learning one way of operating a data analysis that will work and have overlap with other contexts.
 
@@ -564,12 +564,11 @@ gg_height_bg <- ggplot(heights_max_in_full,
 ```
 
 ```{r interactive-gg-inc-max, echo = FALSE, fig.cap = "Interactive plot to explore longnostics of maximum height and slope from a simple linear fit, relative to the profiles. Click on either plot to select countries. For example, the country with the most negative slope, that is people are getting shorter is Eritrea.", layout = "l-body-outset", eval=knitr::is_html_output()}
-library(tsibbletalk)
-library(plotly)
 slopes <- key_slope(brolgar::heights, height_cm ~ year)
 heights_max_in_full <- heights_max_in_full %>%
   left_join(slopes) %>%
-  rename(slope = .slope_year)
+  rename(slope = .slope_year) %>%
+  mutate(slope = round(slope, 3))
 heights_max_in_full_ts <- heights_max_in_full %>%
   select(country, year, height_cm, max, slope) %>%
   as_tsibble(index = year, key = country) %>%
