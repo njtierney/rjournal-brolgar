@@ -19,6 +19,7 @@ tar_option_set(
     "gridExtra",
     "conflicted",
     # remotes::install_github("rensa/stickylabeller")
-    "stickylabeller"
+    "stickylabeller",
+    "tsibbletalk"
   )
 )
