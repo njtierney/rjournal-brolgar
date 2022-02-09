@@ -16,6 +16,7 @@ N.~Huntington-Klein and P.~Khor.
 R.~Hyndman and G.~Athanasopoulos.
 \newblock \emph{Forecasting: Principles and Practice}.
 \newblock OTexts, Australia, 2nd edition, 2018.
+\newblock URL \url{https://otexts.com/fpp3/}.
 
 \bibitem[Long(2020)]{panelr}
 J.~A. Long.
@@ -30,7 +31,7 @@ G.~Millo.
   approach.
 \newblock \emph{Journal of Statistical Software}, 82\penalty0 (3):\penalty0
   1--27, 2017.
-\newblock \doi{10.18637/jss.v082.i03}.
+\newblock \doi{https://doi.org/10.18637/jss.v082.i03}.
 
 \bibitem[O'Hara-Wild et~al.(2020{\natexlab{a}})O'Hara-Wild, Hyndman, and
   Wang]{fable}
@@ -70,6 +71,7 @@ E.~Wang, D.~Cook, and R.~J. Hyndman.
 S.~Wood.
 \newblock \emph{Generalized Additive Models: An Introduction with R}.
 \newblock Chapman and Hall/CRC, 2 edition, 2017.
+\newblock URL \url{https://doi.org/10.1201/9781315370279}.
 
 \bibitem[Zeileis and Grothendieck(2005)]{zoo}
 A.~Zeileis and G.~Grothendieck.
