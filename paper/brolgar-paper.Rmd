@@ -29,7 +29,7 @@ author:
     address:
     - Department of Mathematics and Statistics
 abstract: >
-  Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
+  Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, \CRANpkg{brolgar} (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 bibliography: brolgar-paper.bib
 output: rjtools::rjournal_web_article
 # preamble: |
@@ -127,7 +127,7 @@ spaghetti + spaghetti_alpha + spaghetti_smooth +
   plot_annotation(tag_levels = "A")
 ```
 
-This paper demonstrates how to effectively and efficiently explore longitudinal data, using the R package, `brolgar`. We examine four problems in exploring longitudinal data: 
+This paper demonstrates how to effectively and efficiently explore longitudinal data, using the R package, \CRANpkg{brolgar}. We examine four problems in exploring longitudinal data: 
 
 1. How to sample the data
 2. Finding interesting individuals
@@ -138,9 +138,9 @@ This paper proceeds in the following way: first, a brief review of existing appr
 
 # Background {#other-approaches}
 
-R provides basic time series, `ts`, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through packages such as `xts`, and `zoo` [@xts; @zoo], which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...n", or may contain irregular intervals.
+R provides basic time series, \CRANpkg{ts}, objects, which are vectors or matrices that represent data sampled at equally spaced points in time. These have been extended through packages such as \CRANpkg{xts}, and \CRANpkg{zoo} [@xts; @zoo], which only consider data in a wide format with a regular implied time series. These are not appropriate for longitudinal data, which can have indexes that are not time unit oriented, such as "Wave 1...n", or may contain irregular intervals.
 
-Other packages focus more directly on panel data in R, focussing on data operations and model interfaces. The `pmdplyr` package provides "Panel Manoeuvres" in "dplyr" [@pmdplyr]. It defines the data structure in as a `pibble` object (**p**anel t**ibble**), requiring an `id` and `group` column being defined to identify the unique identifier and grouping. The `pmdplyr` package focuses on efficient and custom joins and functions, such as `inexact_left_join()`. It does not implement tidyverse equivalent tools, but instead extends their usecase with a new function, for example `mutate_cascade` and `mutate_subset`. The `panelr` package provides an interface for data reshaping on panel data, providing widening and lengthening functions (`widen_panel()` and `long_panel()` [@panelr]). It also provides model facilitating functions by providing its own interface for mixed effects models. The `plm` package [@plm] for panel data econometrics provides methods for estimating models such as GMM for panel data, and testing, for example for model specification or serial correlation. It also provides a data structure, the `pdata.frame`, which stores the index attribute of the individual and time dimensions, for use within the package's functions. 
+Other packages focus more directly on panel data in R, focussing on data operations and model interfaces. The \CRANpkg{pmdplyr} package provides "Panel Manoeuvres" in \CRANpkg{dplyr}[@pmdplyr]. It defines the data structure in as a `pibble` object (**p**anel t**ibble**), requiring an `id` and `group` column being defined to identify the unique identifier and grouping. The \CRANpkg{pmdplyr} package focuses on efficient and custom joins and functions, such as `inexact_left_join()`. It does not implement tidyverse equivalent tools, but instead extends their usecase with a new function, for example `mutate_cascade` and `mutate_subset`. The \CRANpkg{panelr} package provides an interface for data reshaping on panel data, providing widening and lengthening functions (`widen_panel()` and `long_panel()` [@panelr]). It also provides model facilitating functions by providing its own interface for mixed effects models. The \CRANpkg{plm} package [@plm] for panel data econometrics provides methods for estimating models such as GMM for panel data, and testing, for example for model specification or serial correlation. It also provides a data structure, the `pdata.frame`, which stores the index attribute of the individual and time dimensions, for use within the package's functions. 
 
 These software generally re-implement their own custom panel data class object, as well as custom data cleaning tasks, such as reshaping into long and wide form. They all share similar features, providing some identifying or index variable, and some grouping or key. 
 
@@ -150,7 +150,7 @@ Longitudinal data is a sibling of many other temporal data forms, including pane
 
 This time period has structure - the time component (dates, times, waves, seconds, etc), and the spacing between measurements - unequal or equal. This data structure needs to be respected during analysis to preserve the lowest level of granularity, to avoid for example, collapsing across month when the data is collected every second, or assuming measurements occur at fixed time intervals. These mistakes can be avoided by encoding the data structure into the data itself. This information can then be accessed by analysis tools, providing a consistent way to understand and summarise the data. This ensures the different types of longitudinal data previously mentioned can be handled in the same way. 
 
-## Building on `tsibble` {#building-on-tsibble}
+## Building on a tsibble {#building-on-tsibble}
 
 Since longitudinal data can be thought of as "individuals repeatedly measured through time", they can be considered as a type of time series, as defined in @fpp: "Anything that is observed sequentially over time **is a time series**". This definition has been realised as a time series `tsibble` in [@Wang2020]. These objects are defined as data meeting these conditions:
 
@@ -173,15 +173,15 @@ heights_brolgar <- as_tsibble(heights_brolgar,
 
 The `index` is `year`, the `key` is `country`, and `regular = FALSE` since the intervals in the years measured are not regular. Using a `tsibble` means that the index and key time series information is recorded only **once**, and can be referred to many times in other parts of the data analysis by time-aware tools.
 
-In addition to providing consistent ways to manipulate time series data, further benefits to using `tsibble` are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing `fable` [@fable], `feasts`, [@feasts].  For example, `tsibble` provides modified  `tidyverse` functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For full details and examples of use with the tidyverts time series packages, see @Wang2020.
+In addition to providing consistent ways to manipulate time series data, further benefits to building on \CRANpkg{tsibble} are how it works within the `tidyverse` ecosystem, as well as the tidy time series packages called "tidyver**ts**", containing \CRANpkg{fable} [@fable], \CRANpkg{feasts}, [@feasts].  For example, \CRANpkg{tsibble} provides modified  `tidyverse` functions to explore implicit missing values in the `index` (e.g., `has_gaps()` and `fill_gaps()`), as well as grouping and partitioning based on the index with `index_by()`. For full details and examples of use with the tidyverts time series packages, see @Wang2020.
 
-The `brolgar` package uses `tsibble` so users can take advantage of these tools, learning one way of operating a data analysis that will work and have overlap with other contexts.
+The \CRANpkg{brolgar} package uses \CRANpkg{tsibble} so users can take advantage of these tools, learning one way of operating a data analysis that will work and have overlap with other contexts.
 
 ## Characterising Individual Series
 
 ### Calculating a Feature
 
-We can summarise the individual series by collapsing their many measurements into a single statistic, such as the minimum, maximum, or median, with one row per key. We do this with the `features` function from the `fabletools` package, made available in `brolgar`. This provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of the `summarise` function from `dplyr`. The `feature` function works by specifying the data, the variable to summarise, and the feature to calculate. A template is shown below
+We can summarise the individual series by collapsing their many measurements into a single statistic, such as the minimum, maximum, or median, with one row per key. We do this with the `features` function from the \CRANpkg{fabletools} package, made available in \CRANpkg{brolgar}. This provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of the `summarise` function from \CRANpkg{dplyr}. The `feature` function works by specifying the data, the variable to summarise, and the feature to calculate. A template is shown below
 
 ```r
 features(<DATA>, <VARIABLE>, <FEATURE>)
@@ -274,8 +274,8 @@ This takes the `heights` data, pipes it to `features`, and then instructs it to 
 - `feat_spread()`: variance, standard deviation, median absolute distance, and interquartile range; 
 - `feat_monotonic()`:  is it always increasing, decreasing, or unvarying?; 
 - `feat_diff_summary()`: the summary statistics of the differences amongst a value, including the five number summary, as well as the standard deviation and variance; 
-- `feat_brolgar()`, which will calculate all features available in the `brolgar` package.
-- Other examples of features from the `feasts` package.
+- `feat_brolgar()`, which will calculate all features available in the \CRANpkg{brolgar} package.
+- Other examples of features from the \CRANpkg{feasts} package.
 
 ### Feature Sets 
 
@@ -294,7 +294,7 @@ heights_brolgar %>%
   features(height_cm, feat_set_brolgar)
 ```
 
- To see other features available in the `feasts` R package run `library(feasts)` then `?fabletools::feature_set`.
+ To see other features available in the \CRANpkg{feasts} R package run `library(feasts)` then `?fabletools::feature_set`.
 
 ### Creating Your Own Feature
 
@@ -333,9 +333,9 @@ feat_five_num <- function(x, ...) {
 ```
 
 Here the functions `b_` are functions with a default of `na.rm = TRUE`, and in 
-the cases of quantiles, they use `type = 8`, and `names = FALSE`. What is particularly useful is that these will work on any type of time series data, and you can use other more typical time series features from the `feasts` package, such as autocorrelation, `feat_acf()` and Seasonal and Trend decomposition using Loess `feat_stl()` [@feasts].
+the cases of quantiles, they use `type = 8`, and `names = FALSE`. What is particularly useful is that these will work on any type of time series data, and you can use other more typical time series features from the \CRANpkg{feasts} package, such as autocorrelation, `feat_acf()` and Seasonal and Trend decomposition using Loess `feat_stl()` [@feasts].
 
-This demonstrates a workflow that can be used to understand and explore your longitudinal data. The `brolgar` package builds upon this workflow made available by `feasts` and `fabletools`. Users can also create their own features to summarise the data.
+This demonstrates a workflow that can be used to understand and explore your longitudinal data. The \CRANpkg{brolgar} package builds upon this workflow made available by \CRANpkg{feasts} and \CRANpkg{fabletools}. Users can also create their own features to summarise the data.
 
 # Breaking up the Spaghetti
 
@@ -600,7 +600,7 @@ subplot(
 
 # Dancing with Models
 
-These same workflows can be used to interpret and explore a model. As the data tends to follow a non linear trajectory, we use a general additive model (gam) with the `mgcv` R package [@mgcv] using the code below:
+These same workflows can be used to interpret and explore a model. As the data tends to follow a non linear trajectory, we use a general additive model (gam) with the \CRANpkg{mgcv} R package [@mgcv] using the code below:
 
 ```{r mgcv-fit, eval = FALSE}
 heights_gam <- gam(
@@ -742,7 +742,7 @@ ggplot(heights_near_top_bot_3,
 
 # Getting Started {#install}
 
-The `brolgar` R package can be installed from CRAN using 
+The \CRANpkg{brolgar} R package can be installed from CRAN using 
 
 ```{r eval=FALSE, echo=TRUE}
 # From CRAN
@@ -751,17 +751,17 @@ install.packages("brolgar")
 remotes::install_github("njtierney/brolgar")
 ```
 
-The functions are all designed to build upon existing packages, but are predicated on working with `tsibble`.  The package extends upon `ggplot2` to provide facets for exploration: `facet_sample()` and `facet_strata()`. Extending `dplyr`'s `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to find those keys near a summary statistic. Finally, feature calculation is provided by building upon the existing time series feature package, `feasts`.
+The functions are all designed to build upon existing packages, but are predicated on working with \CRANpkg{tsibble}.  The package extends upon \CRANpkg{ggplot2} to provide facets for exploration: `facet_sample()` and `facet_strata()`. Extending \CRANpkg{dplyr}'s `sample_n()` and `sample_frac()` functions by providing sampling and stratifying based around keys: `sample_n_keys()`, `sample_frac_keys()`, and `stratify_keys()`. New functions are focussed around the use of `key`, for example `key_slope()` to find the slope of each key, and `keys_near()` to find those keys near a summary statistic. Finally, feature calculation is provided by building upon the existing time series feature package, \CRANpkg{feasts}.
 
-To get started with `brolgar` you must first ensure your data is specified as a `tsibble` - discussed earlier in the paper, there is also a vignette ["Longitudinal Data Structures"](http://brolgar.njtierney.com/articles/longitudinal-data-structures.html), which discusses these ideas. The next step we recommend is sampling some of your data with `facet_sample()`, and `facet_strata()`. When using `facet_strata()`, facets can be arranged in order of a variable, using the `along` argument, which can reveal interesting features. 
+To get started with \CRANpkg{brolgar} you must first ensure your data is specified as a `tsibble` - discussed earlier in the paper, there is also a vignette ["Longitudinal Data Structures"](http://brolgar.njtierney.com/articles/longitudinal-data-structures.html), which discusses these ideas. The next step we recommend is sampling some of your data with `facet_sample()`, and `facet_strata()`. When using `facet_strata()`, facets can be arranged in order of a variable, using the `along` argument, which can reveal interesting features. 
 
 To further explore longitudinal data, we recommend finding summary features of each variable with `features`, and identifying variables that are near summary statistics, using `keys_near` to find individuals stereotypical of a statistical value.
 
 # Concluding Remarks {#summary}
 
-The `brolgar` package facilitates exploring longitudinal data in R. It builds upon existing infrastructure from `tsibble`, and `feasts`, which work within the `tidyverse` family of R packages, as well as the newer, `tidyverts`, time series packages. Users familiar with either of these package families will find a lot of similarity in their use, and first time users will be able to easily transition from `brolgar` to the `tidyverse` or `tidyverts`. 
+The \CRANpkg{brolgar} package facilitates exploring longitudinal data in R. It builds upon existing infrastructure from \CRANpkg{tsibble}, and \CRANpkg{feasts}, which work within the `tidyverse` family of R packages, as well as the newer, `tidyverts`, time series packages. Users familiar with either of these package families will find a lot of similarity in their use, and first time users will be able to easily transition from \CRANpkg{brolgar} to the `tidyverse` or `tidyverts`. 
 
-Visualizing categorical or binary data over a time period can be difficult as the limited number of values on the y axis leads to overplotting. This can conceal the number of values present at a given value. The tools discussed in `brolgar` facilitate this in the form of `facet_sample`, and `facet_strata`. Some special methods could be developed to add jitter or noise around these values on the y axis, while still maintaining the graphical axis and tick marks.
+Visualizing categorical or binary data over a time period can be difficult as the limited number of values on the y axis leads to overplotting. This can conceal the number of values present at a given value. The tools discussed in \CRANpkg{brolgar} facilitate this in the form of `facet_sample`, and `facet_strata`. Some special methods could be developed to add jitter or noise around these values on the y axis, while still maintaining the graphical axis and tick marks.
 
 Future work will explore more features and stratifications, and stereotypes, and generalise the tools to work for data without time components, and other data types.
 
@@ -771,8 +771,8 @@ We would like to thank Stuart Lee, Mitchell O'Hara Wild, Earo Wang, and Miles Mc
 
 # Paper Source {-}
 
-The complete source files for the paper can be found at https://github.com/njtierney/rjournal-brolgar. The paper is built using rmarkdown, `targets` and `capsule` to ensure R package versions are the same. See the README file on the github repository for details on recreating the paper.
+The complete source files for the paper can be found at https://github.com/njtierney/rjournal-brolgar. The paper is built using rmarkdown, \CRANpkg{targets} and \CRANpkg{capsule} to ensure R package versions are the same. See the README file on the github repository for details on recreating the paper.
 
-# References {-}
+<!-- # References {-}
 
-<div id="refs"></div>
+<div id="refs"></div> -->
