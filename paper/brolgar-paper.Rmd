@@ -9,9 +9,9 @@ author:
     url: https://njtierney.com
     orcid: 0000-0003-1460-8722
     email:  nicholas.tierney@gmail.com
-    affiliation2: ACEMS
+    affiliation2: Telethon Kids Institute
     address2:
-    - ACEMS Brisbane
+    - Perth, Western Australia
   - name: Dianne Cook
     url: https://dicook.org
     email: dicook@monash.edu
@@ -31,7 +31,16 @@ author:
 abstract: >
   Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 bibliography: brolgar-paper.bib
-output: rjtools::rjournal_web_article
+# output: rjtools::rjournal_web_article
+preamble: |
+  \usepackage{float}
+citation_package: 'natbib'
+output:
+  bookdown::pdf_book:
+    base_format: rticles::rjournal_article
+keep_tex: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE, comment = FALSE}
@@ -194,7 +203,7 @@ heights_min <- features(.tbl = heights_brolgar,
 heights_min
 ```
 
-We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \@ref(fig:feature-min-med-max)A)
+We call these summaries `features` of the data.  We can use this information to summarise these features of the data, for example, visualising the distribution of minimum values (Figure \@ref(fig:feature-min-med-max)A).
 
 We are not limited to one feature at a time, many features can also be calculated, for example:
 
@@ -748,11 +757,13 @@ To get started with `brolgar` you must first ensure your data is specified as a 
 
 To further explore longitudinal data, we recommend finding summary features of each variable with `features`, and identifying variables that are near summary statistics, using `keys_near` to find individuals stereotypical of a statistical value.
 
-# Summary {#summary}
+# Concluding Remarks {#summary}
 
 The `brolgar` package facilitates exploring longitudinal data in R. It builds upon existing infrastructure from `tsibble`, and `feasts`, which work within the `tidyverse` family of R packages, as well as the newer, `tidyverts`, time series packages. Users familiar with either of these package families will find a lot of similarity in their use, and first time users will be able to easily transition from `brolgar` to the `tidyverse` or `tidyverts`. 
 
-Future work will explore more features and stratifications, and stereotypes, and generalise the tools to work for data without time components.
+Visualizing categorical or binary data over a time period can be difficult as the limited number of values on the y axis leads to overplotting. This can conceal the number of values present at a given value. The tools discussed in `brolgar` facilitate this in the form of `facet_sample`, and `facet_strata`. Some special methods could be developed to add jitter or noise around these values on the y axis, while still maintaining the graphical axis and tick marks.
+
+Future work will explore more features and stratifications, and stereotypes, and generalise the tools to work for data without time components, and other data types.
 
 # Acknowledgements {-}
 
