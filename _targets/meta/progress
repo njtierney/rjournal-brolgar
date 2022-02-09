@@ -6,10 +6,7 @@ paper_bib|stem|paper_bib|0|skipped
 rjournal|stem|rjournal|0|skipped
 arxiv_paper|stem|arxiv_paper|0|skipped
 heights_gam|stem|heights_gam|0|skipped
-heights_brolgar_rds|stem|heights_brolgar_rds|0|started
-heights_brolgar_rds|stem|heights_brolgar_rds|0|built
+heights_brolgar_rds|stem|heights_brolgar_rds|0|skipped
 model_time|stem|model_time|0|skipped
-heights_gam_rds|stem|heights_gam_rds|0|started
-heights_gam_rds|stem|heights_gam_rds|0|built
-model_time_rds|stem|model_time_rds|0|started
-model_time_rds|stem|model_time_rds|0|built
+heights_gam_rds|stem|heights_gam_rds|0|skipped
+model_time_rds|stem|model_time_rds|0|skipped

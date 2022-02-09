@@ -5,13 +5,13 @@ rjournal|stem|da626207fd6f7f3c|3dbae314caf7b4a6|e322c3d9406cf7e1|-2104393652||t1
 arxiv_paper|stem|da626207fd6f7f3c|6a3796176a48d023|0dbbe49ee208a040|769651482||t18599.0731365741s|2a8869f2435f83e9|47|rds|vector|||0.24||
 heights_gam|stem|db8efefeadc5ef8d|8abaadad8a802885|1d99044961d65f83|375493368||t18592.1234606481s|c0a57c062a39a767|59061659|rds|vector|||8074.414||
 model_time|stem|d2007ee0548b1882|2ac57ca4e6b6ed92|702e2dfd07fe12ad|1209628497||t18592.1234606481s|b3654bf3682c79ca|86|rds|vector|||0||
+heights_brolgar_rds|stem|37597256ffe504ee|754e48cde45d3b46|683af9a79632ab44|508176588||t19004.2177283166s|758d7d51407f572d|117|rds|vector|||0.032||
+heights_gam_rds|stem|c663d17673329dd5|f1544103be46e83a|f831f6b6a6683034|-721711837||t19004.2177283273s|f21b4888ae8bdafc|118|rds|vector|||34.443||
+model_time_rds|stem|408e19a596fa33b0|3702fe713c6394e4|22854d9212d3618c|120132263||t19004.2177283402s|758d7d51407f572d|117|rds|vector|||0.014||
 glue_ignore|function|b5f7351bc88d4b2c||||||||||||||
 prepare_heights|function|08e03d21fc58ed44||||||||||||||
 write_rds_return_path|function|ea7bc6489e688f77||||||||||||||
 fit_heights_gam|function|e083e740765b47ee||||||||||||||
 zip_for_arxiv|function|ea3e931512c08330||||||||||||||
 zip_for_rjournal|function|36963dd74ba6a499||||||||||||||
-report|stem|64fdd040ccc63acf|297c1a2f54361561|4745aa592080ea1d|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|t19004.2159506791s|2998a839c9ba4f3c|2503228|file|vector|||48.388|Package microtype Warning Unable to apply patch footnote on input line 16.|
-heights_brolgar_rds|stem|37597256ffe504ee|754e48cde45d3b46|683af9a79632ab44|508176588||t19004.2159517921s|758d7d51407f572d|117|rds|vector|||0.032||
-heights_gam_rds|stem|c663d17673329dd5|f1544103be46e83a|f831f6b6a6683034|-721711837||t19004.2163601693s|f21b4888ae8bdafc|118|rds|vector|||34.443||
-model_time_rds|stem|408e19a596fa33b0|3702fe713c6394e4|22854d9212d3618c|120132263||t19004.2163605339s|758d7d51407f572d|117|rds|vector|||0.014||
+report|stem|c177b14f77e96943|297c1a2f54361561|4745aa592080ea1d|-237041703|paper/RJwrapper.pdf*paper/brolgar-paper.Rmd|t19032.0891584541s|7b7e35e4cb6a7a2a|2508046|file|vector|||61.779|Package microtype Warning Unable to apply patch footnote on input line 18.|
