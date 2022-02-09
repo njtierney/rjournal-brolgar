@@ -31,16 +31,16 @@ author:
 abstract: >
   Longitudinal (panel) data provide the opportunity to examine temporal patterns of individuals, because measurements are collected on the same person at different, and often irregular, time points. The data is typically visualised using a "spaghetti plot", where a line plot is drawn for each individual. When overlaid in one plot, it can have the appearance of a bowl of spaghetti. With even a small number of subjects, these plots are too overloaded to be read easily. The interesting aspects of individual differences are lost in the noise. Longitudinal data is often modelled with a hierarchical linear model to capture the overall trends, and variation among individuals, while accounting for various levels of dependence. However, these models can be difficult to fit, and can miss unusual individual patterns. Better visual tools can help to diagnose longitudinal models, and better capture the individual experiences. This paper introduces the R package, brolgar (BRowse over Longitudinal data Graphically and Analytically in R), which provides tools to identify and summarise interesting individual patterns in longitudinal data.
 bibliography: brolgar-paper.bib
-# output: rjtools::rjournal_web_article
-preamble: |
-  \usepackage{float}
-citation_package: 'natbib'
-output:
-  bookdown::pdf_book:
-    base_format: rticles::rjournal_article
-keep_tex: yes
-editor_options: 
-  chunk_output_type: console
+output: rjtools::rjournal_web_article
+# preamble: |
+#   \usepackage{float}
+# citation_package: 'natbib'
+# output:
+#   bookdown::pdf_book:
+#     base_format: rticles::rjournal_article
+# keep_tex: yes
+# editor_options: 
+#   chunk_output_type: console
 ---
 
 ```{r setup, echo=FALSE, message=FALSE, warning=FALSE, comment = FALSE}
