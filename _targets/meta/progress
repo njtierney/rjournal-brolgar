@@ -1,7 +1,6 @@
 name|type|parent|branches|progress
 heights_brolgar|stem|heights_brolgar|0|skipped
-report|stem|report|0|started
-report|stem|report|0|built
+report|stem|report|0|skipped
 paper_bib|stem|paper_bib|0|skipped
 rjournal|stem|rjournal|0|skipped
 arxiv_paper|stem|arxiv_paper|0|skipped
