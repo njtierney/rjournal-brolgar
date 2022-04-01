@@ -7,12 +7,11 @@
 ##' @return
 ##' @author Nicholas Tierney
 ##' @export
-zip_for_arxiv <- function() {
+zip_for_arxiv <- function(x, path) {
 
   dir_create("arxiv")
-  zip_name <- "arxiv/arxiv-submission.zip"
-  files_to_zip_all <- dir_ls(path = "paper/",
-                         recurse = TRUE)
+  zip_name <- path
+  files_to_zip_all <- dir_ls(dirname(x), recurse = TRUE)
   
   to_ignore <- glue_ignore(c("html", 
                              "R",
@@ -34,5 +33,7 @@ zip_for_arxiv <- function() {
   
   zip(zipfile = zip_name,
       files = files_to_zip)
+  
+  return(path)
 
 }

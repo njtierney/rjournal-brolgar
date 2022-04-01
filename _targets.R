@@ -39,10 +39,39 @@ tar_plan(
   tar_target(paper_bib,
              "paper/brolgar-paper.bib",
              format = "file"),
+  
   tar_render(name = report,
              path = "paper/brolgar-paper.Rmd"),
-  # ideally this would only run if the report has been rendered,
-  # not sure how to detect that.
-  arxiv_paper = zip_for_arxiv(),
-  rjournal = zip_for_rjournal()
+  
+  tar_file(paper_path, 
+           file.path("paper/brolgar-paper.Rmd")),
+  
+  tar_render(name = cover_letter,
+             path = "cover-letter/cover-letter.Rmd"),
+  
+  tar_file(name = cover_letter_path,
+           file.path("cover-letter/cover-letter.pdf")),
+  
+  tar_render(name = response,
+             path = "reviewer-response/response.Rmd"),
+  
+  tar_file(name = response_path, 
+           file.path("reviewer-response/response.pdf")),
+  
+  tar_file(rjournal_submission, {
+    zip_for_rjournal(
+      zipname = paper_path,
+      zip_path = "rjournal/rjournal-submission.zip",
+      cover_letter_path = cover_letter_path,
+      response_path = response_path
+    )
+  }),
+  
+  tar_file(arxiv_submission, {
+    zip_for_arxiv(
+      x = paper_path,
+      path = "arxiv/arxiv-submission.zip"
+    )
+  }
+  )
 )

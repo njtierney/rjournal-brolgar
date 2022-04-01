@@ -1,5 +1,5 @@
 ---
-title: "brolgar: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R"
+title: "\\pkg{brolgar}: An R package to BRowse Over Longitudinal Data Graphically and Analytically in R"
 author:
   # see ?rjournal_article for more information
   - name: Nicholas Tierney
