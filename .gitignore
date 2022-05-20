@@ -2,12 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
-.html
-RJwrapper.pdf
 brolgar-paper.tex
 brolgar-paper.R
 *.log
-brolgar-paper_files/
+paper/brolgar-paper_files/
 paper/*.html
 .DS_Store
 sigfile.png
