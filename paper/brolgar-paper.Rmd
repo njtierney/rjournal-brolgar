@@ -179,7 +179,7 @@ The \CRANpkg{brolgar} package uses \CRANpkg{tsibble} so users can take advantage
 
 ## Characterising Individual Series
 
-### Calculating a Feature
+### Calculating a feature
 
 We can summarise the individual series by collapsing their many measurements into a single statistic, such as the minimum, maximum, or median, with one row per key. We do this with the `features` function from the \CRANpkg{fabletools} package, made available in \CRANpkg{brolgar}. This provides a summary of a given variable, accounting for the time series structure, and returning one row per key specified. It can be thought of as a time-series aware variant of the `summarise` function from \CRANpkg{dplyr}. The `feature` function works by specifying the data, the variable to summarise, and the feature to calculate. A template is shown below
 
@@ -218,9 +218,9 @@ heights_three <- heights_brolgar %>%
 heights_three
 ```
 
-These can then be visualised together (Figure \@ref(fig:feature-min-med-max).
+These can then be visualised together (Figure \@ref(fig:feature-min-med-max)).
 
-```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in centimeters. Part A shows just the distribution of minimum, part B shows the distribution of minimum, median, and maximum, and part C shows these three values plotted together as a line graph. We see that there is overlap amongst all three statistics. That is, some countries minimum heights are taller that some countries maximum heights.", fig.height = 3, fig.width = 9, echo = FALSE}
+```{r feature-min-med-max, fig.cap = "Three plots showing the distribution of minimum, median, and maximum values of height in centimeters. Part A shows just the distribution of minimum, part B shows the distribution of minimum, median, and maximum, and part C shows these three values plotted together as a line graph. We see that there is overlap amongst all three statistics. That is, some countries minimum heights are taller than some countries maximum heights.", fig.height = 3, fig.width = 9, echo = FALSE}
 p1 <- ggplot(heights_min,
        aes(x = min)) + 
   geom_density(fill = qualitative_hcl(n = 3, palette = "Dark3")[1]) 
@@ -277,7 +277,7 @@ This takes the `heights` data, pipes it to `features`, and then instructs it to 
 - `feat_brolgar()`, which will calculate all features available in the \CRANpkg{brolgar} package.
 - Other examples of features from the \CRANpkg{feasts} package.
 
-### Feature Sets 
+### Feature sets 
 
 If you want to run many or all features from a package on your data you can collect them all with `feature_set`. For example:
 
@@ -296,7 +296,7 @@ heights_brolgar %>%
 
  To see other features available in the \CRANpkg{feasts} R package run `library(feasts)` then `?fabletools::feature_set`.
 
-### Creating Your Own Feature
+### Creating your own feature
 
 To create your own features or summaries to pass to `features`, you provide a named vector of functions. These can include functions that you have written yourself. For example, returning the first three elements of a series, by writing our own `second` and `third` functions.
 
@@ -384,7 +384,7 @@ ggplot(heights_brolgar,
 
 ## Featuring
 
-Figure \@ref(fig:facet-strata) and Figure \@ref(fig:facet-sample) only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \@ref(fig:facet-year-along):
+Figure \@ref(fig:facet-sample) and Figure \@ref(fig:facet-strata) only show each key once, being randomly assigned to a facet. We can meaningfully place the keys into facets, by arranging the heights "along" a variable, like `year`, using the `along` argument in `facet_strata` to produce Figure \@ref(fig:facet-year-along):
 
 ```{r facet-year-along, echo = TRUE, fig.cap = "Displaying all the data across twelve facets. Instead of each key being randomly in a facet, each facet displays a specified range of values of year. In this case, the top left facet shows the keys with the earliest starting year, and the bottom right shows the facet with the latest starting year."}
 ggplot(heights_brolgar,
@@ -503,7 +503,7 @@ Looking at a spaghetti plot, it can be hard to identify which lines are the most
 5. Arrange the keys or filter, using the feature
 6. Display the data for selected keys
 
-This workflow is now demonstrated.  Firstly, we **deicde on an interesting feature**, "maximum height", and whether height is always increasing. We calculate our own "feature", calculating maximum height, and whether a value is increasing (with brolgar's `increasing` function) as follows:
+This workflow is now demonstrated.  Firstly, we **decide on an interesting feature**, "maximum height", and whether height is always increasing. We calculate our own "feature", calculating maximum height, and whether a value is increasing (with brolgar's `increasing` function) as follows:
 
 ```{r heights-max}
 heights_max_in <- heights_brolgar %>% 
@@ -515,7 +515,7 @@ heights_max_in
 
 This returns a dataset of **one value per key**. Figure \@ref(fig:heights-max-in-examine) **examines the distribution of the features**, showing us the distribution of maximum height, and the number of countries that are always increasing.
 
-```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A depicting the distribution of maximum height, and B displaying the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that the vast majority of countries are not always increasing in height through time.", echo = FALSE, fig.height = 3}
+```{r heights-max-in-examine, fig.cap = "The different distributions of the features - A is depicting the distribution of maximum height, and B displays the number of countries that are always increasing (FALSE), and always increasing (TRUE). We note that the average maximum heights range from about 160cm to 185cm, with most being around 170cm. We also learn that the vast majority of countries are not always increasing in height through time.", echo = FALSE, fig.height = 3}
 
 gg_max <- ggplot(heights_max_in,
        aes(x = max)) + 
