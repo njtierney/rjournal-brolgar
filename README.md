@@ -19,8 +19,9 @@ There are three steps to reproduce the paper
 ## Step 1: Install `capsule`
 
 ```r
-# install.packages("remotes")
-remotes::install_github("milesmcbain/capsule")
+install.packages(
+   "capsule", 
+   repos = c(mm = "https://milesmcbain.r-universe.dev", getOption("repos")))
 ```
 
 ## Step 2: Reproduce the libraries used 
